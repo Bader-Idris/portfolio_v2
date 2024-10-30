@@ -1,0 +1,83 @@
+{
+  "name": "portfolio",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  // "manifest_version", "version", and "name" are the only mandatory keys.
+  "lang": "en",
+  "dir": "ltr",
+  "short_name": "portfolio",
+  "description": "Bader Idris - Full stack developer with UX/UI expertise. Proficient in containerizing Express.js with databases and Nginx, integrating Vue 3 composition APIs, and styling with SCSS.",
+  "theme_color": "#000",
+  "background_color": "#000",
+  "display": "standalone",
+  "orientation": "portfolio",
+  "scope": "/",
+  "start_url": ".",
+  "icons": [
+    {
+      "src": "./public/72.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "./public/96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "./public/128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "./public/144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "./public/152.png",
+      "sizes": "152x152",
+      "type": "image/png"
+    },
+    {
+      "src": "./public/192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./public/384.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "./public/512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+
+  "prefer_related_applications": true,
+  // we're able to have these comments, MDN said
+  // for more info about options, check https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json
+  "related_applications": [
+    {
+      "platform": "play",
+      "id": "com.yourcompany.yourapp",
+      "url": "https://play.google.com/store/apps/details?id=com.yourcompany.yourapp"
+    }
+  ],
+  "splash_pages": [
+    {
+      "src": "./splash.png",
+      "media": "(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)"
+    },
+    {
+      "src": "./splash-dark.png",
+      "media": "(prefers-color-scheme: dark)"
+    },
+    {
+      "src": "./splash.png",
+      "media": "(prefers-color-scheme: light)"
+    }
+  ]
+}

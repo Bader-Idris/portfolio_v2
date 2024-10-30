@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    //check ts with vue vite here: https://vuejs.org/guide/typescript/overview.html
+    "baseUrl": "./",
+    "outDir": "./dist",
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler", // changed from node because of typed-router, though i think node is better!!
+    "jsx": "preserve",
+    "useDefineForClassFields": true,
+    "strict": true, // important for options api
+    "noImplicitAny": false,
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    // "verbatimModuleSyntax": true, // useful with script setup, but yet conflicts with isolatedModules
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "lib": ["ESNext", "DOM"],
+    "skipLibCheck": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "types": ["unplugin-vue-router/client", "node"]
+  },
+  "typeRoots": ["node_modules/@types", "src/types"],
+  "types": ["node", "unplugin-vue-router/client"],
+  "include": [
+    "src/*.ts",
+    "src/*.d.ts",
+    "src",
+    "./typed-router.d.ts", // This comes after installing the pkg then run dev command!
+    "**/*.wav"
+  ],
+  "exclude": ["node_modules", "android", "ios", "release", "src/electron"],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}

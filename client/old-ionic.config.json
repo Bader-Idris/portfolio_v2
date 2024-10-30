@@ -1,0 +1,85 @@
+{
+  "name": "Portfolio",
+  "integrations": {
+    "capacitor": {
+      "plugins": {
+        "ActionSheet": {
+          "requestPermissions": true
+        },
+        "Android": {
+          "requestPermissions": true
+        },
+        "App": {
+          "requestPermissions": true
+        },
+        "AppLauncher": {
+          "requestPermissions": true
+        },
+        "Browser": {
+          "requestPermissions": true
+        },
+        "Camera": {
+          "requestPermissions": true
+        },
+        "Clipboard": {
+          "requestPermissions": true
+        },
+        "Device": {
+          "requestPermissions": true
+        },
+        "Dialog": {
+          "requestPermissions": true
+        },
+        "Filesystem": {
+          "requestPermissions": true
+        },
+        "Geolocation": {
+          "requestPermissions": true
+        },
+        "Haptics": {
+          "requestPermissions": true
+        },
+        "IOS": {
+          "requestPermissions": true
+        },
+        "Keyboard": {
+          "requestPermissions": true
+        },
+        "LocalNotifications": {
+          "requestPermissions": true
+        },
+        "Network": {
+          "requestPermissions": true
+        },
+        "Preferences": {
+          "requestPermissions": true
+        },
+        "PushNotifications": {
+          "requestPermissions": true
+        },
+        "ScreenOrientation": {
+          "requestPermissions": true
+        },
+        "ScreenReader": {
+          "requestPermissions": true
+        },
+        "Share": {
+          "requestPermissions": true
+        },
+        "SplashScreen": {
+          "requestPermissions": true
+        },
+        "StatusBar": {
+          "requestPermissions": true
+        },
+        "TextZoom": {
+          "requestPermissions": true
+        },
+        "Toast": {
+          "requestPermissions": true
+        }
+      }
+    }
+  },
+  "type": "vue-vite"
+}

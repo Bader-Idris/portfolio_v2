@@ -1,0 +1,10 @@
+{
+  "destinations": [
+    { "name": "Home", "slug": "home", "id": 1 },
+    { "name": "About", "slug": "about", "id": 2 },
+    { "name": "Products", "slug": "products", "id": 3 },
+    { "name": "Cart", "slug": "cart", "id": 4 },
+    { "name": "Checkout", "slug": "checkout", "id": 5 },
+    { "name": "Orders", "slug": "orders", "id": 6 }
+  ]
+}

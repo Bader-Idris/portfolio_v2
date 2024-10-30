@@ -1,0 +1,12 @@
+{
+  "presets": ["@babel/preset-env", "@babel/preset-typescript"],
+  "ignore": [
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/cypress/**",
+    "**/tests/**",
+    "**/android/**",
+    "**/ios/**",
+    "**/release/**"
+  ]
+}

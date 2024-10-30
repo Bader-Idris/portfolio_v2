@@ -1,0 +1,10 @@
+node_modules
+Dockerfile
+.dockerignore
+.gitignore
+a.yml
+a.*
+b.*
+bun.lockb
+
+docker-compose*
