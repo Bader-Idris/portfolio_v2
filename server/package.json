@@ -46,7 +46,7 @@
     "express-async-errors": "^3.1.1",
     "express-fileupload": "^1.5.0",
     "express-mongo-sanitize": "^2.2.0",
-    "express-rate-limit": "^7.3.1",
+    "express-rate-limit": "^7.4.1",
     "express-session": "^1.18.0",
     "figlet": "^1.7.0",
     "googleapis": "^127.0.0",
