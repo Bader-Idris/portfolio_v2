@@ -19,10 +19,22 @@
     "esModuleInterop": true,
     "lib": ["ESNext", "DOM"],
     "skipLibCheck": true,
+    // "noUnusedLocals": true, // TODO: check me out
+    // "strictNullChecks": true, // TODO: check me out
+    "allowJs": true, // if eslint ts is not functional
+    // "forceConsistentCasingInFileNames": true,
     "paths": {
       "@/*": ["./src/*"]
     },
-    "types": ["unplugin-vue-router/client", "node"]
+    "types": [
+      "unplugin-vue-router/client",
+      "node"
+      /*
+      "vite/client", // TODO: if there's an issue with eslint
+      "vitest/globals",
+      "jsdom",
+      */
+    ]
   },
   "typeRoots": ["node_modules/@types", "src/types"],
   "types": ["node", "unplugin-vue-router/client"],
@@ -33,6 +45,6 @@
     "./typed-router.d.ts", // This comes after installing the pkg then run dev command!
     "**/*.wav"
   ],
-  "exclude": ["node_modules", "android", "ios", "release", "src/electron"],
+  "exclude": ["node_modules", "android", "ios", "release", "src/electron", "dist", "tests"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

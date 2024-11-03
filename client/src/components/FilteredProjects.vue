@@ -8,11 +8,16 @@
     <div v-else class="filtered-projects">
       <div v-for="project in filteredProjects" :key="project.title" class="project-card">
         <h3 class="card-title">// {{ project.title }}</h3>
-        <!--? fix this to be exactly as the design does, putting the image before its description -->
-        <a :href="project.url" target="_blank">
-          <img :src="project.img" :alt="project.title" />
-        </a>
-        <p>{{ project.desc }}</p>
+        <div class="card-content">
+          <a :href="project.url" target="_blank">
+            <img :src="project.img" :alt="project.title" />
+          </a>
+          <p>{{ project.desc }}</p>
+
+          <CustomButtons button-type="default" class="project-link">
+            <AppLink :to="project.url"> View Project </AppLink>
+          </CustomButtons>
+        </div>
       </div>
     </div>
   </div>
@@ -40,6 +45,7 @@ const filteredProjects = computed(() => {
 
 <style lang="scss">
 @use '~'as *;
+
 .empty-message {
   color: $accent1;
   border-radius: 25px;
@@ -99,39 +105,54 @@ const filteredProjects = computed(() => {
       font-size: $body-text-size;
     }
 
-    p {
-      padding-top: 20px;
-      text-align: center;
-    }
+    .card-content {
+      background-color: $code-snippets-bg;
+      border-radius: 25px;
+      border: 1px solid $lines;
 
-    img {
-      // put a better broken images message
-      max-width: 100%;
-      height: auto;
-      display: block;
-      margin-bottom: 10px;
-      border-radius: 10px;
+      p {
+        // padding-top: 20px;
+        text-align: left;
+        padding: 20px 20px 0 20px;
+        margin-bottom: 40px;
+      }
 
-      min-width: 200px;
-      min-height: 200px;
-      background: $primary3;
-      position: relative;
+      img {
+        // put a better broken images message
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin-bottom: 10px;
+        border-radius: 10px 10px 0 0;
 
-      &::before {
-        content: 'broken image';
-        background-color: #621767;
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        font-size: 35px;
-        color: $secondary4;
-        font-weight: bold;
-        text-transform: uppercase;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        text-align: center;
-        line-height: 6;
+        min-width: 200px;
+        min-height: 200px;
+        background: $primary3;
+        position: relative;
+
+        &::before {
+          content: 'broken image';
+          background-color: $secondary2;
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          font-size: 32px;
+          color: $secondary4;
+          font-weight: bold;
+          text-transform: uppercase;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          text-align: center;
+          line-height: 6;
+        }
+      }
+
+      .project-link {
+        bottom: 0;
+        left: 20px;
+        position: relative;
+        margin: 20px 0;
       }
     }
   }

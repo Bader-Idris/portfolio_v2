@@ -6162,7 +6162,7 @@
   font-family: 'Font Awesome 5 Brands';
 }
 @font-face {
-  font-family: 'Font Awesome 5 Pro';
+  font-family: 'secret sauce';
   font-style: normal;
   font-weight: 300;
   font-display: auto;
@@ -6178,7 +6178,7 @@
   font-weight: 300;
 }
 @font-face {
-  font-family: 'Font Awesome 5 Pro';
+  font-family: 'secret sauce';
   font-style: normal;
   font-weight: 400;
   font-display: auto;
@@ -6192,13 +6192,13 @@
 }
 .fal,
 .far {
-  font-family: 'Font Awesome 5 Pro';
+  font-family: 'secret sauce';
 }
 .far {
   font-weight: 400;
 }
 @font-face {
-  font-family: 'Font Awesome 5 Pro';
+  font-family: 'secret sauce';
   font-style: normal;
   font-weight: 900;
   font-display: auto;
@@ -6212,6 +6212,6 @@
 }
 .fa,
 .fas {
-  font-family: 'Font Awesome 5 Pro';
+  font-family: 'secret sauce';
   font-weight: 900;
 }

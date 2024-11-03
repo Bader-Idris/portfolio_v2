@@ -14,6 +14,8 @@ import { toast } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
 import { useRoute } from 'vue-router'
 
+import type { RequestOptions } from '@/types/fetch'
+
 // Access route parameters
 const route = useRoute()
 const email = ref<string | null>((route.query.email as string) || null)
@@ -48,13 +50,7 @@ async function verifyEmail(): Promise<void> {
     verificationToken: token.value
   })
 
-  const requestOptions: {
-    method: string
-    headers: Headers
-    body: string
-    redirect: 'follow'
-  } = {
-    // OMG, ts is ugly
+  const requestOptions: RequestOptions = {
     method: 'POST',
     headers: myHeaders,
     body: raw,

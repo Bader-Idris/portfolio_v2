@@ -4,19 +4,19 @@
       <p>find me in:</p>
       <div class="social">
         <div class="telegram">
-          <AppLink class="external-link" :to="telegramLink">
+          <AppLink aria-label="go to my telegram profile" class="external-link" :to="telegramLink">
             <Telegram class="svg" width="30px" />
           </AppLink>
         </div>
         <div class="facebook">
-          <AppLink class="external-link" :to="facebookLink">
+          <AppLink aria-label="go to my facebook page" class="external-link" :to="facebookLink">
             <Fb class="svg" />
           </AppLink>
         </div>
       </div>
       <div class="github" tabindex="0" @click="goToGithub">
         <p>@bader-idris</p>
-        <AppLink :to="githubLink" class="external-link">
+        <AppLink aria-label="go to my github profile" :to="githubLink" class="external-link">
           <Github class="svg" />
         </AppLink>
       </div>

@@ -7,6 +7,7 @@ import AppLink from '@/components/AppLink.vue'
 import CustomButtons from '@/components/CustomButtons.vue'
 import TheNavigation from '@/components/TheNavigation.vue'
 import { App as CapacitorApp } from '@capacitor/app'
+import { Toast } from '@capacitor/toast'
 import { StatusBar, Style } from '@capacitor/status-bar'
 import { Device } from '@capacitor/device'
 
@@ -42,7 +43,10 @@ async function initializeApp() {
 
     app.use(router).use(createPinia())
 
-    app.mount('#app')
+    app.mount('#app').$nextTick(() => {
+      // for preload loading scripts, TODO: place lottie styles instead!!
+      postMessage({ payload: 'useLoading' }, '*')
+    })
 
     if (!isPC && !isElectron()) {
       // Change the status bar style
@@ -57,14 +61,25 @@ async function initializeApp() {
       await registerNotifications()
     }
 
-    CapacitorApp.addListener('backButton', ({ canGoBack }) => {
+    let lastBackPressed = 0
+    CapacitorApp.addListener('backButton', async ({ canGoBack }) => {
       if (!canGoBack && router.currentRoute.value.path === '/') {
-        if (isElectron()) {
-          // Electron specific code
-          const { app } = require('@electron/remote')
-          app.quit()
+        const currentTime = new Date().getTime()
+
+        if (currentTime - lastBackPressed < 2000) {
+          if (isElectron()) {
+            const { app } = require('@electron/remote')
+            app.quit()
+          } else {
+            CapacitorApp.exitApp()
+          }
         } else {
-          CapacitorApp.exitApp()
+          lastBackPressed = currentTime
+          await Toast.show({
+            text: 'Press back again to exit',
+            duration: 'short', // The toast will disappear quickly
+            position: 'bottom'
+          })
         }
       } else {
         router.go(-1)

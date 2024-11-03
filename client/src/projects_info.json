@@ -1,15 +1,17 @@
 [
   {
-    "title": "Lorem ipsum dolor sit amet consectetur",
+    "title": "building 50 projects with Elzero",
     "url": "https://elzero.org",
     "img": "",
-    "desc": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptates odit ipsam laborum officiis minus in tempore assumenda id commodi ipsa! Asperiores ratione labore sapiente officiis vero odit culpa suscipit nemo!",
+    "imgAlt": "",
+    "desc": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptates odit ipsam laborum officiis minus in ",
     "tags": ["Vue", "typescript", "js"]
   },
   {
     "title": "e-commerce product",
     "url": "https://bader-idris.github.io/ecommerce-product-page/",
     "img": "https://raw.githubusercontent.com/Bader-Idris/ecommerce-product-page/main/design/desktop-preview.jpg",
+    "imgAlt": "",
     "desc": "A beautiful interactive and responsive e-commerce product page ",
     "tags": ["html", "css", "js"]
   },
@@ -17,20 +19,23 @@
     "title": "Pricing page",
     "url": "https://bader-idris.github.io/pricing_options_page/",
     "img": "https://raw.githubusercontent.com/Bader-Idris/pricing_options_page/main/design/desktop-preview.jpg",
+    "imgAlt": "",
     "desc": "A beautiful interactive and responsive pricing page with yearly/monthly subscription and 3 main plans to choose from",
-    "tags": ["html", "css", "vue"]
+    "tags": ["html", "css", "js"]
   },
   {
     "title": "Todo app",
     "url": "https://bader-idris.github.io/todo-app/",
     "img": "https://raw.githubusercontent.com/Bader-Idris/todo-app/main/screenshots/dark-desk.png",
+    "imgAlt": "",
     "desc": "A beautiful interactive and responsive pricing page with yearly/monthly subscription and 3 main plans to choose from",
-    "tags": ["html", "css", "vue"]
+    "tags": ["html", "css", "js"]
   },
   {
     "title": "multi-step form",
     "url": "https://bader-idris.github.io/multi-step-form/",
     "img": "https://raw.githubusercontent.com/Bader-Idris/multi-step-form/main/design/desktop-preview.jpg",
+    "imgAlt": "",
     "desc": "An Advanced complicated smooth multi-step form containing 4 steps including a thank you page",
     "tags": ["html", "css", "js"]
   },
@@ -38,7 +43,16 @@
     "title": "Lorem ipsum dolor sit amet consectetur",
     "url": "https://elzero.org",
     "img": "",
-    "desc": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptates odit ipsam laborum officiis minus in tempore assumenda id commodi ipsa! Asperiores ratione labore sapiente officiis vero odit culpa suscipit nemo!",
+    "imgAlt": "",
+    "desc": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptates odit ipsam laborum officiis",
     "tags": ["html", "css", "js"]
+  },
+  {
+    "title": "designing agency web app",
+    "url": "https://beautiful-web-application.netlify.app/",
+    "img": "https://raw.githubusercontent.com/Bader-Idris/guru-agency-duplication-site/refs/heads/bader/brave_703HxjzGmt.png",
+    "imgAlt": "designing agency web app",
+    "desc": "a beautiful web app made for a designing agency",
+    "tags": ["html", "css", "Vue", "typescript", "js"]
   }
 ]

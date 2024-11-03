@@ -14,7 +14,11 @@
         <div class="github-repo">
           <p>// Find my profile on github</p>
           <span>const</span> <span>githubLink</span> =
-          <AppLink to="https://github.com/bader-idris" class="external-link">
+          <AppLink
+            aria-label="go to my github page"
+            to="https://github.com/bader-idris"
+            class="external-link"
+          >
             https://github.com/bader-idris</AppLink
           >
         </div>
@@ -200,13 +204,17 @@ import GameContainer from '@/components/GameContainer.vue'
       }
       @media screen and (max-height: 430px) {
         position: fixed;
-        left: 0;
+        left: 10vw;
       }
     }
     aside {
       @media screen and (max-height: 430px) {
         position: fixed;
-        right: -50px;
+        right: 10vw;
+      }
+      @media screen and (max-height: 500px) {
+        height: calc(100vh - 30px);
+        margin-top: -40px;
       }
     }
     @media (max-width: 768px) {

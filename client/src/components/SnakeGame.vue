@@ -18,7 +18,6 @@
       v-for="(segment, index) in snake"
       :key="index"
       class="snake"
-      :class="{ wiggle: foodEatenRecently && index === 0 }"
       :style="{ gridColumn: segment.x, gridRow: segment.y }"
     ></div>
     <div class="food" :style="{ gridColumn: food.x, gridRow: food.y }"></div>
@@ -471,24 +470,6 @@ function stopGame(message: string): void {
 .snake {
   &.head {
     border-radius: 10px;
-  }
-}
-.wiggle {
-  animation: wiggle 0.2s ease-in-out;
-}
-
-@keyframes wiggle {
-  0% {
-    transform: rotate(0deg);
-  }
-  25% {
-    transform: rotate(5deg);
-  }
-  75% {
-    transform: rotate(-5deg);
-  }
-  100% {
-    transform: rotate(0deg);
   }
 }
 </style>

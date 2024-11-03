@@ -27,7 +27,7 @@
         </FoldableTab>
         <div class="personal-contact" :class="{ hidden: isContactHidden }">
           <p @click="copyToClipboard(0)">
-            {{ contInfo[0] }}
+            {{ contInfo[0].slice(0, -10) + ' ...' }}
             <i v-if="showIcon[0]" class="fa-solid fa-copy"></i>
           </p>
           <p @click="copyToClipboard(1)">
@@ -39,7 +39,12 @@
     </aside>
     <main class="split-in-half">
       <div ref="bioContainer" class="personal-bio">
-        <p v-html="formattedBio"></p>
+        <!-- Render each parsed line as a <p> element with bold formatting applied where necessary -->
+        <p v-for="(line, index) in formattedBio" :key="index">
+          <span v-for="(segment, i) in line" :key="i" :class="segment.isBold ? 'bold-text' : ''">
+            {{ segment.text }}
+          </span>
+        </p>
       </div>
 
       <div class="code-snippet">
@@ -88,6 +93,11 @@ const diffInMonths = Math.floor(
   (diffInMs % (1000 * 60 * 60 * 24 * 365.25)) / (1000 * 60 * 60 * 24 * 30.44)
 )
 
+interface Segment {
+  text: string
+  isBold: boolean
+}
+
 // The bio string with newlines for formatting
 const bio = ref<string>(`
 I started my programming journey on June 15, 2022, which means I've been honing my skills for ${diffInYears} years and ${diffInMonths} months.
@@ -106,8 +116,32 @@ Since then, I've gained solid expertise in:
 As a versatile full-stack developer, I combine my technical knowledge with creativity to deliver scalable, secure, and efficient solutions for modern digital challenges. Let's collaborate to bring your ideas to life!
 `)
 
-// Computed property to replace newlines with <br> for HTML rendering
-const formattedBio = computed(() => bio.value.replace(/\n/g, '<br>'))
+// Function to process the bio and convert it into a structured format
+function parseBioText(text: string): Segment[][] {
+  return text.split('\n').map((line) => {
+    const segments: Segment[] = []
+    let match
+    const boldRegex = /\*\*(.*?)\*\*/g
+
+    let lastIndex = 0
+    while ((match = boldRegex.exec(line)) !== null) {
+      if (match.index > lastIndex) {
+        segments.push({ text: line.slice(lastIndex, match.index), isBold: false })
+      }
+      segments.push({ text: match[1], isBold: true })
+      lastIndex = match.index + match[0].length
+    }
+
+    if (lastIndex < line.length) {
+      segments.push({ text: line.slice(lastIndex), isBold: false })
+    }
+
+    return segments
+  })
+}
+
+// Computed property to store the formatted bio
+const formattedBio = computed(() => parseBioText(bio.value))
 
 // Define the type for hobbies object array
 interface Hobby {
@@ -160,18 +194,18 @@ const toggleContact = (): void => {
   isContactHidden.value = !isContactHidden.value
 }
 
-// Function to copy to clipboard with typed parameter and async handling
 const copyToClipboard = async (index: number): Promise<void> => {
-  await Clipboard.write({
-    string: contInfo[index]
-  })
+  try {
+    await Clipboard.write({ string: contInfo[index] })
 
-  // Update the icon display for a short duration
-  showIcon.value = showIcon.value.map((value, i) => (i === index ? true : value))
-
-  setTimeout(() => {
-    showIcon.value = showIcon.value.map((value, i) => (i === index ? false : value))
-  }, 1000)
+    // Show icon for 1 second
+    showIcon.value = showIcon.value.map((value, i) => (i === index ? true : value))
+    setTimeout(() => {
+      showIcon.value = showIcon.value.map((value, i) => (i === index ? false : value))
+    }, 1000)
+  } catch (error) {
+    console.error('Failed to copy to clipboard: ', error)
+  }
 }
 
 const icons = ref([
@@ -245,7 +279,10 @@ onUnmounted(() => {
   @media (max-width: 768px) {
     @include phone-borders;
   }
-
+  @media screen and (max-width: 768px) {
+    overflow-y: scroll;
+    padding-bottom: 10vh;
+  }
   aside {
     width: 300px;
     display: flex;
@@ -310,7 +347,7 @@ onUnmounted(() => {
 
       &::before {
         margin-right: 10px;
-        font-family: 'Font Awesome 5 pro';
+        font-family: 'secret sauce';
         display: inline-block;
       }
 
@@ -346,6 +383,7 @@ onUnmounted(() => {
       left: 300px;
       position: absolute;
       top: 0;
+      height: calc(100vh - 180px);
     }
     > * {
       width: calc(50% - 20px);
@@ -359,12 +397,12 @@ onUnmounted(() => {
 
     .personal-bio {
       height: 50vh;
-      overflow: scroll;
+      overflow-y: scroll;
       cursor: grab;
       user-select: none;
       @media screen and (max-width: 768px) {
         & {
-          overflow: auto;
+          overflow-y: auto;
         }
       }
       &.grabbing {
@@ -383,9 +421,10 @@ onUnmounted(() => {
 
     .code-snippet {
       border-radius: 40px;
-      overflow-x: auto;
+      overflow-y: auto;
       max-height: 400px;
       padding: 20px;
+
       .code-author {
         display: flex;
         align-items: center;
@@ -425,5 +464,9 @@ onUnmounted(() => {
       }
     }
   }
+}
+i {
+  font-family: 'secret sauce';
+  font-style: normal;
 }
 </style>

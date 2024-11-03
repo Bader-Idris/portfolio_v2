@@ -4,7 +4,9 @@
 const dotenv = require('dotenv')
 const packageJson = require('../../package.json')
 
-dotenv.config()
+dotenv.config({
+  path: './envs/.env'
+})
 
 const baseConfig = {
   productName: packageJson.name,

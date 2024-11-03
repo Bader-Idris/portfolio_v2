@@ -21,21 +21,31 @@
       <div class="personal-socials" :class="{ hidden: isSocialsHidden }">
         <ul>
           <li>
-            <!-- <AppLink to="https://not-created-yet" class="external-link">YouTube Channel </AppLink> -->
-            <AppLink to="/not-created-yet">YouTube Channel </AppLink>
+            <AppLink aria-label="go to my youtube channel" to="/not-created-yet"
+              >YouTube Channel
+            </AppLink>
           </li>
           <li>
-            <AppLink to="https://www.frontendmentor.io/profile/Bader-Idris" class="external-link"
+            <AppLink
+              aria-label="go to my front end mentor profile"
+              to="https://www.frontendmentor.io/profile/Bader-Idris"
+              class="external-link"
               >Front End Mentor</AppLink
             >
           </li>
           <li>
-            <AppLink to="https://exercism.org/profiles/Bader-Idris" class="external-link"
+            <AppLink
+              aria-label="go to my exercism profile"
+              to="https://exercism.org/profiles/Bader-Idris"
+              class="external-link"
               >Exercism</AppLink
             >
           </li>
           <li>
-            <AppLink to="https://www.codewars.com/users/Bader-Idris" class="external-link"
+            <AppLink
+              aria-label="go to my code wars profile"
+              to="https://www.codewars.com/users/Bader-Idris"
+              class="external-link"
               >CodeWar</AppLink
             >
           </li>
@@ -59,6 +69,7 @@
           cols="33"
           placeholder="I like your portfolio so much that I want you to create my web app!"
           style="resize: vertical"
+          required
         ></textarea>
         <CustomButtons button-type="default" @click.prevent.stop="handleSubmit">
           submit-message
@@ -113,6 +124,8 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { Clipboard } from '@capacitor/clipboard'
 import FoldableTab from '@/components/FoldableTab.vue'
+import { toast } from 'vue3-toastify'
+import 'vue3-toastify/dist/index.css'
 
 // State variables for toggling contact and socials
 const isContactHidden = ref<boolean>(false)
@@ -155,9 +168,57 @@ const copyToClipboard = async (index: number): Promise<void> => {
 }
 
 // Handle form submission with types and validation
-const handleSubmit = (): void => {
+const handleSubmit = async (): Promise<void> => {
   if (validateForm()) {
-    isSubmitted.value = true
+    try {
+      const response = await fetch('/api/v1/emails', {
+        method: 'POST',
+        // TODO: it's better to include a bearer auth or something like that
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: name.value,
+          email: email.value,
+          message: message.value
+        })
+      })
+
+      if (!response.ok) {
+        if (response.status === 400) {
+          const errorData = await response.json()
+          toast(errorData.error, {
+            theme: 'dark',
+            type: 'error',
+            position: 'top-center',
+            dangerouslyHTMLString: true
+          })
+        } else {
+          toast('An error occurred while sending the email.', {
+            theme: 'dark',
+            type: 'error',
+            position: 'top-center',
+            dangerouslyHTMLString: true
+          })
+        }
+      } else {
+        isSubmitted.value = true
+        toast('Email sent successfully!', {
+          theme: 'auto',
+          type: 'success',
+          position: 'top-center',
+          dangerouslyHTMLString: true
+        })
+      }
+    } catch (error) {
+      console.error(error)
+      toast('An error occurred while sending the email.', {
+        theme: 'dark',
+        type: 'error',
+        position: 'top-center',
+        dangerouslyHTMLString: true
+      })
+    }
   }
 }
 
@@ -173,6 +234,12 @@ const resetForm = (): void => {
 const validateForm = (): boolean => {
   if (!name.value || !email.value || !message.value) {
     console.error('All form fields must be filled out.')
+    toast('All fields are required.', {
+      theme: 'dark',
+      type: 'error',
+      position: 'top-center',
+      dangerouslyHTMLString: true
+    })
     return false
   }
   if (!validateEmail(email.value)) {
@@ -256,7 +323,7 @@ onBeforeUnmount(() => {
 
         &::before {
           margin-right: 10px;
-          font-family: 'Font Awesome 5 pro';
+          font-family: 'secret sauce';
           display: inline-block;
         }
 
@@ -292,7 +359,7 @@ onBeforeUnmount(() => {
         &::before {
           content: '\f35d';
           margin-right: 10px;
-          font-family: 'Font Awesome 5 pro';
+          font-family: 'secret sauce';
         }
 
         &:hover {
@@ -351,6 +418,12 @@ onBeforeUnmount(() => {
       flex-direction: column;
       align-content: flex-end;
 
+      @media screen and (min-width: 768px) {
+        margin-bottom: 60px;
+        height: calc(100vh - 260px);
+        position: relative;
+        overflow-y: scroll;
+      }
       > * {
         margin-bottom: 20px;
         line-height: 1.6;
@@ -495,6 +568,12 @@ onBeforeUnmount(() => {
       .data-object {
         margin-bottom: 10px;
 
+        @media screen and (min-width: 768px) {
+          margin-bottom: 60px;
+          height: calc(100vh - 260px);
+          position: relative;
+          overflow-y: scroll;
+        }
         .set {
           display: flex;
           justify-content: flex-start;
@@ -631,7 +710,7 @@ onBeforeUnmount(() => {
 }
 
 i {
-  font-family: 'Font Awesome 5 pro';
+  font-family: 'secret sauce';
   font-style: normal;
 }
 </style>

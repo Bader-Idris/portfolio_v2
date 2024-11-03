@@ -11,9 +11,16 @@ import { rmSync } from 'fs'
 import { resolve, dirname } from 'path'
 import { builtinModules } from 'module'
 
-import autoprefixer from 'autoprefixer'
-// this pkg is to handle types with vue router, should be prior to vue plugin
-import VueRouter from 'unplugin-vue-router/vite'
+// docs https://postcss.org/
+import autoprefixer from 'autoprefixer' // Allows the use of modern CSS features with automatic polyfills.
+import postcssPresetEnv from 'postcss-preset-env' // Allows the use of modern CSS features with automatic polyfills.
+import flexbugsFixes from 'postcss-flexbugs-fixes' // Fixes common Flexbox layout issues
+import postcssNesting from 'postcss-nesting' // Enables nesting of CSS rules similar to Sass
+import postcssCustomMedia from 'postcss-custom-media' //  Allows the use of custom media queries
+import postcssCustomProperties from 'postcss-custom-properties' // Polyfills CSS custom properties (variables) for better browser compatibility.
+import postcssPxToRem from 'postcss-pxtorem' // Converts px units to rem, making your CSS responsive.
+
+import VueRouter from 'unplugin-vue-router/vite' // vue-router types, must be prior to vue plugin
 
 const isDevEnv = process.env.NODE_ENV === 'development'
 
@@ -28,7 +35,10 @@ export default defineConfig(({ mode }) => {
     ...loadEnv(mode, process.cwd())
   }
 
-  rmSync('dist', { recursive: true, force: true })
+  // Delete the 'dist' folder only in production mode
+  if (mode === 'production') {
+    rmSync('dist', { recursive: true, force: true })
+  }
 
   const electronPluginConfigs: ElectronOptions[] = [
     {
@@ -83,7 +93,6 @@ export default defineConfig(({ mode }) => {
       extensions: ['.mjs', '.js', '.ts', '.vue', '.json', '.scss'],
       alias: {
         '@': resolve(dirname(fileURLToPath(import.meta.url)), 'src'),
-        // scss alias
         '~': resolve(dirname(fileURLToPath(import.meta.url)), './src/assets/scss')
       }
     },
@@ -108,21 +117,24 @@ export default defineConfig(({ mode }) => {
       //   autoImport: true
       // }),
       // Docs: https://github.com/gxmari007/vite-plugin-eslint
-      EslintPlugin(),
-      babel({
-        babelConfig: true
+      EslintPlugin({
+        // eslintPath: './eslint.config.js',
+        // eslint 9.14.0 is a real headache
       }),
+      babel({ babelConfig: true }),
       // Docs: https://github.com/electron-vite/vite-plugin-electron
       ElectronPlugin(electronPluginConfigs),
-      RendererPlugin({
-        // nodeIntegration: true // to skip security with electron and ipc we use this
-      })
+      RendererPlugin()
+      // {
+      //    nodeIntegration: true // to skip security with electron and ipc we use this
+      // }
     ],
     css: {
       preprocessorOptions: {
         scss: {
           additionalData: `@use "./src/assets/scss/main.scss" as *;`,
           silenceDeprecations: ['legacy-js-api']
+          // api: 'modern-compiler', // TODO: check this out
         }
       },
       postcss: {
@@ -130,13 +142,24 @@ export default defineConfig(({ mode }) => {
           // @ts-ignore
           autoprefixer({
             add: true,
-            grid: 'stable',
-            flexbox: true,
-            cascade: false
-            // overrideBrowserslist: [ // ai says it'll automaticall check for .browserslistrc file
-            //   'defaults and fully supports es6-module',
-            //   'maintained node versions'
-            // ]
+            grid: 'stable'
+          }),
+          postcssPresetEnv({
+            stage: 3, // Stage 3 includes many safe modern CSS features
+            features: {
+              'nesting-rules': true
+            }
+          }),
+          flexbugsFixes,
+          postcssNesting,
+          postcssCustomMedia,
+          postcssCustomProperties({
+            preserve: false // Set to false to replace variables with their values
+          }),
+          postcssPxToRem({
+            rootValue: 16,
+            unitPrecision: 5,
+            propList: ['*'] // Convert all properties from px to rem
           })
         ]
       }

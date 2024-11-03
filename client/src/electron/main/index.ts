@@ -7,7 +7,7 @@ let errorWindow
 
 app.on('ready', async () => {
   if (Constants.IS_DEV_ENV) {
-    import('./index.dev')
+    import('./index.dev') // Load development-specific settings
   }
 
   // Disable special menus on macOS by uncommenting the following, if necessary
@@ -39,7 +39,7 @@ app.on('window-all-closed', () => {
 app.on(
   'render-process-gone',
   (event: Event, webContents: WebContents, details: RenderProcessGoneDetails) => {
-    errorWindow = createErrorWindow(errorWindow, mainWindow, details)
+    errorWindow = createErrorWindow(errorWindow, mainWindow, details) // Create error window on renderer crash
   }
 )
 

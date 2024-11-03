@@ -3,7 +3,7 @@
     <ul>
       <li v-for="(item, index) in activeItems" :key="index">
         {{ item }}
-        <span @click="removeItem(item)">X</span>
+        <span class="remove" @click="removeItem(item)">X</span>
       </li>
     </ul>
   </div>
@@ -42,24 +42,17 @@ const removeItem = (item) => {
     list-style: none;
     margin: 0;
     padding: 0;
-    overflow-y: hidden; // Enable vertical scrolling
+    overflow-y: hidden;
 
     > li {
       display: flex;
       align-items: center;
-      // margin-right: 10px;
       padding: 10px 15px;
       position: relative;
       border: solid 1px $lines;
       border-top-style: none;
-
-      &::after {
-        // content: ';';
-        // margin-right: 5px;
-      }
-
-      > span {
-        font-family: $main-font;
+      > .remove {
+        font-family: cursive, serif;
         text-align: center;
         line-height: 1.35;
         width: 20px;

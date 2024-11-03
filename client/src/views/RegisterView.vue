@@ -17,7 +17,7 @@
       </button>
     </form>
     <div v-if="showPrompt" class="prompt">
-      <AppLink to="/login" class="internal-link">login page</AppLink>
+      <AppLink aria-label="login page" to="/login" class="internal-link">login page</AppLink>
     </div>
   </div>
 </template>
@@ -28,7 +28,7 @@ import { useUserStore } from '@/stores/UserNameStore'
 import { ref } from 'vue'
 import { toast } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
-
+import type { RequestOptions } from '@/types/fetch'
 const user = ref<string>('')
 const email = ref<string>('')
 const password = ref<string>('')
@@ -126,14 +126,7 @@ const register = async function (): Promise<void> {
 
   const myHeaders = new Headers()
   myHeaders.append('Content-Type', 'application/json')
-
-  const requestOptions: {
-    // check the body if is functioning well
-    method: string
-    headers: Headers
-    body: string
-    redirect: 'follow'
-  } = {
+  const requestOptions: RequestOptions = {
     method: 'POST',
     headers: myHeaders,
     body: JSON.stringify(data),

@@ -48,7 +48,6 @@ defineProps<{
   width: 100%;
   height: 100%;
   background: $accent2;
-  // border-radius: 12em 12em 0 0;
 }
 .food {
   width: 100%;

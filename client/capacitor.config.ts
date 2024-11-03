@@ -102,6 +102,9 @@ const config: CapacitorConfig = {
     Browser: {
       // used in my AppLink comp, handles in-app browsers, useful with oAuth
       // https://capacitorjs.com/docs/apis/browser
+      // TODO: check deep linking to get users via outer links, to our installed app on their devices
+      // https://capacitorjs.com/docs/guides/deep-links#deep-link-routing-using-the-capacitor-app-api
+      // if not installed, it'll use our web app!
     },
     Camera: {
       // https://capacitorjs.com/docs/apis/camera

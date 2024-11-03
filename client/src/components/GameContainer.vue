@@ -20,7 +20,7 @@
       </div>
       <span>// food left</span>
       <FoodComp :food-left="foodLeft" />
-      <AppLink to="/about" class="internal-link">
+      <AppLink aria-label="about page" to="/about" class="internal-link">
         <CustomButtons button-type="ghost" class="skip">Skip</CustomButtons>
       </AppLink>
     </div>
@@ -32,11 +32,6 @@
 import { ref } from 'vue'
 import SnakeGame from '@/components/SnakeGame.vue'
 import FoodComp from './FoodComp.vue'
-
-// Define the type for each food item in the array
-// interface FoodItem {
-//   eaten: boolean
-// }
 
 // Reactive state for food, typed as an array of FoodItem
 const foodLeft = ref<{ eaten: boolean }[]>(Array.from({ length: 10 }, () => ({ eaten: false })))
@@ -127,7 +122,6 @@ function handleGameOver(): void {
   &::before {
     content: '';
     position: absolute;
-    // background-color: $gradients2;
     box-shadow: 0 0 240px 200px rgba(67, 217, 173, 0.4);
     top: 0%;
     left: 20%;
@@ -142,7 +136,6 @@ function handleGameOver(): void {
     width: 0;
     height: 200px;
     position: absolute;
-    // background-color: $gradients1;
     top: 70%;
     left: 70%;
     box-shadow: 0 0 240px 200px rgba(77, 91, 206, 0.4); //40% of $gradients1

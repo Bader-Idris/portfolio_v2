@@ -1,16 +1,21 @@
 # Lock files
 *-lock.json
+**/*.lockb
 
 # IDEs
-.idea/
-.vscode/
+.idea/**/*
+.vscode/**/*
 
 # Project files
-.github/
-buildAssets/icons/
+.github/**/*
+buildAssets/icons/**/*
 dist/
 release/
 android/
+**/.git
+**/.svn
+**/.hg
+**/node_modules
 ios/
 cypress/
 tests/

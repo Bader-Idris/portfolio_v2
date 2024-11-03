@@ -1,9 +1,9 @@
 <template>
   <div class="utils">
     <p v-if="isLoggedIn">Hello {{ username }}</p>
-    <AppLink v-if="!isLoggedIn" to="/register">Register</AppLink>
-    <AppLink v-if="!isLoggedIn" to="/login">Login</AppLink>
-    <button v-if="isLoggedIn" @click="logout" class="logout">Logout</button>
+    <AppLink v-if="!isLoggedIn" aria-label="register page" to="/register"> Register</AppLink>
+    <AppLink v-if="!isLoggedIn" aria-label="login page" to="/login">Login </AppLink>
+    <button v-if="isLoggedIn" class="logout" @click="logout">Logout</button>
   </div>
 </template>
 
@@ -13,6 +13,8 @@ import { useUserStore } from '@/stores/UserNameStore'
 import { computed } from 'vue'
 import { toast } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
+
+import type { RequestOptions } from '@/types/fetch'
 
 // Define user object interface
 interface User {
@@ -40,12 +42,7 @@ const logout = async (): Promise<void> => {
   const myHeaders = new Headers()
   myHeaders.append('Content-Type', 'application/json')
 
-  const requestOptions: {
-    method: string
-    headers: Headers
-    body: string
-    redirect: 'follow'
-  } = {
+  const requestOptions: RequestOptions = {
     method: 'DELETE',
     headers: myHeaders,
     body: JSON.stringify({ userId: userStore.user?.userId }), // Type-safe user ID access

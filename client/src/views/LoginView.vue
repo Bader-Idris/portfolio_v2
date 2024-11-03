@@ -35,6 +35,8 @@ import { toast } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
 import { useRouter, useRoute } from 'vue-router'
 
+import type { RequestOptions } from '@/types/fetch'
+
 // State for email, password, and loading
 const email = ref<string>('')
 const password = ref<string>('')
@@ -59,13 +61,7 @@ const login = async (): Promise<void> => {
 
   const myHeaders = new Headers()
   myHeaders.append('Content-Type', 'application/json')
-
-  const requestOptions: {
-    method: string
-    headers: Headers
-    body: string
-    redirect: 'follow'
-  } = {
+  const requestOptions: RequestOptions = {
     method: 'POST',
     headers: myHeaders,
     body: JSON.stringify(data),

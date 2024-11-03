@@ -1,5 +1,8 @@
 import { createRouter, createWebHistory, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
+import { App, URLOpenListenerEvent } from '@capacitor/app'
+// https://capacitorjs.com/docs/guides/deep-links#vue
+// it requires modifying some configs on both ios and android
 
 // Function to check if running in Electron
 export function isElectron(): boolean {
@@ -40,6 +43,7 @@ const routes: Array<RouteRecordRaw> = [
     component: HomeView
     // meta: {
     //   titleKey: 'title.main'
+    // <|cursor|>
     // }
   },
   {
@@ -86,10 +90,20 @@ const routes: Array<RouteRecordRaw> = [
   }
 ]
 
-// Use different history modes depending on the environment
-const history = isElectron() ? createWebHashHistory() : createWebHistory()
+// Add deep linking functionality
+App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
+  const slug = event.url.split('.app').pop()
+  if (slug) {
+    router.push({
+      path: slug
+    })
+  }
+})
 
-export default createRouter({
-  history,
+// Use different history modes depending on the environment
+const router = createRouter({
+  history: isElectron() ? createWebHashHistory() : createWebHistory(),
   routes
 })
+
+export default router

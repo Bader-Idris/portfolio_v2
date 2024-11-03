@@ -2,7 +2,7 @@
   <div class="not-found">
     <!-- <div class="container"> -->
     <p class="text">404</p>
-    <AppLink to="/" class="internal-link">
+    <AppLink aria-label="go to main page" to="/" class="internal-link">
       <span> back to main page </span>
     </AppLink>
     <!-- </div> -->

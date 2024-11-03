@@ -1,4 +1,4 @@
-import { ipcMain, shell, IpcMainEvent, dialog } from 'electron'
+import { ipcMain, shell, IpcMainInvokeEvent, dialog, FileFilter } from 'electron'
 import Constants from './utils/Constants'
 
 /*
@@ -11,14 +11,14 @@ export default class IPCs {
       return Constants.APP_VERSION
     })
 
-    // Open url via web browser
-    ipcMain.on('msgOpenExternalLink', async (event: IpcMainEvent, url: string) => {
+    // Handle external link opening
+    ipcMain.handle('msgOpenExternalLink', async (event: IpcMainInvokeEvent, url: string) => {
       await shell.openExternal(url)
     })
 
-    // Open file
-    ipcMain.handle('msgOpenFile', async (event: IpcMainEvent, filter: string) => {
-      const filters = []
+    // Handle file opening with dialog
+    ipcMain.handle('msgOpenFile', async (event: IpcMainInvokeEvent, filter: string) => {
+      const filters: FileFilter[] = []
       if (filter === 'text') {
         filters.push({ name: 'Text', extensions: ['txt', 'json'] })
       } else if (filter === 'zip') {
