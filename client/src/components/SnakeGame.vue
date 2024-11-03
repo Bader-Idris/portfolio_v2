@@ -113,7 +113,7 @@ async function showNotification(message: string) {
       const notification = new Notification('Victory!', {
         body: message,
         icon: '../../assets/icon-only.png',
-        vibrate: [200, 100, 200, 100, 200, 100, 200],
+        // vibrate: [200, 100, 200, 100, 200, 100, 200],
         tag: 'victory' // as ids, can override its same value
       })
       setTimeout(() => notification.close(), 3000)

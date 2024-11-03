@@ -168,15 +168,14 @@ import GameContainer from '@/components/GameContainer.vue'
           width: 100%;
           height: 100%;
           @media screen and (max-width: 768px) {
-                      bottom: -20px;
-                        left: -10.5em;
+            bottom: -20px;
+            left: -10.5em;
           }
           @media screen and (min-width: 768px) {
             & {
-                        top: 0;
-                          left: -10px;
+              top: 0;
+              left: -10px;
             }
-
           }
         }
 

@@ -25,7 +25,7 @@ Because I had the files, I only used `npx capacitor-assets generate` without rec
 
 > good tips & tricks
 
-Simon On YouTube, put these as a setup.sh file, Appearingly he's an enemy
+Simon On YouTube, put these as a setup.sh file
 
 ```sh
 # before these steps, install @ionic/cli @ionic/core && maybe @capacitor/cli also, -g is great here,
