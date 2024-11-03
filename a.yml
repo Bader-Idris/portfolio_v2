@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   nginx:
     image: nginx:stable-alpine
@@ -59,6 +57,18 @@ services:
   #   restart: always
   #   ports:
   #     - 8080:8080
+  # rabbitMQ doc https://hub.docker.com/_/rabbitmq
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitMQ
+    restart: always
+    environment:
+      - RABBITMQ_DEFAULT_USER=bader  # user
+      - RABBITMQ_DEFAULT_PASS=secret # password
+    ports:
+      - "5672:5672" # AMQP port
+      - "15672:15672" # management interface port
+
 volumes:
   mongo-db:
   psql-data:

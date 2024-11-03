@@ -73,12 +73,28 @@ app.disable("x-powered-by");
 //     },
 //   },
 // }));
-app.use(helmet());
+
+// app.use(helmet());
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      imgSrc: ["'self'", "https://raw.githubusercontent.com", "data:"],
+      scriptSrc: ["'self'", "'unsafe-inline'"],
+      // other directives as needed
+    },
+  })
+);
+
 app.use(cors());
-// app.use(cors({
-//   origin: 'http://testing.com',
-//   optionsSuccessStatus: 200,
-// }));
+// app.use(
+//   cors({
+//     origin: ["https://baderidris.com", "https://raw.githubusercontent.com"],
+//     methods: "GET",
+//     allowedHeaders: "Content-Type",
+//   })
+// );
+
 app.use(xss());
 app.use(mongoSanitize());
 
@@ -93,6 +109,69 @@ app.use('/api/v1/users', userRouter);
 app.use('/api/v1/products', productRouter);
 app.use('/api/v1/reviews', reviewRouter);
 app.use('/api/v1/orders', orderRouter);
+
+
+// ? ========================================================
+// ? ------- simple receiving emails for portfolio ----------
+// ? ========================================================
+const mongoose = require("mongoose");
+const nodemailer = require("nodemailer");
+
+const emailSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true },
+  message: { type: String, required: true },
+});
+
+const Email = mongoose.model("Email", emailSchema);
+
+// Create a transporter for sending emails
+const transporter = nodemailer.createTransport({
+  host: 'smtp.gmail.com',
+  port: 587,
+  secure: false, // or 'STARTTLS'
+  auth: {
+    user: 'www.bader.com9@gmail.com',
+    pass: 'your-email-password'
+  }
+});
+
+app.post("/api/v1/emails", (req, res) => {
+  const { name, email, message } = req.body;
+
+  if (!name || !email || !message) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+
+  const newEmail = new Email({ name, email, message });
+
+  newEmail
+    .save()
+    .then(() => {
+      // Send an email using SMTP
+      const mailOptions = {
+        from: email,
+        to: "www.bader.com9@gmail.com",
+        subject: "New Email from Website",
+        text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
+      };
+
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log("Email sent: " + info.response);
+        }
+      });
+
+      res.json({ success: true });
+    })
+    .catch((err) => {
+      res.status(500).json({ error: "Error saving email" });
+    });
+});
+// ? --------------------------------------------------------
+// ? --------------------------------------------------------
 
 app.get("/robots.txt", (req, res) => {
   res.sendFile(path.resolve(__dirname, "/statics", "robots.txt"));
