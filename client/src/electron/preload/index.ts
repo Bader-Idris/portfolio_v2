@@ -1,5 +1,97 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron'
 
+// // Expose window control methods safely
+// contextBridge.exposeInMainWorld('windowControls', {
+//   minimize: () => ipcRenderer.send('window-control', 'minimize'),
+//   maximize: () => ipcRenderer.send('window-control', 'maximize'),
+//   close: () => ipcRenderer.send('window-control', 'close'),
+// });
+
+// // Dynamically inject HTML and CSS for custom title bar when DOM is ready
+// document.addEventListener('DOMContentLoaded', () => {
+//   const titleBarHtml = `
+//     <div id="title-bar">
+//       <div id="title-bar-buttons">
+//         <button id="minimize-btn">_</button>
+//         <button id="maximize-btn">⬜</button>
+//         <button id="close-btn">✕</button>
+//       </div>
+//       <h1 id="app-title"></h1>
+//     </div>
+//   `;
+
+//   const styleContent = `
+//     #title-bar {
+//       height: 50px;
+//       display: flex;
+//       align-items: center;
+//       justify-content: space-between;
+//       background-color: transparent;
+//       color: #fff;
+//       padding: 10px;
+//       -webkit-app-region: drag;
+//       flex-direction: row-reverse;
+//       padding-right: 20px;
+//     }
+//     #title-bar-buttons {
+//       display: flex;
+//     }
+//     #title-bar-buttons button {
+//       background: none;
+//       border: none;
+//       color: #fff;
+//       font-size: 16px;
+//       padding: 0 10px;
+//       cursor: pointer;
+//       -webkit-app-region: no-drag;
+//     }
+//     #title-bar-buttons button:hover {
+//       background-color: #555;
+//     }
+//   `
+
+//   // Inject styles
+//   const styleElement = document.createElement('style');
+//   styleElement.innerHTML = styleContent;
+//   document.head.appendChild(styleElement);
+
+//   // Inject title bar HTML
+//   const titleBarContainer = document.createElement('div');
+//   titleBarContainer.innerHTML = titleBarHtml;
+//   document.body.insertBefore(titleBarContainer, document.body.firstChild);
+
+//   // Set app name in title bar
+//   ipcRenderer.once('app-info', (_, { appName }) => {
+//     const titleElement = document.getElementById('app-title');
+//     if (titleElement) titleElement.textContent = appName;
+//   });
+
+//   // Add event listeners to title bar buttons
+//   document.getElementById('minimize-btn')?.addEventListener('click', () => {
+//     if (window.windowControls?.minimize) {
+//       window.windowControls.minimize();
+//     } else {
+//       console.error("windowControls.minimize is undefined");
+//     }
+//   });
+
+//   document.getElementById('maximize-btn')?.addEventListener('click', () => {
+//     if (window.windowControls?.maximize) {
+//       window.windowControls.maximize();
+//     } else {
+//       console.error("windowControls.maximize is undefined");
+//     }
+//   });
+
+//   document.getElementById('close-btn')?.addEventListener('click', () => {
+//     if (window.windowControls?.close) {
+//       window.windowControls.close();
+//     } else {
+//       console.error("windowControls.close is undefined");
+//     }
+//   });
+// });
+
 // Whitelist of valid channels used for IPC communication (Send message from Renderer to Main)
 const mainAvailChannels: string[] = ['msgRequestGetVersion', 'msgOpenExternalLink', 'msgOpenFile']
 const rendererAvailChannels: string[] = []

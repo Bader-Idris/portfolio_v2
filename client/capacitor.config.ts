@@ -24,11 +24,12 @@ const config: CapacitorConfig = {
 
       */
     },
+
     SplashScreen: {
       // need to use it with this package, @capacitor/assets check it at
       // https://capacitorjs.com/docs/guides/splash-screens-and-icons
 
-      // TODO: bun i cordova-plugin-lottie-splashscreen
+      // TODO: bun i --save-dev cordova-plugin-lottie-splashscreen
       /* create lottie file then
         get a lottie file from the https://lottiefiles.com
         Found this example https://lottiefiles.com/free-animation/splash-screen-8Zo2RyAnUd
@@ -68,7 +69,19 @@ const config: CapacitorConfig = {
       splashImmersive: true,
       layoutName: 'launch_screen',
       useDialog: true
+
+      // for lottie instead of above settings:
+      // launchautohide: true,
+      // launchshowduration: 0
     },
+    // cordova: {
+    //   // we'll override splash screen with our own lottie file
+    //   preferences: {
+    //     LottieFullScreen: true,
+    //     LottieHideAfterAnimationEnd: true,
+    //     LottieAnimationLocationLight: '@/assets/lottieAnimationFile.json'
+    //   }
+    // },
 
     // ! these two old packages are causing crash in building android app
     // barcode-scanner

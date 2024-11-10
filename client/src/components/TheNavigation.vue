@@ -1,9 +1,7 @@
 <template>
   <header>
     <div class="container">
-      <div class="name">
-        {{ name }}
-      </div>
+      <div class="name">{{ name }}</div>
       <nav class="nav">
         <AppLink to="/" class="sub-navs" :class="{ active: $route.path === '/' }">_hello</AppLink>
         <AppLink to="/about" class="sub-navs" :class="{ active: $route.path === '/about' }"
@@ -57,20 +55,53 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
-import { debounce } from 'lodash-es' // lodash debounce function
+import { debounce } from 'lodash-es'
 import FooterComp from '@/components/FooterComp.vue'
+import { App as CapacitorApp } from '@capacitor/app'
+import { useRouter, useRoute } from 'vue-router'
+
 const showBurgerNav = ref(window.outerWidth <= 768)
 const showPhoneMenu = ref(false)
 const name = ref('Bader-Idris')
+const currentPath = ref('')
+
 const handleResize = debounce(() => {
   showBurgerNav.value = window.outerWidth <= 768
 }, 300) // Debounce with 300ms delay
+
+const router = useRouter()
+const route = useRoute()
+
+// Update current path whenever the phone menu is toggled
 const togglePhoneMenu = () => {
-  showPhoneMenu.value = !showPhoneMenu.value
+  if (showPhoneMenu.value) {
+    // If menu is currently open, close it
+    showPhoneMenu.value = false
+  } else {
+    // If menu is closed, store the current path and open it
+    currentPath.value = route.fullPath // Store the current path
+    showPhoneMenu.value = true
+  }
 }
+
 onMounted(() => {
+  // Set up resize event listener
   window.addEventListener('resize', handleResize)
+
+  // Intercept back button on Android devices
+  CapacitorApp.addListener('backButton', (event) => {
+    // Check if the phone menu is open
+    if (showPhoneMenu.value) {
+      event.canGoBack = false // Prevent default back navigation
+      togglePhoneMenu() // Close the menu
+      router.push(currentPath.value) // Navigate to the stored path (if needed)
+    } else {
+      // Allow default behavior if the menu is not open
+      event.canGoBack = true // This allows normal back navigation
+    }
+  })
 })
+
 onUnmounted(() => {
   window.removeEventListener('resize', handleResize)
 })

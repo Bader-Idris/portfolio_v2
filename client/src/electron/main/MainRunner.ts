@@ -1,4 +1,4 @@
-import { app, BrowserWindow, RenderProcessGoneDetails, Menu, Tray } from 'electron'
+import { app, BrowserWindow, ipcMain, RenderProcessGoneDetails, Menu, Tray } from 'electron'
 import Constants from './utils/Constants'
 import IPCs from './IPCs'
 import menuTemplate from './utils/menu-template'
@@ -11,7 +11,9 @@ const exitApp = (mainWindow: BrowserWindow): void => {
   app.exit()
 }
 
-export const createMainWindow = async (mainWindow: BrowserWindow): Promise<BrowserWindow> => {
+let tray = null
+
+const createMainWindow = async (mainWindow: BrowserWindow): Promise<BrowserWindow> => {
   mainWindow = new BrowserWindow({
     title: Constants.APP_NAME,
     show: false,
@@ -19,16 +21,16 @@ export const createMainWindow = async (mainWindow: BrowserWindow): Promise<Brows
     height: 650,
     useContentSize: true,
     // titleBarStyle: 'hidden',
+    // frame: false, // disable default title bar || frame
     webPreferences: Constants.DEFAULT_WEB_PREFERENCES
   })
 
-  mainWindow.setMenu(null) // to clear default menu
+  mainWindow.setMenu(null) // Disable default menu
 
-  const menu = Menu.buildFromTemplate(menuTemplate) // using custom menu
-  Menu.setApplicationMenu(menu) // global variable
+  const menu = Menu.buildFromTemplate(menuTemplate) // Set custom menu
+  Menu.setApplicationMenu(menu)
 
   // ! Define user tasks for the taskbar context menu
-
   const userTasks: Electron.Task[] = [
     {
       program: process.execPath, // The path to the Electron executable
@@ -54,6 +56,7 @@ export const createMainWindow = async (mainWindow: BrowserWindow): Promise<Brows
     exitApp(mainWindow)
   })
 
+  // open devTools in dev mode
   mainWindow.webContents.on('did-frame-finish-load', (): void => {
     if (Constants.IS_DEV_ENV) {
       mainWindow.webContents.openDevTools()
@@ -61,26 +64,28 @@ export const createMainWindow = async (mainWindow: BrowserWindow): Promise<Brows
   })
 
   mainWindow.once('ready-to-show', (): void => {
-    mainWindow.setAlwaysOnTop(true) // is this useful for focusing?! along with its  underneath sibling
+    // mainWindow.setAlwaysOnTop(true)
     mainWindow.show()
     mainWindow.focus()
-    mainWindow.setAlwaysOnTop(false)
+
+    // Send the app name to the renderer process
+    // mainWindow.webContents.send('app-info', { appName: Constants.APP_NAME })
   })
 
   // Initialize IPC Communication
-  IPCs.initialize()
+  IPCs.initialize() // TODO: check if disabling it crashes the app
 
   if (Constants.IS_DEV_ENV) {
     await mainWindow.loadURL(Constants.APP_INDEX_URL_DEV)
   } else {
     await mainWindow.loadFile(Constants.APP_INDEX_URL_PROD)
   }
-
+  createTray()
   return mainWindow
 }
 
 // Create error window when the renderer crashes
-export const createErrorWindow = async (
+const createErrorWindow = async (
   errorWindow: BrowserWindow,
   mainWindow: BrowserWindow,
   details?: RenderProcessGoneDetails
@@ -121,54 +126,37 @@ export const createErrorWindow = async (
   return errorWindow
 }
 
-/*
-
-
-let tray: Tray | null = null
-
-// Create the system tray
 const createTray = () => {
-  tray = new Tray('../../../buildAssets/resources/icon.png'); // Path to your tray icon
+  tray = new Tray('../../../buildAssets/resources/icon.png')
   const contextMenu = Menu.buildFromTemplate([
     {
       label: 'Open',
       click: () => {
-        if (mainWindow) {
-          mainWindow.show();
-        } else {
-          createMainWindow();
-        }
-      },
+        mainWindow ? mainWindow.show() : createMainWindow()
+      }
     },
     {
-      label: 'Settings',
+      label: 'Maximize',
       click: () => {
-        // Open settings window or perform another action
-      },
+        if (mainWindow) {
+          mainWindow.isMaximized() ? mainWindow.unmaximize() : mainWindow.maximize()
+        }
+      }
     },
     {
       label: 'Exit',
       click: () => {
-        exitApp(mainWindow!); // Ensure mainWindow is not null
-      },
-    },
-  ]);
+        exitApp(mainWindow!)
+      }
+    }
+  ])
 
-  tray.setToolTip(Constants.APP_NAME); // Tooltip for the tray icon
-  tray.setContextMenu(contextMenu); // Set the context menu for the tray
+  tray.setToolTip(Constants.APP_NAME)
+  tray.setContextMenu(contextMenu)
 
   tray.on('click', () => {
-    if (mainWindow) {
-      mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show();
-    } else {
-      createMainWindow();
-    }
-  });
-};
+    mainWindow?.isVisible() ? mainWindow.hide() : mainWindow.show()
+  })
+}
 
-// Initialize the tray when the app is ready
-app.on('ready', () => {
-  createTray();
-});
-
-*/
+export { createMainWindow, createErrorWindow, createTray }

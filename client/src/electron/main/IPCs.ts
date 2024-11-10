@@ -1,9 +1,9 @@
-import { ipcMain, shell, IpcMainInvokeEvent, dialog, FileFilter } from 'electron'
+import { ipcMain, shell, dialog, IpcMainInvokeEvent, FileFilter } from 'electron'
 import Constants from './utils/Constants'
 
-/*
+/**
  * IPC Communications
- * */
+ */
 export default class IPCs {
   static initialize(): void {
     // Get application version
@@ -30,5 +30,20 @@ export default class IPCs {
       })
       return dialogResult
     })
+
+    // ipcMain.handle('window-control', (event, action) => {
+    //   if (!mainWindow) return
+    //   switch (action) {
+    //     case 'minimize':
+    //       mainWindow.minimize()
+    //       break
+    //     case 'maximize':
+    //       mainWindow.isMaximized() ? mainWindow.unmaximize() : mainWindow.maximize()
+    //       break
+    //     case 'close':
+    //       mainWindow.close()
+    //       break
+    //   }
+    // })
   }
 }

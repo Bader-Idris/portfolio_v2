@@ -39,12 +39,13 @@
   "typeRoots": ["node_modules/@types", "src/types"],
   "types": ["node", "unplugin-vue-router/client"],
   "include": [
+    "src",
+    "src/**/**/*",
     "src/*.ts",
     "src/*.d.ts",
-    "src",
     "./typed-router.d.ts", // This comes after installing the pkg then run dev command!
     "**/*.wav"
   ],
-  "exclude": ["node_modules", "android", "ios", "release", "src/electron", "dist", "tests"],
+  "exclude": ["node_modules", "android", "ios", "release", "src/electron", "dist"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

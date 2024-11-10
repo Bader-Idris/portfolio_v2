@@ -1,18 +1,10 @@
 [
   {
-    "title": "building 50 projects with Elzero",
-    "url": "https://elzero.org",
-    "img": "",
-    "imgAlt": "",
-    "desc": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptates odit ipsam laborum officiis minus in ",
-    "tags": ["Vue", "typescript", "js"]
-  },
-  {
     "title": "e-commerce product",
     "url": "https://bader-idris.github.io/ecommerce-product-page/",
     "img": "https://raw.githubusercontent.com/Bader-Idris/ecommerce-product-page/main/design/desktop-preview.jpg",
     "imgAlt": "",
-    "desc": "A beautiful interactive and responsive e-commerce product page ",
+    "desc": "Interactive and responsive e-commerce product page, you can add and remove items from cart and see the total amount of items in the cart, and navigate through the images of the product",
     "tags": ["html", "css", "js"]
   },
   {
@@ -20,7 +12,7 @@
     "url": "https://bader-idris.github.io/pricing_options_page/",
     "img": "https://raw.githubusercontent.com/Bader-Idris/pricing_options_page/main/design/desktop-preview.jpg",
     "imgAlt": "",
-    "desc": "A beautiful interactive and responsive pricing page with yearly/monthly subscription and 3 main plans to choose from",
+    "desc": "Explore my interactive and responsive pricing page with a variety of plans, offering both yearly and monthly subscriptions. Choose from three main plans tailored to your needs.",
     "tags": ["html", "css", "js"]
   },
   {
@@ -28,7 +20,7 @@
     "url": "https://bader-idris.github.io/todo-app/",
     "img": "https://raw.githubusercontent.com/Bader-Idris/todo-app/main/screenshots/dark-desk.png",
     "imgAlt": "",
-    "desc": "A beautiful interactive and responsive pricing page with yearly/monthly subscription and 3 main plans to choose from",
+    "desc": "A todo app that relies on local storage, so you can safely exit the page, and go back when needed. It's a responsive and interactive todo app that allows you to add, remove, mark as done, and filter tasks",
     "tags": ["html", "css", "js"]
   },
   {
@@ -36,11 +28,11 @@
     "url": "https://bader-idris.github.io/multi-step-form/",
     "img": "https://raw.githubusercontent.com/Bader-Idris/multi-step-form/main/design/desktop-preview.jpg",
     "imgAlt": "",
-    "desc": "An Advanced complicated smooth multi-step form containing 4 steps including a thank you page",
+    "desc": "I'm proud to showcase a highly advanced, user-friendly, and visually appealing multi-step form, consisting of 4 steps, including a thank you page, which is a perfect example of how I can successfully connect many DOM elements with a single button, making it a very appealing user experience for clients to click and explore.",
     "tags": ["html", "css", "js"]
   },
   {
-    "title": "Lorem ipsum dolor sit amet consectetur",
+    "title": "Testing a website with Lorem ipsum dolor sit amet consectetur",
     "url": "https://elzero.org",
     "img": "",
     "imgAlt": "",
@@ -52,7 +44,15 @@
     "url": "https://beautiful-web-application.netlify.app/",
     "img": "https://raw.githubusercontent.com/Bader-Idris/guru-agency-duplication-site/refs/heads/bader/brave_703HxjzGmt.png",
     "imgAlt": "designing agency web app",
-    "desc": "a beautiful web app made for a designing agency",
+    "desc": "A stunning web application designed for a designing agency, showcasing beautiful CSS interactions. The app features an innovative background color conversion effect on hover, as well as various text manipulation techniques, making it a visually appealing and engaging experience for users. As a full-stack developer, I would be delighted to help you bring such a project to life.",
     "tags": ["html", "css", "Vue", "typescript", "js"]
+  },
+  {
+    "title": "building 50 projects with Elzero",
+    "url": "https://elzero.org",
+    "img": "",
+    "imgAlt": "",
+    "desc": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptates odit ipsam laborum officiis minus in ",
+    "tags": ["Vue", "typescript", "js"]
   }
 ]

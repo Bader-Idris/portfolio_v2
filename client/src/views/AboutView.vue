@@ -152,6 +152,7 @@ interface Hobby {
 
 // @ts-ignore  Update your asset handling using import.meta.glob for dynamic imports
 const svgIcons = import.meta.glob('../assets/imgs/svgs/*.svg', { eager: true, as: 'url' })
+// TODO: using eager causes the assets to be loaded as one file, and fixing it is a long story ...
 
 // Utility function to get image URL from the globbed assets
 function getImageUrl(name: string): string {
@@ -412,7 +413,7 @@ onUnmounted(() => {
       @media screen and (max-width: 768px) {
         height: inherit;
         & p {
-          height: 80vh;
+          // height: 80vh;
           margin-bottom: 30px;
           // background-color: yellow;
         }

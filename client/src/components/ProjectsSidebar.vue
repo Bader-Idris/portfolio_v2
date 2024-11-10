@@ -25,7 +25,6 @@ import HTML from './svg/SvgHtml.vue'
 import CSS from './svg/SvgCss.vue'
 import SvgVuejs from './svg/SvgVuejs.vue'
 // import SvgDocker from './svg/SvgDocker.vue';
-// import SvgTS from './svg/SvgTS.vue';
 import Typescript from './svg/TypeScript.vue'
 // import Expressjs from './svg/Expressjs.vue';
 // import SvgShell from './svg/SvgShell.vue';

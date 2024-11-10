@@ -10,6 +10,7 @@ import { App as CapacitorApp } from '@capacitor/app'
 import { Toast } from '@capacitor/toast'
 import { StatusBar, Style } from '@capacitor/status-bar'
 import { Device } from '@capacitor/device'
+import { Network } from '@capacitor/network'
 
 // Import notification service
 import {
@@ -30,6 +31,23 @@ declare global {
   }
 }
 //! remove these
+
+// Offline notification function
+async function notifyOffline() {
+  if (isElectron()) {
+    // Electron native notification
+    await new Notification('Offline', {
+      body: 'You are currently offline. Please check your connection.'
+    })
+  } else {
+    // Capacitor Toast notification
+    await Toast.show({
+      text: 'You are offline. Check your connection.',
+      duration: 'long',
+      position: 'bottom'
+    })
+  }
+}
 
 async function initializeApp() {
   try {
@@ -59,6 +77,19 @@ async function initializeApp() {
 
       // Register notifications
       await registerNotifications()
+    }
+
+    // Add network status listener for offline detection
+    Network.addListener('networkStatusChange', async (status) => {
+      if (!status.connected) {
+        await notifyOffline()
+      }
+    })
+
+    // Initial offline check on startup
+    const status = await Network.getStatus()
+    if (!status.connected) {
+      await notifyOffline()
     }
 
     let lastBackPressed = 0

@@ -169,9 +169,10 @@ const copyToClipboard = async (index: number): Promise<void> => {
 
 // Handle form submission with types and validation
 const handleSubmit = async (): Promise<void> => {
+  const url = `${import.meta.env.BASE_URL}/api/v1/emails`
   if (validateForm()) {
     try {
-      const response = await fetch('/api/v1/emails', {
+      const response = await fetch(url, {
         method: 'POST',
         // TODO: it's better to include a bearer auth or something like that
         headers: {
