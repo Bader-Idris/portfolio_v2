@@ -10,6 +10,7 @@
 .github/**/*
 buildAssets/icons/**/*
 dist/
+src/index.html
 release/
 android/
 **/.git

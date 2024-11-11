@@ -86,14 +86,15 @@ app.use(
   })
 );
 
-app.use(cors());
-// app.use(
-//   cors({
-//     origin: ["https://baderidris.com", "https://raw.githubusercontent.com"],
-//     methods: "GET",
-//     allowedHeaders: "Content-Type",
-//   })
-// );
+// app.use(cors());
+app.use(
+  cors({
+    // origin: ["https://baderidris.com", "https://raw.githubusercontent.com"],
+    origin: ["https://baderidris.com"],
+    methods: "GET",
+    allowedHeaders: "Content-Type",
+  })
+);
 
 app.use(xss());
 app.use(mongoSanitize());
