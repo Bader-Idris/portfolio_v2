@@ -169,7 +169,7 @@ const copyToClipboard = async (index: number): Promise<void> => {
 
 // Handle form submission with types and validation
 const handleSubmit = async (): Promise<void> => {
-  const url = `${import.meta.env.BASE_URL}/api/v1/emails`
+  const url = `${import.meta.env.BASE_URL}/api/v1/received_emails`
   if (validateForm()) {
     try {
       const response = await fetch(url, {

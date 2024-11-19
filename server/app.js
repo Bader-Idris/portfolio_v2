@@ -32,6 +32,7 @@ const userRouter = require("./routes/userRoutes");
 const productRouter = require("./routes/productRoutes");
 const reviewRouter = require("./routes/reviewRoutes");
 const orderRouter = require("./routes/orderRoutes");
+const receivedEmailsRouter = require("./routes/receivedEmailsRoutes");
 
 // middleware
 const notFoundMiddleware = require("./middleware/not-found");
@@ -52,44 +53,37 @@ const {
 } = require("./config/config");
 
 app.enable("trust proxy");//derived from proxy-addr package
-if (process.env.NODE_ENV === "production") {
-  app.use(
-    rateLimiter({
-      windowMs: 15 * 60 * 1000,
-      max: 60,
-    })
-  );
-}
+
+// Static files rate limiter
+const staticFileLimiter = rateLimiter({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 1000, // Allow 1000 requests per 15 minutes for static files
+  message: "Too many requests for static files. Please try again later.",
+});
+
+// API rate limiter
+const apiLimiter = rateLimiter({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 60, // Allow 60 requests per 15 minutes for API routes
+  message: "Too many requests to the API. Please slow down.",
+});
+
 app.disable("x-powered-by");
 
-// app.use(helmet({//this helmet stops any new api, keep an eye on it when adding new ones
-//   contentSecurityPolicy: {
-//     directives: {
-//       defaultSrc: ["'self'"],
-//       // Add other CSP directives as needed [Content Security Policy]
-//       scriptSrc: ["'self'", "http://app:3000", "'unsafe-inline'"],
-//       frameSrc: ["'self'", "https://www.youtube.com"],
-//       styleSrcElem: ["'self'", "https://fonts.googleapis.com"],
-//     },
-//   },
-// }));
-
-// app.use(helmet());
 app.use(
   helmet.contentSecurityPolicy({
+    //this helmet stops any new api, keep an eye on it when adding new ones
     directives: {
       defaultSrc: ["'self'"],
       imgSrc: ["'self'", "https://raw.githubusercontent.com", "data:"],
       scriptSrc: ["'self'", "'unsafe-inline'"],
-      // other directives as needed
+      workerSrc: ["'self'", "blob:"],
     },
   })
 );
 
-// app.use(cors());
 app.use(
   cors({
-    // origin: ["https://baderidris.com", "https://raw.githubusercontent.com"],
     origin: ["https://baderidris.com"],
     methods: "GET",
     allowedHeaders: "Content-Type",
@@ -102,77 +96,29 @@ app.use(mongoSanitize());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(JWT_SECRET));
-app.use(express.static("./statics"));//public
+// if (process.env.NODE_ENV === "production") {
+//   app.use("/statics", staticFileLimiter, express.static("./statics"));
+// } else {
+//   app.use("/statics", express.static("./statics"));
+// }
+app.use(express.static("./statics"));
 app.use(fileUpload());
+
+// Apply API rate limiter to API routes
+// if (process.env.NODE_ENV === "production") {
+//   app.use("/api", apiLimiter);
+// }
+
+if (process.env.NODE_ENV === "production") {
+  app.use(staticFileLimiter);
+}
 
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/products', productRouter);
 app.use('/api/v1/reviews', reviewRouter);
 app.use('/api/v1/orders', orderRouter);
-
-
-// ? ========================================================
-// ? ------- simple receiving emails for portfolio ----------
-// ? ========================================================
-const mongoose = require("mongoose");
-const nodemailer = require("nodemailer");
-
-const emailSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  email: { type: String, required: true },
-  message: { type: String, required: true },
-});
-
-const Email = mongoose.model("Email", emailSchema);
-
-// Create a transporter for sending emails
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false, // or 'STARTTLS'
-  auth: {
-    user: 'www.bader.com9@gmail.com',
-    pass: 'your-email-password'
-  }
-});
-
-app.post("/api/v1/emails", (req, res) => {
-  const { name, email, message } = req.body;
-
-  if (!name || !email || !message) {
-    return res.status(400).json({ error: "Missing required fields" });
-  }
-
-  const newEmail = new Email({ name, email, message });
-
-  newEmail
-    .save()
-    .then(() => {
-      // Send an email using SMTP
-      const mailOptions = {
-        from: email,
-        to: "www.bader.com9@gmail.com",
-        subject: "New Email from Website",
-        text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
-      };
-
-      transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-          console.log(error);
-        } else {
-          console.log("Email sent: " + info.response);
-        }
-      });
-
-      res.json({ success: true });
-    })
-    .catch((err) => {
-      res.status(500).json({ error: "Error saving email" });
-    });
-});
-// ? --------------------------------------------------------
-// ? --------------------------------------------------------
+app.use('/api/v1/received_emails', receivedEmailsRouter)
 
 app.get("/robots.txt", (req, res) => {
   res.sendFile(path.resolve(__dirname, "/statics", "robots.txt"));
@@ -205,7 +151,7 @@ const connectWithRetry = async () => {
     await connectDB(MONGO_URL);
     console.log("successfully connected to DB");
   } catch (e) {
-    console.log(e);
+    console.log("Error connecting to DB:", e);
     setTimeout(connectWithRetry, 5000);
     //TODO: if i send a warning message only once, it's better!
   }

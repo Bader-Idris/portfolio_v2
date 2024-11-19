@@ -160,7 +160,7 @@ export default defineConfig(({ mode }) => {
 
       // BASE_URL: JSON.stringify(isDevEnv ? 'localhost:5173' : 'https://baderidris.com')
       'import.meta.env.BASE_URL': JSON.stringify(
-        isDevEnv ? 'http://localhost:5173' : 'https://baderidris.com'
+        isDevEnv ? 'http://localhost:5173' : 'http://baderidris.com'
       )
 
       /*

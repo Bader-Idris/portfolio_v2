@@ -1,3 +1,5 @@
 node_modules/
 priv_key*
 config/certbot/
+
+bun.lockb
