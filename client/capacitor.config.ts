@@ -6,6 +6,11 @@ const config: CapacitorConfig = {
   appId: 'com.baderidris.portfolio',
   appName: 'Portfolio',
   webDir: 'dist',
+  server: {
+    hostname: 'localhost', // Default hostname
+    androidScheme: 'baderApp', // customscheme, make sure to allow it in nginx configs
+    iosScheme: 'baderApp'
+  },
   plugins: {
     LocalNotifications: {
       // https://capacitorjs.com/docs/apis/local-notifications

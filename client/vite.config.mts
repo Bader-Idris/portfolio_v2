@@ -160,7 +160,7 @@ export default defineConfig(({ mode }) => {
 
       // BASE_URL: JSON.stringify(isDevEnv ? 'localhost:5173' : 'https://baderidris.com')
       'import.meta.env.BASE_URL': JSON.stringify(
-        isDevEnv ? 'http://localhost:5173' : 'http://baderidris.com'
+        isDevEnv ? '' : 'https://baderidris.com' // HSTS header layer requires https only! to function!
       )
 
       /*

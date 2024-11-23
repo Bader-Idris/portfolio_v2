@@ -156,14 +156,25 @@ import GameContainer from '@/components/GameContainer.vue'
           line-height: 1.7;
           width: 300px;
           letter-spacing: -0.7px;
+          @media (max-width: 768px) {
+            font-size: 18px;
+          }
           @media (min-width: 769px) {
             display: none;
+          }
+          @media (max-width: 340px) {
+            font-size: 16px;
           }
         }
         & > a {
           left: 10px;
           position: relative;
           color: $accent1;
+          display: block;
+          width: calc(100% - 20px);
+          @media (max-width: 330px) {
+            font-size: 14px;
+          }
         }
 
         & > a::before {

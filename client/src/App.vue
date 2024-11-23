@@ -8,6 +8,12 @@
 <script setup lang="ts">
 // import TheUtils from '@/components/TheUtils.vue'
 import FooterComp from '@/components/FooterComp.vue'
+console.log(
+  '%cWelcome to my %cfull-stack %capp',
+  'color: #fb853b; font-weight: bold; font-family: "Fira Code"; font-size: 30px;',
+  'color: #3c9d93; font-weight: bold; font-family: "Fira Code"; font-size: 32px;',
+  'color: #fb853b; font-weight: bold; font-family: "Fira Code"; font-size: 30px;'
+)
 </script>
 
 <style lang="scss">

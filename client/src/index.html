@@ -1,42 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="color-scheme" content="light dark" />
-    <link rel="shortcut icon" type="image/svg+xml" href="./assets/logo.svg" />
-    <!-- <meta http-equiv="Content-Security-Policy"
-    content="script-src 'self' 'unsafe-inline' blob:;" data-electron-only> -->
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' blob:;" />
-    <meta
-      name="viewport"
-      content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"
-    />
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="msapplication-tap-highlight" content="no" />
 
-    <meta
-      name="description"
-      content="Bader Idris: Building the Web with Modern Tools. I am a passionate full-stack developer dedicated to creating dynamic and user-friendly web experiences. Explore my portfolio showcasing skills in Vue 3, Vue Composition API, Pinia, Vue Router 4, HTML, SCSS, Node.js, Express.js, MongoDB, PostgreSQL, TypeScript, Redis, electron, capacitor and JavaScript."
-    />
-    <title>Portfolio</title>
-    <!-- add to homescreen for ios -->
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-title" content="Ionic App" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    <!-- recommended by google search console -->
-    <script type="application/ld+json">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="shortcut icon" type="image/svg+xml" href="./assets/logo.svg" />
+  <meta http-equiv="Content-Security-Policy"
+  content="
+    default-src 'self' https: ws: wss: blob: data: 'unsafe-inline';
+    img-src 'self' https://raw.githubusercontent.com data:;
+    connect-src 'self' https://baderidris.com ws: wss:;">
+  <meta name="viewport"
+    content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="msapplication-tap-highlight" content="no" />
+  <meta name="description"
+    content="Bader Idris: Building the Web with Modern Tools. I am a passionate full-stack developer dedicated to creating dynamic and user-friendly web experiences. Explore my portfolio showcasing skills in Vue 3, Vue Composition API, Pinia, Vue Router 4, HTML, SCSS, Node.js, Express.js, MongoDB, PostgreSQL, TypeScript, Redis, electron, capacitor and JavaScript." />
+  <title>Portfolio</title>
+
+  <!-- Add to homescreen for iOS -->
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Ionic App" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title"
+    content="Bader Idris - Full-Stack Developer Portfolio" />
+  <meta property="og:description"
+    content="Explore Bader Idris's portfolio showcasing skills in modern web development technologies, including Vue, Node.js, and more." />
+  <meta property="og:image"
+    content="./assets/imgs/thumbnail.jpg" />
+  <meta property="og:url" content="https://baderidris.com/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Bader Idris Portfolio" />
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title"
+    content="Bader Idris - Full-Stack Developer Portfolio" />
+  <meta name="twitter:description"
+    content="Explore Bader Idris's portfolio showcasing skills in modern web development technologies, including Vue, Node.js, and more." />
+  <meta name="twitter:image"
+    content="./assets/imgs/thumbnail.jpg" />
+  <meta name="twitter:site" content="@badr_idris_" />
+
+  <!-- JSON-LD for SEO -->
+  <script type="application/ld+json">
       {
-        "@context": "https://baderidris.com/",
+        "@context": "https://schema.org",
         "@type": "WebPage",
         "name": "Portfolio",
         "description": "Bader Idris: Building the Web with Modern Tools. I am a passionate full-stack developer dedicated to creating dynamic and user-friendly web experiences. Explore my portfolio showcasing skills in Vue 3, Vue Composition API, Pinia, Vue Router 4, HTML, SCSS, Node.js, Express.js, MongoDB, PostgreSQL, TypeScript, Redis, electron, capacitor and JavaScript.",
         "url": "https://baderidris.com/"
       }
     </script>
-  </head>
+</head>
 
-  <body>
-    <div id="app"></div>
-    <script type="module" src="./main.ts"></script>
-  </body>
+<body>
+  <div id="app"></div>
+  <script type="module" src="./main.ts"></script>
+</body>
+
 </html>

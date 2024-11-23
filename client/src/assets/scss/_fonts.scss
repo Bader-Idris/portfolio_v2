@@ -4,5 +4,23 @@
   src:
     local('Fira Code Light'),
     local('FiraCode-Light'),
-    url('@/assets/fonts/FiraCode/FiraCode-VariableFont_wght.ttf') format('wght'); //source one
+    url('@/assets/fonts/FiraCode/FiraCode-Light.woff2') format('woff2'),
+    url('@/assets/fonts/FiraCode/FiraCode-Light.woff') format('woff'),
+    url('@/assets/fonts/FiraCode/FiraCode-Light.ttf') format('truetype'),
+    url('@/assets/fonts/FiraCode/FiraCode-Light.svg#FiraCode-Light') format('svg');
+  /* SVG for legacy browsers */
+  font-weight: 300;
+  /* Adjust weight according to the file */
+  font-style: normal;
+  /* Update if italic or oblique */
+}
+
+@font-face {
+  font-family: 'Fira Code';
+  src: url('@/assets/fonts/FiraCode/FiraCode-VariableFont_wght.ttf') format('truetype-variations');
+  /* Variable font */
+  font-weight: 100 900;
+  /* Specify the range of weights available */
+  font-style: normal;
+  /* Update if italic or oblique */
 }
