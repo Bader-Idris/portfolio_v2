@@ -11,9 +11,10 @@ const exitApp = (mainWindow: BrowserWindow): void => {
   app.exit()
 }
 
-let tray = null
+let tray: Tray | null = null
+let mainWindow: BrowserWindow | null = null // Ensure mainWindow is accessible globally
 
-const createMainWindow = async (mainWindow: BrowserWindow): Promise<BrowserWindow> => {
+const createMainWindow = async (): Promise<BrowserWindow> => {
   mainWindow = new BrowserWindow({
     title: Constants.APP_NAME,
     show: false,
@@ -30,56 +31,69 @@ const createMainWindow = async (mainWindow: BrowserWindow): Promise<BrowserWindo
   const menu = Menu.buildFromTemplate(menuTemplate) // Set custom menu
   Menu.setApplicationMenu(menu)
 
-  // ! Define user tasks for the taskbar context menu
-  const userTasks: Electron.Task[] = [
-    {
-      program: process.execPath, // The path to the Electron executable
-      args: [], // Arguments passed to the executable
-      title: 'New Window', // Title of the task
-      description: 'Open a new window' // Description of the task
-      // To specify an icon for the task, uncomment and set the path:
-      // iconPath: 'path/to/icon.png'
-    }
+  // Define user tasks for the taskbar context menu
+  if (process.platform === 'win32') {
+    const userTasks: Electron.Task[] = [
+      {
+        program: process.execPath, // The path to the Electron executable
+        args: [], // Arguments passed to the executable
+        title: 'New Window', // Title of the task
+        description: 'Open a new window' // Description of the task
+      }
+    // }
     // {
     //   program: process.execPath,
     //   args: ['--recently-closed'],
     //   title: 'Recently Closed Windows',
     //   description: 'Reopen recently closed windows'
     // }
-  ]
+    // }
+    // {
+    //   program: process.execPath,
+    //   args: ['--recently-closed'],
+    //   title: 'Recently Closed Windows',
+    //   description: 'Reopen recently closed windows'
+    // }
+    ]
 
-  // Sets the user tasks for Windows and Linux platforms
-  app.setUserTasks(userTasks)
+    // Safely attempt to set user tasks
+    try {
+      app.setUserTasks(userTasks)
+    } catch (error) {
+      console.error('Error setting user tasks:', error)
+    }
+  }
 
   mainWindow.on('close', (event: Event): void => {
     event.preventDefault()
-    exitApp(mainWindow)
+    exitApp(mainWindow!)
   })
 
-  // open devTools in dev mode
+  // Open devTools in dev mode
   mainWindow.webContents.on('did-frame-finish-load', (): void => {
     if (Constants.IS_DEV_ENV) {
-      mainWindow.webContents.openDevTools()
+      mainWindow!.webContents.openDevTools()
     }
   })
 
   mainWindow.once('ready-to-show', (): void => {
     // mainWindow.setAlwaysOnTop(true)
-    mainWindow.show()
-    mainWindow.focus()
+    mainWindow!.show()
+    mainWindow!.focus()
 
     // Send the app name to the renderer process
     // mainWindow.webContents.send('app-info', { appName: Constants.APP_NAME })
   })
 
   // Initialize IPC Communication
-  IPCs.initialize() // TODO: check if disabling it crashes the app
+  IPCs.initialize()
 
   if (Constants.IS_DEV_ENV) {
     await mainWindow.loadURL(Constants.APP_INDEX_URL_DEV)
   } else {
     await mainWindow.loadFile(Constants.APP_INDEX_URL_PROD)
   }
+
   createTray()
   return mainWindow
 }
