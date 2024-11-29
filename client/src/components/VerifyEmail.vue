@@ -1,23 +1,32 @@
 <template>
-  <div v-if="verified" class="verify">
-    <p>your email's been verified</p>
-    <p>
-      <span>{{ seconds < 10 ? '0' + seconds : seconds }}</span> seconds to go to the main page
-    </p>
+  <div class="verify-comp">
+    <div v-if="verified" class="verify">
+      <p>your email's been verified</p>
+      <p>
+        <span>{{ seconds < 10 ? '0' + seconds : seconds }}</span> seconds to go to the main page
+      </p>
+    </div>
+    <div v-else class="warn">
+      <p>please check your email again</p>
+      <CustomButtons class="go-back" button-type="primary" aria-label="go to main page">
+        <AppLink to="/">
+          <span> or go back to main page </span>
+        </AppLink>
+      </CustomButtons>
+    </div>
   </div>
-  <div v-else class="warn">please check your email again</div>
 </template>
 
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
 import { toast } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
-import { useRoute } from 'vue-router'
-
 import type { RequestOptions } from '@/types/fetch'
+import { useRoute, useRouter } from 'vue-router'
 
 // Access route parameters
 const route = useRoute()
+const router = useRouter()
 const email = ref<string | null>((route.query.email as string) || null)
 const token = ref<string | null>((route.query.token as string) || null)
 
@@ -36,6 +45,10 @@ function remaining(): void {
     seconds.value--
     if (seconds.value === 0) {
       clearInterval(intervalId)
+      if (verified.value) {
+        // Redirect to the main page when countdown ends
+        router.push('/')
+      }
     }
   }, 1000)
 }
@@ -92,17 +105,33 @@ onMounted(() => {
 
 <style lang="scss">
 @use '~'as *;
-.warn,
-.verify {
-  margin: auto 50px;
-  background-color: #007acc;
-  color: white;
-  width: 50%;
-  padding: 30px;
-  transform: translate(50%, 50%);
-  position: relative;
-  left: 0;
-  top: 0;
-  border-radius: 4px;
+
+.verify-comp {
+  @include mainMiddleSettings;
+  .warn,
+  .verify {
+    background-color: #007acc;
+    color: white;
+    padding: 30px;
+    position: relative;
+    left: 0;
+    top: 0;
+    border-radius: 4px;
+    text-align: center;
+    @media screen and (min-width: 769px) {
+      margin: auto 50px;
+      width: 50%;
+      transform: translate(50%, 50%);
+    }
+    @media screen and (max-width: 768px) {
+      margin: 20px;
+    }
+  }
+  .warn {
+    @media screen and (max-width: 768px) {
+      // width: 100%;
+      // left: 0;
+    }
+  }
 }
 </style>
