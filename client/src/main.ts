@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+import { createHead } from '@vueuse/head'
 
 import App from '@/App.vue'
 import router, { isElectron } from '@/router'
@@ -59,6 +60,8 @@ async function initializeApp() {
     app.component('CustomButtons', CustomButtons) // set as a global component
     app.component('TheNavigation', TheNavigation)
 
+    const head = createHead()
+    app.use(head)
     app.use(router).use(createPinia())
 
     app.mount('#app').$nextTick(() => {
