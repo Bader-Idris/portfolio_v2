@@ -43,8 +43,9 @@ const routes: Array<RouteRecordRaw> = [
     path: '/',
     component: HomeView,
     meta: {
-      title: 'Home - My Website', // how to get the one in the index.html file for this and its description and what's title.main
-      description: 'Welcome to the homepage of My Website!'
+      title: 'Bader Idris - Full-Stack Developer Portfolio', // how to get the one in the index.html file for this and its description and what's title.main
+      description:
+        "Explore Bader Idris's portfolio showcasing skills in modern web development technologies, including Vue, Node.js, and more."
     }
   },
   {
@@ -52,7 +53,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'register',
     component: () => import('@/views/RegisterView.vue'),
     meta: {
-      title: 'Register - My Website',
+      title: 'Register Bader Idris - Full-Stack Developer Portfolio',
       description: 'Create an account on My Website.'
     }
   },
@@ -61,7 +62,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'login',
     component: () => import('@/views/LoginView.vue'),
     meta: {
-      title: "Login - Bader's Website",
+      title: 'Login Bader Idris - Full-Stack Developer Portfolio',
       description: 'Create an account on My Website.'
     }
   },
@@ -70,7 +71,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'about',
     component: () => import('@/views/AboutView.vue'),
     meta: {
-      title: "about - Bader's Website",
+      title: 'about Bader Idris - Full-Stack Developer Portfolio',
       description: 'about Bader Idris'
     }
   },
@@ -79,7 +80,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'projects',
     component: () => import('@/views/ProjectsView.vue'),
     meta: {
-      title: "projects - Bader's Website",
+      title: 'projects Bader Idris - Full-Stack Developer Portfolio',
       description: 'the projects that Bader Idris has worked on and built as a full stack developer'
     }
   },
@@ -88,7 +89,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'contact',
     component: () => import('@/views/ContactView.vue'),
     meta: {
-      title: "contact - Bader's Website",
+      title: 'contact Bader Idris - Full-Stack Developer Portfolio',
       description: 'contact Bader Idris'
     }
   },
@@ -97,7 +98,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'verifyEmail',
     component: () => import('@/components/VerifyEmail.vue'),
     meta: {
-      title: "verify email - Bader's Website",
+      title: 'verify email Bader Idris - Full-Stack Developer Portfolio',
       description: 'verify email sent by Bader Idris'
     },
     // Map route query parameters to props with TypeScript typing
@@ -112,7 +113,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'NotFound',
     component: () => import('@/views/NotFoundView.vue'),
     meta: {
-      title: '404 page',
+      title: '404 page Bader Idris - Full-Stack Developer Portfolio',
       description: 'this page does not exist'
     },
     redirect: isElectron() ? '/' : undefined
