@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory, createWebHashHistory, RouteRecordRaw } from 'vue-router'
+import { useHead } from '@vueuse/head'
 import HomeView from '@/views/HomeView.vue'
 import { App, URLOpenListenerEvent } from '@capacitor/app'
 // https://capacitorjs.com/docs/guides/deep-links#vue
@@ -40,41 +41,65 @@ export function isElectron(): boolean {
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    component: HomeView
-    // meta: {
-    //   titleKey: 'title.main'
-    // <|cursor|>
-    // }
+    component: HomeView,
+    meta: {
+      title: 'Home - My Website', // how to get the one in the index.html file for this and its description and what's title.main
+      description: 'Welcome to the homepage of My Website!'
+    }
   },
   {
     path: '/register',
     name: 'register',
-    component: () => import('@/views/RegisterView.vue')
+    component: () => import('@/views/RegisterView.vue'),
+    meta: {
+      title: 'Register - My Website',
+      description: 'Create an account on My Website.'
+    }
   },
   {
     path: '/login',
     name: 'login',
-    component: () => import('@/views/LoginView.vue')
+    component: () => import('@/views/LoginView.vue'),
+    meta: {
+      title: "Login - Bader's Website",
+      description: 'Create an account on My Website.'
+    }
   },
   {
     path: '/about',
     name: 'about',
-    component: () => import('@/views/AboutView.vue')
+    component: () => import('@/views/AboutView.vue'),
+    meta: {
+      title: "about - Bader's Website",
+      description: 'about Bader Idris'
+    }
   },
   {
     path: '/projects',
     name: 'projects',
-    component: () => import('@/views/ProjectsView.vue')
+    component: () => import('@/views/ProjectsView.vue'),
+    meta: {
+      title: "projects - Bader's Website",
+      description: 'the projects that Bader Idris has worked on and built as a full stack developer'
+    }
   },
   {
     path: '/contact',
     name: 'contact',
-    component: () => import('@/views/ContactView.vue')
+    component: () => import('@/views/ContactView.vue'),
+    meta: {
+      title: "contact - Bader's Website",
+      description: 'contact Bader Idris'
+    }
   },
   {
     path: '/user/verify-email',
     name: 'verifyEmail',
     component: () => import('@/components/VerifyEmail.vue'),
+    meta: {
+      title: "verify email - Bader's Website",
+      description: 'verify email sent by Bader Idris'
+    },
     // Map route query parameters to props with TypeScript typing
     props: (route) => ({
       token: route.query.token as string,
@@ -86,9 +111,35 @@ const routes: Array<RouteRecordRaw> = [
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: () => import('@/views/NotFoundView.vue'),
+    meta: {
+      title: '404 page',
+      description: 'this page does not exist'
+    },
     redirect: isElectron() ? '/' : undefined
   }
 ]
+
+// Use different history modes depending on the environment
+const router = createRouter({
+  history: isElectron() ? createWebHashHistory() : createWebHistory(),
+  routes
+})
+
+router.beforeEach((to, from, next) => {
+  const { title, description } = to.meta
+
+  useHead({
+    title: title as string,
+    meta: [
+      {
+        name: 'description',
+        content: description as string
+      }
+    ]
+  })
+
+  next()
+})
 
 // Add deep linking functionality
 App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
@@ -98,12 +149,6 @@ App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
       path: slug
     })
   }
-})
-
-// Use different history modes depending on the environment
-const router = createRouter({
-  history: isElectron() ? createWebHashHistory() : createWebHistory(),
-  routes
 })
 
 export default router
