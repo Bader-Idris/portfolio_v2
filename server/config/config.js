@@ -19,6 +19,6 @@ module.exports = {
   SENDGRID_API_KEY: process.env.SENDGRID_API_KEY,
   MAIL_USER: process.env.MAIL_USER,
   MAIL_PASS: process.env.MAIL_PASS,
-  ORIGIN_URL: process.env.MAIL_PASS || "localhost:3000",
+  ORIGIN_URL: process.env.ORIGIN_URL || "localhost:3000",
   CYPRESS_RECORD_KEY: process.env.CYPRESS_RECORD_KEY,
 };
