@@ -41,13 +41,11 @@ const postReceivedEmail = async (req, res) => {
   try {
     const newEmail = await Email.create({ name, email, message, ip });
 
-    
-
     // Send an email using SMTP
     const mailOptions = {
       from: email,
-      to: "www.bader.com9@gmail.com",
-      subject: "New Email from Website",
+      to: "Bader Idris <contact@baderidris.com>",
+      subject: "New Email from a client",
       text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
     };
 

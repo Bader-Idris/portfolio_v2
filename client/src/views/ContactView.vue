@@ -67,12 +67,16 @@
           v-model="message"
           rows="5"
           cols="33"
-          placeholder="I like your portfolio so much that I want you to create my web app!"
+          placeholder="Leave your comment here!"
           style="resize: vertical"
           required
         ></textarea>
-        <CustomButtons button-type="default" @click.prevent.stop="handleSubmit">
-          submit-message
+        <CustomButtons
+          button-type="default"
+          :disabled="isLoading"
+          @click.prevent.stop="handleSubmit"
+        >
+          {{ isLoading ? 'Sending...' : 'submit-message' }}
         </CustomButtons>
       </div>
 
@@ -116,6 +120,9 @@
           </div>
         </div>
       </div>
+      <CustomButtons v-if="authStore.user?.role === 'admin'" button-type="ghost">
+        <AppLink to="/contact/admin"> fetch-messages</AppLink>
+      </CustomButtons>
     </main>
   </div>
 </template>
@@ -126,10 +133,17 @@ import { Clipboard } from '@capacitor/clipboard'
 import FoldableTab from '@/components/FoldableTab.vue'
 import { toast } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
+import { useUserStore } from '@/stores/UserNameStore'
+
+const DOMAIN_NAME = 'https://baderidris.com' // ! global variables are franking ugly in vue, to hell with 'em
+
+const authStore = useUserStore()
 
 // State variables for toggling contact and socials
 const isContactHidden = ref<boolean>(false)
 const isSocialsHidden = ref<boolean>(false)
+const isLoading = ref<boolean>(false) // State for button loading
+let debounceTimeout: ReturnType<typeof setTimeout> | null = null // Debounce timer
 
 // Toggle functions with proper types
 const toggleContact = (): void => {
@@ -141,7 +155,7 @@ const toggleSocials = (): void => {
 }
 
 // Contact info and icon state
-const contInfo: string[] = ['www.bader.com9@gmail.com', '+970595744368']
+const contInfo: string[] = ['contact@baderidris.com', '+970595744368']
 const showIcon = ref<boolean[]>([false, false])
 
 // Form and messaging state
@@ -169,58 +183,63 @@ const copyToClipboard = async (index: number): Promise<void> => {
 
 // Handle form submission with types and validation
 const handleSubmit = async (): Promise<void> => {
-  const url = `${import.meta.env.BASE_URL}/api/v1/received_emails`
-  if (validateForm()) {
-    try {
-      const response = await fetch(url, {
-        method: 'POST',
-        // TODO: it's better to include a bearer auth or something like that
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          name: name.value,
-          email: email.value,
-          message: message.value
-        })
-      })
+  if (isLoading.value) return // Prevent duplicate requests
 
-      if (!response.ok) {
-        if (response.status === 400) {
-          const errorData = await response.json()
-          toast(errorData.error, {
-            theme: 'dark',
-            type: 'error',
-            position: 'top-center',
-            dangerouslyHTMLString: true
+  // Add debounce to prevent spam clicks
+  if (debounceTimeout) clearTimeout(debounceTimeout)
+  debounceTimeout = setTimeout(async () => {
+    const url = `${DOMAIN_NAME}/api/v1/received_emails`
+    if (validateForm()) {
+      isLoading.value = true // Start loading state
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+            // 'X-Client-Type': 'mobile' // for capacitorJs, check it all
+          },
+          body: JSON.stringify({
+            name: name.value,
+            email: email.value,
+            message: message.value
           })
+        })
+
+        if (!response.ok) {
+          if (response.status === 400) {
+            const errorData = await response.json()
+            toast(errorData.error, {
+              theme: 'dark',
+              type: 'error',
+              position: 'top-center'
+            })
+          } else {
+            toast('An error occurred while sending the email.', {
+              theme: 'dark',
+              type: 'error',
+              position: 'top-center'
+            })
+          }
         } else {
-          toast('An error occurred while sending the email.', {
-            theme: 'dark',
-            type: 'error',
-            position: 'top-center',
-            dangerouslyHTMLString: true
+          isSubmitted.value = true
+          toast('Email sent successfully!', {
+            theme: 'auto',
+            type: 'success',
+            position: 'top-center'
           })
         }
-      } else {
-        isSubmitted.value = true
-        toast('Email sent successfully!', {
-          theme: 'auto',
-          type: 'success',
-          position: 'top-center',
-          dangerouslyHTMLString: true
+      } catch (error) {
+        console.error(error)
+        toast('Network error. Please try again.', {
+          theme: 'dark',
+          type: 'error',
+          position: 'top-center'
         })
+      } finally {
+        isLoading.value = false // Reset loading state
       }
-    } catch (error) {
-      console.error(error)
-      toast('An error occurred while sending the email.', {
-        theme: 'dark',
-        type: 'error',
-        position: 'top-center',
-        dangerouslyHTMLString: true
-      })
     }
-  }
+  }, 300) // 300ms debounce
 }
 
 // Reset form data securely

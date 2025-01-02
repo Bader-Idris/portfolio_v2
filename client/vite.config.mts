@@ -156,18 +156,17 @@ export default defineConfig(({ mode }) => {
     define: {
       __VUE_I18N_FULL_INSTALL__: true,
       __VUE_I18N_LEGACY_API__: false,
-      __INTLIFY_PROD_DEVTOOLS__: false,
+      __INTLIFY_PROD_DEVTOOLS__: false
 
-      // BASE_URL: JSON.stringify(isDevEnv ? 'localhost:5173' : 'https://baderidris.com')
-      'import.meta.env.BASE_URL': JSON.stringify(
-        isDevEnv ? '' : 'https://baderidris.com' // HSTS header layer requires https only! to function!
-      )
+      // TODO: how to change the log of electron when nginx reads, to portfolio
+      // TODO: how to save backups of my volumes, the whole db volumes!
 
-      /*
-      define: {
-
-    },
-      */
+      // TODO: what's the best text to ascii npm to use with options, especially as ascii-generator.site block option to use 'welcome'
+      // TODO: spline vs rive
+      // TODO: What's tippy.js https://www.npmjs.com/package/tippy.js
+      // TODO: register page should fix the $route when creating a new account, and for existing accounts, to redirect them to protected path as in login page
+      // TODO: when clients are not verified using their emails, the error occurs also in login, and localStorage doesn't save their data well!
+      // TODO: email verification requires some modifications, it sends the msg, but does not activate it, I thought its key's disabled
     },
     resolve: {
       extensions: ['.mjs', '.js', '.ts', '.vue', '.json', '.scss'],
@@ -176,7 +175,9 @@ export default defineConfig(({ mode }) => {
         '~': resolve(dirname(fileURLToPath(import.meta.url)), './src/assets/scss')
       }
     },
-    base: './',
+    // base: isElectron() === false ? '/' : './',
+    base: '/',
+    // base: './', // ! it works like this for built electron, but not nginx subPaths! as user/verify-email, and not with electron dev
     root: resolve('./src'),
     publicDir: resolve('./src/public'),
     clearScreen: false,

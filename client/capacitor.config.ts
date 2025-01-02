@@ -6,11 +6,12 @@ const config: CapacitorConfig = {
   appId: 'com.baderidris.portfolio',
   appName: 'Portfolio',
   webDir: 'dist',
-  server: {
-    hostname: 'localhost', // Default hostname
-    androidScheme: 'baderApp', // customscheme, make sure to allow it in nginx configs
-    iosScheme: 'baderApp'
-  },
+  // server: {
+  //   hostname: 'localhost', // Default hostname used by Capacitor
+  //   androidScheme: 'https', // Ensures HTTPS for Android WebView
+  //   iosScheme: 'capacitor', // Ensures iOS uses 'capacitor' scheme
+  //   cleartext: true // Allows HTTP (non-secure) communication in dev mode. Disable in production!
+  // },
   plugins: {
     LocalNotifications: {
       // https://capacitorjs.com/docs/apis/local-notifications
@@ -42,7 +43,7 @@ const config: CapacitorConfig = {
 
         launchautohide: true,
         launchshowduration: 0,
-        ! outside splashScreen, create
+        ! outside splashScreen, and outside plugins, create
         cordova: {
           preferences: {
           TODO: good set of cordova into cap is: ionicframework.com/docs/native/lottie-splash-screen
@@ -158,11 +159,12 @@ const config: CapacitorConfig = {
     // can get progress info and vibration patterns
     // https://capacitorjs.com/docs/apis/haptics
     // },
-    // CapacitorHttp: {
-    //   // to handle http on mobiles
-    //   // https://capacitorjs.com/docs/apis/http
-    //   enabled: true // defaults to false
-    // },
+    CapacitorHttp: {
+      // ! very important, post method gets converted to options of not set
+      // to handle http on mobiles
+      // https://capacitorjs.com/docs/apis/http
+      enabled: true // defaults to false
+    },
     // InAppBrowser: {
     // useful with payment gateways or terms and conditions
     // appears more powerful than browser plugin

@@ -185,7 +185,7 @@ const hobbiesObj = ref<Hobby[]>([
 ])
 
 // Define contact info array of strings
-const contInfo: string[] = ['www.bader.com9@gmail.com', '+970595744368']
+const contInfo: string[] = ['contact@baderidris.com', '+970595744368']
 const showIcon = ref<boolean[]>([false, false])
 
 const toggleHobbies = (): void => {

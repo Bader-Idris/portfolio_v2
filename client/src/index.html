@@ -4,11 +4,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="color-scheme" content="light dark" />
+  <link rel="icon" href="/favicon.ico">
   <link rel="shortcut icon" type="image/svg+xml" href="./assets/logo.svg" />
   <meta http-equiv="Content-Security-Policy"
   content="
     default-src 'self' https: ws: wss: blob: data: 'unsafe-inline';
-    img-src 'self' https://raw.githubusercontent.com data:;
+    img-src 'self' https://*.githubusercontent.com data:;
     connect-src 'self' https://baderidris.com ws: wss:;">
   <meta name="viewport"
     content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
@@ -16,7 +17,7 @@
   <meta name="msapplication-tap-highlight" content="no" />
   <meta name="description"
     content="Bader Idris: Building the Web with Modern Tools. I am a passionate full-stack developer dedicated to creating dynamic and user-friendly web experiences. Explore my portfolio showcasing skills in Vue 3, Vue Composition API, Pinia, Vue Router 4, HTML, SCSS, Node.js, Express.js, MongoDB, PostgreSQL, TypeScript, Redis, electron, capacitor and JavaScript." />
-  <title>Portfolio</title>
+  <title>Bader Idris - Full-Stack Developer Portfolio</title>
 
   <!-- Add to homescreen for iOS -->
   <meta name="mobile-web-app-capable" content="yes" />
@@ -31,10 +32,13 @@
   <meta property="og:url" content="https://baderidris.com/" />
   <meta property="og:site_name" content="Bader Idris Portfolio" />
   <meta property="og:image"
-    content="./assets/imgs/thumbnail.jpg" />
+    content="/thumbnail.jpg" />
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Bader Idris Portfolio" />
+
+  <!-- Twitter Card Meta Tags -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title"
     content="Bader Idris - Full-Stack Developer Portfolio" />
@@ -42,8 +46,6 @@
     content="Explore Bader Idris's portfolio showcasing skills in modern web development technologies, including Vue, Node.js, and more." />
   <meta name="twitter:image"
     content="./assets/imgs/thumbnail.jpg" />
-  <meta name="twitter:image:width" content="1200">
-  <meta name="twitter:image:height" content="630">
   <meta name="twitter:site" content="@badr_idris_" />
 
   <!-- JSON-LD for SEO, I think it's useless -->

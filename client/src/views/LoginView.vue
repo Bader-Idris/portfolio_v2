@@ -49,11 +49,13 @@ const route = useRoute()
 // UserStore instance
 const userStore = useUserStore()
 
+const DOMAIN_NAME = 'https://baderidris.com'
+
 // Function to handle login with type safety
 const login = async (): Promise<void> => {
   loading.value = true
 
-  const url = '/api/v1/auth/login'
+  const url = `${DOMAIN_NAME}/api/v1/auth/login`
   const data = {
     email: email.value,
     password: password.value
@@ -72,9 +74,15 @@ const login = async (): Promise<void> => {
     const response = await fetch(url, requestOptions)
 
     if (!response.ok) {
-      const redirectPath = (route.query.redirect as string) || '/failed'
-      router.push(redirectPath)
-      throw new Error('Login failed')
+      // const redirectPath = (route.query.redirect as string) || '/failed'
+      // router.push(redirectPath)
+      // throw new Error('Login failed')
+      toast('Login failed', {
+        theme: 'auto',
+        type: 'error',
+        position: 'top-center',
+        dangerouslyHTMLString: true
+      })
     }
 
     const result = await response.json()
@@ -120,7 +128,7 @@ const login = async (): Promise<void> => {
 <style lang="scss">
 @use '~'as *;
 .login {
-  // @include inTheMiddle;
+  @include mainMiddleSettings;
   .form {
     width: 384px;
     height: 520px;

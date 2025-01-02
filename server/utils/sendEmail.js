@@ -8,9 +8,9 @@ const sendEmail = async ({ to, subject, html }) => {
   const transporter = nodemailer.createTransport(nodemailerConfig);
 
   return transporter.sendMail({
-    from: '"Bader Idrees" <www.bader.com9@gmail.com>',
+    from: "Bader Idris <contact@baderidris.com>",
     //it's same as => from: {name:"", email: ""}
-    replyTo: "www.bader.com9@gmail.com",
+    replyTo: "Bader Idris <contact@baderidris.com>",
     to,
     subject,
     html,

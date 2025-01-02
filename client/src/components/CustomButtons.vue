@@ -6,8 +6,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue'
-
 const props = defineProps<{
   buttonType?: 'primary' | 'default' | 'ghost' // Define allowed types
 }>()

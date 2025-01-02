@@ -32,14 +32,6 @@
     "tags": ["html", "css", "js"]
   },
   {
-    "title": "Testing a website with Lorem ipsum dolor sit amet consectetur",
-    "url": "https://elzero.org",
-    "img": "",
-    "imgAlt": "",
-    "desc": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptates odit ipsam laborum officiis",
-    "tags": ["html", "css", "js"]
-  },
-  {
     "title": "designing agency web app",
     "url": "https://beautiful-web-application.netlify.app/",
     "img": "https://raw.githubusercontent.com/Bader-Idris/guru-agency-duplication-site/refs/heads/bader/brave_703HxjzGmt.png",
@@ -52,7 +44,7 @@
     "url": "https://elzero.org",
     "img": "",
     "imgAlt": "",
-    "desc": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptates odit ipsam laborum officiis minus in ",
+    "desc": "under development",
     "tags": ["Vue", "typescript", "js"]
   }
 ]

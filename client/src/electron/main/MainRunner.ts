@@ -40,20 +40,20 @@ const createMainWindow = async (): Promise<BrowserWindow> => {
         title: 'New Window', // Title of the task
         description: 'Open a new window' // Description of the task
       }
-    // }
-    // {
-    //   program: process.execPath,
-    //   args: ['--recently-closed'],
-    //   title: 'Recently Closed Windows',
-    //   description: 'Reopen recently closed windows'
-    // }
-    // }
-    // {
-    //   program: process.execPath,
-    //   args: ['--recently-closed'],
-    //   title: 'Recently Closed Windows',
-    //   description: 'Reopen recently closed windows'
-    // }
+      // }
+      // {
+      //   program: process.execPath,
+      //   args: ['--recently-closed'],
+      //   title: 'Recently Closed Windows',
+      //   description: 'Reopen recently closed windows'
+      // }
+      // }
+      // {
+      //   program: process.execPath,
+      //   args: ['--recently-closed'],
+      //   title: 'Recently Closed Windows',
+      //   description: 'Reopen recently closed windows'
+      // }
     ]
 
     // Safely attempt to set user tasks

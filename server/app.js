@@ -83,8 +83,9 @@ app.use(
 );
 
 app.use(
-  cors({// you can add custom naming of cap app in its config, as origin
-    origin: ["https://baderidris.com", "baderApp://localhost"], //  "http://localhost" for dev
+  cors({
+    // you can add custom naming of cap app in its config, as origin
+    origin: ["https://baderidris.com"], //  "http://localhost" for dev
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"], // Include common headers
     credentials: true, // Allow cookies and credentials

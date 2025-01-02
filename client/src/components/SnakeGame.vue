@@ -26,7 +26,6 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
-import CustomButtons from '@/components/CustomButtons.vue'
 import { Haptics, ImpactStyle } from '@capacitor/haptics'
 import { LocalNotifications } from '@capacitor/local-notifications'
 import { Capacitor } from '@capacitor/core'
@@ -137,8 +136,9 @@ async function showNotification(message: string) {
             sound: '',
             smallIcon: '../../assets/icon-only.png', // should be in res/drawable, so this wouldn't work
             // attachments: null,
+            silent: false,
             actionTypeId: '',
-            extra: null
+            extra: null // for custom data
           }
         ]
       })
