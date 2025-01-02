@@ -5,6 +5,8 @@ import { App, URLOpenListenerEvent } from '@capacitor/app'
 // https://capacitorjs.com/docs/guides/deep-links#vue
 // it requires modifying some configs on both ios and android
 
+import { useUserStore } from '@/stores/UserNameStore'
+
 // Function to check if running in Electron
 export function isElectron(): boolean {
   // Renderer process
@@ -45,7 +47,12 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       title: 'Bader Idris - Full-Stack Developer Portfolio', // how to get the one in the index.html file for this and its description and what's title.main
       description:
-        "Explore Bader Idris's portfolio showcasing skills in modern web development technologies, including Vue, Node.js, and more."
+        "Explore Bader Idris's portfolio showcasing skills in modern web development technologies, including Vue, Node.js, and more.",
+      contentSecurityPolicy: `
+        default-src 'self' https: ws: wss: blob: data: 'unsafe-inline';
+        img-src 'self' https://raw.githubusercontent.com data:;
+        connect-src 'self' https://baderidris.com ws: wss:;
+      `
     }
   },
   {
@@ -71,8 +78,9 @@ const routes: Array<RouteRecordRaw> = [
     name: 'about',
     component: () => import('@/views/AboutView.vue'),
     meta: {
-      title: 'about Bader Idris - Full-Stack Developer Portfolio',
-      description: 'about Bader Idris'
+      title: 'Bader Idris - Full-Stack Developer & Innovative Tech Creator',
+      description:
+        "Discover Bader Idris, a versatile full-stack developer excelling in web development, backend systems, DevOps, and cross-platform applications. With expertise in Vue.js, Node.js, Docker, and more, let's transform ideas into impactful solutions."
     }
   },
   {
@@ -80,8 +88,9 @@ const routes: Array<RouteRecordRaw> = [
     name: 'projects',
     component: () => import('@/views/ProjectsView.vue'),
     meta: {
-      title: 'projects Bader Idris - Full-Stack Developer Portfolio',
-      description: 'the projects that Bader Idris has worked on and built as a full stack developer'
+      title: 'Bader Idris Projects - Innovative Full-Stack Developer Portfolio',
+      description:
+        'Explore projects by Bader Idris, showcasing expertise in responsive web design, e-commerce, multi-step forms, todo apps, and stunning agency web apps. Powered by Vue.js, TypeScript, Node.js, and more.'
     }
   },
   {
@@ -89,9 +98,18 @@ const routes: Array<RouteRecordRaw> = [
     name: 'contact',
     component: () => import('@/views/ContactView.vue'),
     meta: {
-      title: 'contact Bader Idris - Full-Stack Developer Portfolio',
-      description: 'contact Bader Idris'
-    }
+      title: 'Get in Touch with Bader Idris - Full-Stack Developer & Tech Innovator',
+      description:
+        "Reach out to Bader Idris for collaboration, queries, or opportunities. Available via email, LinkedIn, GitHub, and more. Let's build something amazing together!"
+    },
+    children: [
+      {
+        path: 'admin',
+        name: 'contact-admin',
+        component: () => import('@/components/ContactAdmin.vue'),
+        meta: { requiresAdmin: true }
+      }
+    ]
   },
   {
     path: '/user/verify-email',
@@ -122,7 +140,7 @@ const routes: Array<RouteRecordRaw> = [
 
 // Use different history modes depending on the environment
 const router = createRouter({
-  history: isElectron() ? createWebHashHistory() : createWebHistory(),
+  history: isElectron() ? createWebHashHistory() : createWebHistory(import.meta.env.BASE_URL),
   routes
 })
 
@@ -137,7 +155,18 @@ router.beforeEach((to, from, next) => {
         content: description as string
       }
     ]
+    // put this underneath imports // const language = ref('en'); // Default language (can be replaced with Pinia)
+    // ,htmlAttrs: {
+    //   lang: language.value
+    // }
   })
+
+  const authStore = useUserStore()
+
+  if (to.meta.requiresAdmin && authStore.user?.role !== 'admin') {
+    return next('/login') // Redirect non-admin users to login
+  }
+  // redirect them after they log in to the link they were trying to go to
 
   next()
 })
