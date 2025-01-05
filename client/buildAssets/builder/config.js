@@ -5,22 +5,36 @@ const path = require('path')
 const dotenv = require('dotenv')
 const packageJson = require('../../package.json')
 
-// console.log('Loading .env from:', path.resolve(__dirname, './envs/.env'))
 dotenv.config({
   path: path.resolve(__dirname, './envs/.env'),
   debug: true
 })
 
 // Get formatted current date
-function getLocalTimestamp() {
+function getLocalTimestamp() { // TODO: needs to get invoked properly on the output name of final products
   const date = new Date()
   const year = date.getFullYear()
   const month = String(date.getMonth() + 1).padStart(2, '0') // Month is zero-based
   const day = String(date.getDate()).padStart(2, '0')
   const hours = String(date.getHours()).padStart(2, '0')
   const minutes = String(date.getMinutes()).padStart(2, '0')
-  return `${year}${month}${day}_${hours}${minutes}`
+  const seconds = String(date.getSeconds()).padStart(2, '0')
+  return `${year}${month}${day}_${hours}_${minutes}_${seconds}`
 }
+
+const windowsTargets = [
+  { target: 'appx', arch: 'x64' },
+  { target: 'zip', arch: 'x64' },
+  { target: 'portable', arch: 'x64' },
+  { target: 'nsis', arch: 'x64' }
+]
+
+const linuxTargets = [
+  { target: 'snap', arch: 'x64' },
+  { target: 'deb', arch: 'x64' },
+  { target: 'rpm', arch: 'x64' },
+  { target: 'AppImage', arch: 'x64' }
+]
 
 const baseConfig = {
   /*
@@ -40,7 +54,7 @@ const baseConfig = {
   asar: true,
   // extends: null,
   compression: 'maximum',
-  artifactName: `${packageJson.name}_${packageJson.version}_${getLocalTimestamp()}_${process.arch}.exe`,
+  artifactName: '${productName}_${version}_${getLocalTimestamp()}_${platform}_${arch}.${ext}', // ! can't read them with template strings!
   directories: {
     output: './release/${version}'
   },
@@ -84,53 +98,38 @@ const baseConfig = {
     //   certificateFile: process.env.WIN_CSC_LINK || 'buildAssets/builder/envs/Cert.pfx',
     //   certificatePassword: process.env.WIN_CSC_KEY_PASSWORD || null,
 
-    publisherName: 'Bader-Idris',
+    // publisherName: 'Bader-Idris',
     // },
-    target: [
-      { target: 'appx', arch: 'x64' },
-      { target: 'zip', arch: 'x64' },
-      { target: 'portable', arch: 'x64' },
-      { target: 'nsis', arch: 'x64' }
-    ]
-  },
-  portable: {
-    artifactName: '${productName}_${version}_${arch}_Portable.${ext}'
-  },
-  nsis: {
-    oneClick: true
-    /*
-    oneClick: false,
-    perMachine: false,
-    allowToChangeInstallationDirectory: true,
-    deleteAppDataOnUninstall: false
-
-    "runAfterFinish": true,
-    "menuCategory": true,
-    "uninstallDisplayName": "${productName}",
-    */
+    target: windowsTargets
   },
   linux: {
     executableName: packageJson.name.toLowerCase(),
     icon: 'buildAssets/resources',
     category: 'Utility',
-    target: [
-      { target: 'snap', arch: 'x64' },
-      { target: 'deb', arch: 'x64' },
-      { target: 'rpm', arch: 'x64' }
-      /*
-        "tar.bz2",
-      "AppImage",
-      "deb",
-      "freebsd",
-      "pacman",
-      "rpm",
-      "snap"
-      */
+    target: linuxTargets
+    // TODO: add the icon to deb version, it doesn't appear when trying to install
+    // and verify your ownership with it; because it says: potentially unsafe, packageJson.homepage is good, it appears the webapp
+    // TODO: fix snap distribution, it has a bug when trying to setup: failed to install file not supported
+  },
+  deb: {
+    depends: [ // Great, this fixed the running issue
+      'gconf2',
+      'gconf-service',
+      'libgtk-3-0',
+      'libnotify4',
+      'libnss3',
+      'libxss1',
+      'xdg-utils',
+      'libatspi2.0-0', // Accessibility support
+      'libappindicator3-1', // For app indicator support
+      'libxtst6' // X11 Testing support
     ]
-    // synopsis: 'Mod Manager',
-    // description: 'The elegant, powerful, and open-source mod manager from Nexus Mods.',
-    // maintainer: 'Black Tree Gaming Ltd. <support@nexusmods.com> (https://www.nexusmods.com/)',
-    // mimeTypes: ['x-scheme-handler/nxm'],
+  },
+  snap:{
+    grade: 'stable',
+    confinement: 'strict',
+    summary: "Bader's portfolio using Vite + Vue 3 + Electron + Capacitor",
+    description: "A multi-platform portfolio application built with Vite, Vue 3, Electron, and Capacitor for mobile. Visit [Bader's Portfolio](https://baderidris.com) for more information.",
   },
   files: [
     'dist/**/*',
@@ -146,21 +145,8 @@ const baseConfig = {
 }
 baseConfig.copyright = `ⓒ ${new Date().getFullYear()} ${packageJson.author}`
 
-// baseConfig.copyright = `ⓒ ${new Date().getFullYear()} $\{author}`
-// baseConfig.files = [
-//   /* should/shouldn't be included in electron's build */
-//   'dist/**/*',
-//   '!dist/main/index.dev.js',
-//   '!docs/**/*',
-//   '!tests/**/*',
-//   '!release/**/*',
-//   '!node_modules/**/*'
-// ]
-
 // TODO: check this useful notifier repo: https://github.com/mikaelbr/node-notifier
-
-// TODO: check these for electron inspiration:
-/*
+/* TODO: check these for electron inspiration:
   https://github.com/Nexus-Mods/Vortex
   https://github.com/Nexus-Mods/Vortex/blob/master/download-codesigntool.ps1
 

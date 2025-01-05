@@ -158,7 +158,7 @@ export default defineConfig(({ mode }) => {
       __VUE_I18N_LEGACY_API__: false,
       __INTLIFY_PROD_DEVTOOLS__: false
 
-      // TODO: how to change the log of electron when nginx reads, to portfolio
+      // TODO: specify app's name in the http header to portfolio mobile, or something
       // TODO: how to save backups of my volumes, the whole db volumes!
 
       // TODO: what's the best text to ascii npm to use with options, especially as ascii-generator.site block option to use 'welcome'
@@ -166,7 +166,6 @@ export default defineConfig(({ mode }) => {
       // TODO: What's tippy.js https://www.npmjs.com/package/tippy.js
       // TODO: register page should fix the $route when creating a new account, and for existing accounts, to redirect them to protected path as in login page
       // TODO: when clients are not verified using their emails, the error occurs also in login, and localStorage doesn't save their data well!
-      // TODO: email verification requires some modifications, it sends the msg, but does not activate it, I thought its key's disabled
     },
     resolve: {
       extensions: ['.mjs', '.js', '.ts', '.vue', '.json', '.scss'],

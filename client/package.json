@@ -4,7 +4,7 @@
   "description": "Bader's portfolio using Vite + Vue 3 + Electron + capacitor in front end",
   "homepage": "https://baderidris.com",
   "author": "Bader Idris <contact@baderidris.com>",
-  "version": "0.8.6",
+  "version": "0.9.0",
   "private": true,
   "main": "dist/main/index.js",
   "scripts": {
@@ -124,7 +124,7 @@
     "postcss-preset-env": "^10.1.3",
     "postcss-pxtorem": "^6.1.0",
     "prettier": "^3.4.2",
-    "sass": "^1.83.0",
+    "sass": "^1.83.1",
     "terser": "^5.37.0",
     "typescript": "^5.7.2",
     "unplugin-vue-router": "^0.10.9",
