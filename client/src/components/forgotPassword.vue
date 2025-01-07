@@ -2,9 +2,8 @@
   <div class="reset-password-form">
     <form @submit.prevent="forgotPassword">
       <h2>add your email to reset the password</h2>
-        <label for="email">Email</label>
-        <input v-model="email" name="email" type="text" class="input"
-          aria-labelledby="email" />
+      <label for="email">Email</label>
+      <input v-model="email" name="email" type="text" class="input" aria-labelledby="email" />
       <CustomButtons button-type="primary" aria-label="Reset Password">
         <span>send email</span>
       </CustomButtons>
@@ -47,7 +46,7 @@ async function forgotPassword(): Promise<void> {
 
   // Prepare request body
   const raw = JSON.stringify({
-    email: email.value,
+    email: email.value
   })
 
   const requestOptions: RequestOptions = {
@@ -60,7 +59,8 @@ async function forgotPassword(): Promise<void> {
   // Send request to reset password
   try {
     const response = await fetch(`${DOMAIN_NAME}/api/v1/auth/forgot-password`, requestOptions)
-    if (response.ok) {  // Use response.ok for better readability
+    if (response.ok) {
+      // Use response.ok for better readability
       toast('email sent successfully', {
         theme: 'dark',
         type: 'success',
@@ -87,27 +87,27 @@ async function forgotPassword(): Promise<void> {
 </script>
 
 <style lang="scss">
-@use '~' as *;
+@use '~'as *;
 
 .reset-password-form {
   @include mainMiddleSettings;
-@media (max-width: 768px) {
+  @media (max-width: 768px) {
     @include phone-borders;
   }
-  >form {
+  > form {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-        margin: 20px auto;
-        max-width: 600px;
+    margin: 20px auto;
+    max-width: 600px;
 
-    >* {
+    > * {
       margin: 10px;
       padding: 10px;
     }
     > label {
-          margin-right: 37%;
+      margin-right: 37%;
     }
   }
 

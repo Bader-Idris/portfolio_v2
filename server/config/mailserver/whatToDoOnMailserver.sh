@@ -1,5 +1,14 @@
 #!/bin/sh
 
+<<COMMENT
+# DNS records:
+
+you have to add records
+type=MX, hostname=baderidris.com, value=mail.baderidris.com
+type=A, hostname=mail.baderidris.com, value=<server-IP>
+type=TXT, hostname=baderidris.com, value=v=spf1 mx a -all   # TODO: this is related to DKIM underneath
+COMMENT
+
 # in hosting server
 mkdir -p ./server/mailserver/mail-data
 mkdir -p ./server/mailserver/mail-state
@@ -36,7 +45,6 @@ docker exec -it mail setup alias add admin@baderidris.com contact@baderidris.com
 # we could config virtual aliases using: postmap -q alias1@example.com /etc/postfix/virtual # that's the default path to it
 # will be at: docker-data/dms/config/postfix-virtual.cf
 
-
 # Configure DKIM, SPF, and DMARC
 # you can create dkim config using:
 docker exec -it mail setup config dkim domain 'baderidris.com'
@@ -49,20 +57,15 @@ docker exec -it mail setup config dkim domain 'baderidris.com'
 # ! then test using:
 dig +short TXT mail._domainkey.baderidris.com
 
-# add this common DMARC record:
+# add this common DMARC record type=TXT, hostname=_dmarc.baderidris.com, value= underneath
 v=DMARC1; p=none; sp=none; fo=0; adkim=r; aspf=r; pct=100; rf=afrf; ri=86400; rua=mailto:dmarc.report@baderidris.com; ruf=mailto:dmarc.report@baderidris.com
 # check them out here: https://github.com/internetstandards/toolbox-wiki/blob/main/DMARC-how-to.md#overview-of-dmarc-configuration-tags
-
 
 # optionals
 # it defaults to be enabled in mailserver.env
 docker exec -it mail setup quota set contact@baderidris.com 15G  # limiting the space to 10GB for this user
 
-
-
-
-
-<<<COMMENT
+<<COMMENT
 
 Given your background as a full-stack developer and your interest in mastering email server management with various tools, here’s a curated list of books and resources that cover the topics you mentioned:
 
@@ -140,5 +143,4 @@ Given your background as a full-stack developer and your interest in mastering e
 ### Conclusion
 These books and resources will provide you with a solid understanding of the various components involved in managing an email server using Docker Mailserver and the tools you've mentioned. Given your background in full-stack development, you should find these resources helpful in mastering these topics. Happy learning!
 
-
-<<<COMMENT
+COMMENT

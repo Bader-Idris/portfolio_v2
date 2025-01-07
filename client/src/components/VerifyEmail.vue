@@ -110,8 +110,8 @@ onMounted(() => {
 .verify-comp {
   @include mainMiddleSettings;
   @media (max-width: 768px) {
-      @include phone-borders;
-    }
+    @include phone-borders;
+  }
   .warn,
   .verify {
     background-color: #007acc;

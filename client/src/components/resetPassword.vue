@@ -2,10 +2,13 @@
   <div class="reset-password-form">
     <form @submit.prevent="resetPassword">
       <h2>Reset Your Password</h2>
-      <input v-model="newPassword" type="password"
-        placeholder="Enter new password" required />
-      <input v-model="confirmPassword" type="password"
-        placeholder="Confirm new password" required />
+      <input v-model="newPassword" type="password" placeholder="Enter new password" required />
+      <input
+        v-model="confirmPassword"
+        type="password"
+        placeholder="Confirm new password"
+        required
+      />
       <CustomButtons button-type="primary" aria-label="Reset Password">
         <span>Reset Password</span>
       </CustomButtons>
@@ -90,7 +93,8 @@ async function resetPassword(): Promise<void> {
   // Send request to reset password
   try {
     const response = await fetch(`${DOMAIN_NAME}/api/v1/auth/reset-password`, requestOptions)
-    if (response.ok) {  // Use response.ok for better readability
+    if (response.ok) {
+      // Use response.ok for better readability
       toast('Password reset successfully', {
         theme: 'dark',
         type: 'success',
@@ -117,21 +121,21 @@ async function resetPassword(): Promise<void> {
 </script>
 
 <style lang="scss">
-@use '~' as *;
+@use '~'as *;
 
 .reset-password-form {
   @include mainMiddleSettings;
-@media (max-width: 768px) {
+  @media (max-width: 768px) {
     @include phone-borders;
   }
-  >form {
+  > form {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     margin-top: 20px;
 
-    >* {
+    > * {
       margin: 10px;
       padding: 10px;
     }

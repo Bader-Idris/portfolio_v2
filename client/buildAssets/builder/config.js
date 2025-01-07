@@ -11,7 +11,8 @@ dotenv.config({
 })
 
 // Get formatted current date
-function getLocalTimestamp() { // TODO: needs to get invoked properly on the output name of final products
+function getLocalTimestamp() {
+  // TODO: needs to get invoked properly on the output name of final products
   const date = new Date()
   const year = date.getFullYear()
   const month = String(date.getMonth() + 1).padStart(2, '0') // Month is zero-based
@@ -112,7 +113,8 @@ const baseConfig = {
     // TODO: fix snap distribution, it has a bug when trying to setup: failed to install file not supported
   },
   deb: {
-    depends: [ // Great, this fixed the running issue
+    depends: [
+      // Great, this fixed the running issue
       'gconf2',
       'gconf-service',
       'libgtk-3-0',
@@ -125,11 +127,12 @@ const baseConfig = {
       'libxtst6' // X11 Testing support
     ]
   },
-  snap:{
+  snap: {
     grade: 'stable',
     confinement: 'strict',
     summary: "Bader's portfolio using Vite + Vue 3 + Electron + Capacitor",
-    description: "A multi-platform portfolio application built with Vite, Vue 3, Electron, and Capacitor for mobile. Visit [Bader's Portfolio](https://baderidris.com) for more information.",
+    description:
+      "A multi-platform portfolio application built with Vite, Vue 3, Electron, and Capacitor for mobile. Visit [Bader's Portfolio](https://baderidris.com) for more information."
   },
   files: [
     'dist/**/*',

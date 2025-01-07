@@ -139,8 +139,8 @@ const register = async function (): Promise<void> {
 .register {
   @include mainMiddleSettings;
   @media (max-width: 768px) {
-      @include phone-borders;
-    }
+    @include phone-borders;
+  }
   .form {
     display: flex;
     flex-direction: column;
