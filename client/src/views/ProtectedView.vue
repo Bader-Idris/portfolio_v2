@@ -1,5 +1,5 @@
-<!-- <template>
-  <div>
+<template>
+  <div class="protected">
     <h1>Greetings, {{username}}</h1>
     <button @click="logout">Logout</button>
     <router-link :to="{name: 'invoices'}">
@@ -21,4 +21,19 @@ export default {
     }
   }
 }
-</script> -->
+</script>
+
+<style lang="scss">
+@use '~' as *;
+.protected {
+  display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    @include mainMiddleSettings;
+
+    @media (max-width: 768px) {
+      @include phone-borders;
+    }
+}
+</style>

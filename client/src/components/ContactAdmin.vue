@@ -19,6 +19,8 @@ import { useUserStore } from '@/stores/UserNameStore'
 import { toast } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
 
+const DOMAIN_NAME = 'https://baderidris.com'
+
 // Define the type for an email, TODO: move to types dir later
 interface Email {
   _id: string
@@ -48,7 +50,7 @@ onMounted(async () => {
     }
 
     // Make the API request
-    const response = await fetch('https://baderidris.com/api/v1/received_emails', {
+    const response = await fetch(`${DOMAIN_NAME}/api/v1/received_emails`, {
       method: 'GET',
       credentials: 'include' // Includes cookies in the request
     })

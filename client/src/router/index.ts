@@ -125,6 +125,37 @@ const routes: Array<RouteRecordRaw> = [
       email: route.query.email as string
     })
   },
+  {
+    path: '/user/reset-password',
+    name: 'resetPassword',
+    component: () => import('@/components/resetPassword.vue'),
+    meta: {
+      title: 'reset your password after requesting it using email',
+      description: 'reset email sent by Bader Idris'
+    },
+    props: (route) => ({
+      token: route.query.token as string,
+      email: route.query.email as string
+    })
+  },
+  {
+    path: '/user/forgot-password',
+    name: 'forgotPassword',
+    component: () => import('@/components/forgotPassword.vue'),
+    meta: {
+      title: 'forgot password page',
+      description: 'add your email to reset your password'
+    }
+  },
+  {
+    path: '/protected',
+    name: 'protected',
+    component: () => import('@/views/ProtectedView.vue'),
+    meta: {
+      title: 'protected page',
+      description: 'exclusive for logged in users'
+    }
+  },
   // @ts-ignore
   {
     path: '/:pathMatch(.*)*',

@@ -29,6 +29,7 @@ const route = useRoute()
 const router = useRouter()
 const email = ref<string | null>((route.query.email as string) || null)
 const token = ref<string | null>((route.query.token as string) || null)
+const DOMAIN_NAME = 'https://baderidris.com'
 
 // Initialize reactive properties
 const seconds = ref<number>(10)
@@ -71,7 +72,7 @@ async function verifyEmail(): Promise<void> {
   }
 
   try {
-    const response = await fetch('/api/v1/auth/verify-email', requestOptions)
+    const response = await fetch(`${DOMAIN_NAME}/api/v1/auth/verify-email`, requestOptions)
     if (response.status === 200) {
       const result = await response.json()
       verified.value = true
@@ -108,6 +109,9 @@ onMounted(() => {
 
 .verify-comp {
   @include mainMiddleSettings;
+  @media (max-width: 768px) {
+      @include phone-borders;
+    }
   .warn,
   .verify {
     background-color: #007acc;

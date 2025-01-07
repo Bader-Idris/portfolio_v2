@@ -129,6 +129,9 @@ const login = async (): Promise<void> => {
 @use '~'as *;
 .login {
   @include mainMiddleSettings;
+@media (max-width: 768px) {
+    @include phone-borders;
+  }
   .form {
     width: 384px;
     height: 520px;

@@ -35,10 +35,11 @@ const isLoggedIn = computed(() => userStore.isLoggedIn)
 
 // @ts-ignore // Might be a stupid approach
 const username = userStore.user?.username as User['username']
+const DOMAIN_NAME = 'https://baderidris.com'
 
 // Function to handle user logout
 const logout = async (): Promise<void> => {
-  const url = '/api/v1/auth/logout'
+  const url = `${DOMAIN_NAME}/api/v1/auth/logout`
   const myHeaders = new Headers()
   myHeaders.append('Content-Type', 'application/json')
 
