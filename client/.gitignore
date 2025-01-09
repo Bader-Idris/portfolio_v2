@@ -9,6 +9,7 @@
 *.sublime-project
 *.sublime-workspace
 UserInterfaceState.xcuserstate
+*.pfx
 
 log.txt
 

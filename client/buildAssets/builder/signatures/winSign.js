@@ -1,7 +1,3 @@
-// exports.default = async function (configuration) {
-//   // your custom code
-// }
-
 const path = require('path')
 const fs = require('fs')
 const childProcess = require('child_process')

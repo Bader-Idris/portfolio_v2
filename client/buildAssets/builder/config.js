@@ -12,15 +12,13 @@ dotenv.config({
 
 // Get formatted current date
 function getLocalTimestamp() {
-  // TODO: needs to get invoked properly on the output name of final products
   const date = new Date()
   const year = date.getFullYear()
   const month = String(date.getMonth() + 1).padStart(2, '0') // Month is zero-based
   const day = String(date.getDate()).padStart(2, '0')
   const hours = String(date.getHours()).padStart(2, '0')
   const minutes = String(date.getMinutes()).padStart(2, '0')
-  const seconds = String(date.getSeconds()).padStart(2, '0')
-  return `${year}${month}${day}_${hours}_${minutes}_${seconds}`
+  return `${year}${month}${day}_${hours}_${minutes}`
 }
 
 const windowsTargets = [
@@ -55,7 +53,7 @@ const baseConfig = {
   asar: true,
   // extends: null,
   compression: 'maximum',
-  artifactName: '${productName}_${version}_${getLocalTimestamp()}_${platform}_${arch}.${ext}', // ! can't read them with template strings!
+  artifactName: '${productName}_${version}_' + getLocalTimestamp() + '_${platform}_${arch}.${ext}', // ! can't read them with template strings!
   directories: {
     output: './release/${version}'
   },
@@ -78,9 +76,6 @@ const baseConfig = {
   },
   win: {
     icon: 'buildAssets/resources/icon.ico',
-
-    // sign: './signatures/winSign.js',
-    // signingHashAlgorithms: ['sha256'],
     publish: [
       {
         provider: 'github', // must be github | s3 | spaces | generic | custom | keygen | snapStore | bitbucket
@@ -89,18 +84,20 @@ const baseConfig = {
         private: true
       }
     ],
-    forceCodeSigning: true, // to fill the build if code signing failed or is invalid
+    // forceCodeSigning: true, // to fill the build if code signing failed or is invalid
     // forceCodeSigning: false,
-    // sign: false,
     // "rfc3161TimeStampServer": "http://timestamp.comodoca.com/rfc3161",
     // timeStampServer: 'http://timestamp.comodoca.com',
 
-    // signtoolOptions: {
-    //   certificateFile: process.env.WIN_CSC_LINK || 'buildAssets/builder/envs/Cert.pfx',
-    //   certificatePassword: process.env.WIN_CSC_KEY_PASSWORD || null,
-
-    // publisherName: 'Bader-Idris',
-    // },
+    signtoolOptions: {
+      sign: true,
+      // sign: './signatures/winSign.js',
+      //   certificateFile: process.env.WIN_CSC_LINK,
+      certificateFile: path.join(__dirname, 'envs', 'Cert.pfx'),
+      certificatePassword: process.env.WIN_CSC_KEY_PASSWORD,
+      // signingHashAlgorithms: ['sha256'],
+      //   publisherName: 'Bader-Idris'
+    },
     target: windowsTargets
   },
   linux: {
@@ -135,8 +132,8 @@ const baseConfig = {
       "A multi-platform portfolio application built with Vite, Vue 3, Electron, and Capacitor for mobile. Visit [Bader's Portfolio](https://baderidris.com) for more information."
   },
   files: [
-    'dist/**/*',
-    '!dist/main/index.dev.js',
+    'dist-electron/**/*',
+    '!dist-electron/main/index.dev.js',
     '!buildAssets/builder/envs', // important security to hide our certs from third parties, or in the app bundle
     '!docs/**/*',
     '!tests/**/*',

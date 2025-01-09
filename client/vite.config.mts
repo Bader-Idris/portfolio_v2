@@ -1,7 +1,5 @@
 import { fileURLToPath } from 'url'
 import { defineConfig, loadEnv } from 'vite'
-import ElectronPlugin, { ElectronOptions } from 'vite-plugin-electron'
-import RendererPlugin from 'vite-plugin-electron-renderer'
 import EslintPlugin from 'vite-plugin-eslint'
 // import VuetifyPlugin from 'vite-plugin-vuetify'
 import legacy from '@vitejs/plugin-legacy' // it uses babel!
@@ -9,7 +7,6 @@ import VueJsx from '@vitejs/plugin-vue-jsx'
 import Vue from '@vitejs/plugin-vue'
 import { rmSync } from 'fs'
 import { resolve, dirname } from 'path'
-import { builtinModules } from 'module'
 
 // docs https://postcss.org/
 import autoprefixer from 'autoprefixer' // Allows the use of modern CSS features with automatic polyfills.
@@ -59,63 +56,9 @@ function isElectron(): boolean {
 const isDevEnv = process.env.NODE_ENV === 'development'
 
 export default defineConfig(({ mode }) => {
-  process.env = {
-    ...(isDevEnv
-      ? {
-          ELECTRON_ENABLE_LOGGING: 'true',
-          NODE_OPTIONS: '--trace-warnings'
-        }
-      : {}),
-    ...process.env,
-    ...loadEnv(mode, process.cwd())
-  }
-
   // Delete the 'dist' folder only in production mode
   if (mode === 'production') {
     rmSync('dist', { recursive: true, force: true })
-  }
-
-  const electronPluginConfigs: ElectronOptions[] = [
-    {
-      entry: 'src/electron/main/index.ts',
-      onstart({ startup }) {
-        startup()
-      },
-      vite: {
-        root: resolve('.'),
-        build: {
-          assetsDir: '.',
-          outDir: 'dist/main',
-          rollupOptions: {
-            external: ['electron', ...builtinModules]
-          }
-        }
-      }
-    },
-    {
-      entry: 'src/electron/preload/index.ts',
-      onstart({ reload }) {
-        reload()
-      },
-      vite: {
-        root: resolve('.'),
-        build: {
-          outDir: 'dist/preload'
-        }
-      }
-    }
-  ]
-
-  if (isDevEnv) {
-    electronPluginConfigs.push({
-      entry: 'src/electron/main/index.dev.ts',
-      vite: {
-        root: resolve('.'),
-        build: {
-          outDir: 'dist/main'
-        }
-      }
-    })
   }
 
   const plugins = [
@@ -133,14 +76,7 @@ export default defineConfig(({ mode }) => {
     EslintPlugin({
       // eslintPath: './eslint.config.js',
       // eslint 9.14.0 is a real headache
-    }),
-
-    // Docs: https://github.com/electron-vite/vite-plugin-electron
-    ElectronPlugin(electronPluginConfigs),
-    RendererPlugin()
-    // {
-    //    nodeIntegration: true // to skip security with electron and ipc we use this
-    // }
+    })
   ]
 
   if (!isElectron) {
@@ -174,9 +110,7 @@ export default defineConfig(({ mode }) => {
         '~': resolve(dirname(fileURLToPath(import.meta.url)), './src/assets/scss')
       }
     },
-    // base: isElectron() === false ? '/' : './',
     base: '/',
-    // base: './', // ! it works like this for built electron, but not nginx subPaths! as user/verify-email, and not with electron dev
     root: resolve('./src'),
     publicDir: resolve('./src/public'),
     clearScreen: false,

@@ -1,16 +1,1 @@
-<svg width="65" height="69" viewBox="0 0 65 69" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M30.7679 46C31.5377 44.6667 33.4623 44.6667 34.2321 46L42.0263 59.5C42.7961 60.8333 41.8338 62.5 40.2942 62.5H24.7058C23.1662 62.5 22.2039 60.8333 22.9737 59.5L30.7679 46Z" fill="black"/>
-<rect x="1.5" y="1" width="62" height="45" rx="4" fill="black" stroke="white" stroke-width="2"/>
-<path d="M20 25V34L29 25" stroke="white" stroke-linecap="round"/>
-<rect x="5" y="4.5" width="36" height="23" rx="4.5" fill="black" stroke="white"/>
-<path d="M20.5 10.8038L29.5 16L20.5 21.1962L20.5 10.8038Z" stroke="white"/>
-<path d="M25.5 28C25.7761 28 26 27.7761 26 27.5C26 27.2239 25.7761 27 25.5 27V28ZM20.5 28H25.5V27H20.5V28Z" fill="black"/>
-<path d="M45.5 6H59.5" stroke="white" stroke-linecap="round"/>
-<path d="M45.5 11H59.5" stroke="white" stroke-linecap="round"/>
-<path d="M45.5 16H59.5" stroke="white" stroke-linecap="round"/>
-<path d="M45.5 21H59.5" stroke="white" stroke-linecap="round"/>
-<path d="M45.5 26H59.5" stroke="white" stroke-linecap="round"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M15.9466 40H64V39H15.9466V40ZM14.9466 39H13.061V40H14.9466V39ZM10.1756 39H12.061V40H10.1756V39ZM9.17565 39H1V40H9.17565V39Z" fill="white"/>
-<path d="M25.5002 27.5C25.5002 27.5 23.0002 31.5 26.0002 27.5" stroke="white" stroke-linecap="round"/>
-<path d="M24 63H42" stroke="white" stroke-linecap="round"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><defs><style>.cls-1{fill:#ccc;}.cls-2,.cls-3,.cls-4,.cls-5{stroke:#fff;}.cls-2{stroke-width:2px;}.cls-3,.cls-5{fill:none;}.cls-3{stroke-linecap:round;}.cls-6{fill:#fff;fill-rule:evenodd;}</style></defs><g id="Layer_2" data-name="Layer 2"><g id="monitor"><rect class="cls-1" width="64" height="64"/><path d="M30.24,46.23a2,2,0,0,1,3.42,0l7.69,13.34a2,2,0,0,1-1.71,3H24.25a2,2,0,0,1-1.7-3Z"/><path class="cls-2" d="M5.3,1.75H58.59a4,4,0,0,1,3.95,4V42.27a4,4,0,0,1-3.95,4H5.3a4,4,0,0,1-3.94-4V5.7A3.94,3.94,0,0,1,5.3,1.75Z"/><path class="cls-3" d="M19.61,27.64v6.73l6.52-6.73"/><path class="cls-4" d="M35.89,5.21H9.25A4.44,4.44,0,0,0,4.81,9.66V23.5a4.44,4.44,0,0,0,4.44,4.44H19.43l.29.2v5.93l5.92-5.93.17-.2H35.89a4.44,4.44,0,0,0,4.44-4.44V9.66A4.44,4.44,0,0,0,35.89,5.21Z"/><path class="cls-5" d="M20.1,11.44,29,16.58,20.1,21.71Z"/><path class="cls-3" d="M44.77,6.69H58.59"/><path class="cls-3" d="M44.77,11.63H58.59"/><path class="cls-3" d="M44.77,16.58H58.59"/><path class="cls-3" d="M44.77,21.52H58.59"/><path class="cls-3" d="M44.77,26.46H58.59"/><path class="cls-6" d="M15.61,40.3H63v-1H15.61Zm-1-1H12.76v1h1.86Zm-4.7,0h1.86v1H9.92Zm-1,0H.86v1H8.93Z"/><path class="cls-3" d="M23.56,63H41.32"/></g></g></svg>

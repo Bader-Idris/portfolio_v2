@@ -36,9 +36,11 @@ const createMainWindow = async (): Promise<BrowserWindow> => {
     const userTasks: Electron.Task[] = [
       {
         program: process.execPath, // The path to the Electron executable
-        args: [], // Arguments passed to the executable
+        arguments: '', // Arguments passed to the executable
         title: 'New Window', // Title of the task
-        description: 'Open a new window' // Description of the task
+        description: 'Open a new window', // Description of the task
+        iconPath: '',
+        iconIndex: 0
       }
       // }
       // {
