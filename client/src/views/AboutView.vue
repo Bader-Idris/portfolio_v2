@@ -329,6 +329,10 @@ onUnmounted(() => {
         &.hidden {
           display: none;
         }
+        > p:hover {
+          color: $secondary4;
+          cursor: pointer;
+        }
       }
     }
   }

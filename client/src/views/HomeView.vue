@@ -175,6 +175,12 @@ import GameContainer from '@/components/GameContainer.vue'
           @media (max-width: 330px) {
             font-size: 14px;
           }
+          @media screen and (max-width: 768px) {
+            margin-top: 5px;
+          }
+          @media screen and (min-width: 768px) {
+            margin-top: 10px;
+          }
         }
 
         & > a::before {

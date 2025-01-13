@@ -47,7 +47,7 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       title: 'Bader Idris - Full-Stack Developer Portfolio', // how to get the one in the index.html file for this and its description and what's title.main
       description:
-        "Explore Bader Idris's portfolio showcasing skills in modern web development technologies, including Vue, Node.js, and more.",
+        "Explore Bader Idris's portfolio as a full-stack developer specializing in Vue, Node.js, and modern web technologies. Crafting responsive, dynamic web experiences.",
       contentSecurityPolicy: `
         default-src 'self' https: ws: wss: blob: data: 'unsafe-inline';
         img-src 'self' https://raw.githubusercontent.com data:;
@@ -61,7 +61,8 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/RegisterView.vue'),
     meta: {
       title: 'Register Bader Idris - Full-Stack Developer Portfolio',
-      description: 'Create an account on My Website.'
+      description:
+        "Sign up on Bader Idris's platform to access exclusive content, resources, and services. Join a tech-savvy community led by a skilled full-stack developer."
     }
   },
   {
@@ -70,7 +71,8 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/LoginView.vue'),
     meta: {
       title: 'Login Bader Idris - Full-Stack Developer Portfolio',
-      description: 'Create an account on My Website.'
+      description:
+        "Log in to Bader Idris's portfolio platform to explore projects, insights, and opportunities. Your gateway to cutting-edge web and multi-platform solutions."
     }
   },
   {
@@ -80,7 +82,7 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       title: 'Bader Idris - Full-Stack Developer & Innovative Tech Creator',
       description:
-        "Discover Bader Idris, a versatile full-stack developer excelling in web development, backend systems, DevOps, and cross-platform applications. With expertise in Vue.js, Node.js, Docker, and more, let's transform ideas into impactful solutions."
+        'Meet Bader Idris, a skilled full-stack developer excelling in web and app development with Vue.js, Node.js, and more. Turning ideas into innovative digital solutions.'
     }
   },
   {
@@ -100,7 +102,7 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       title: 'Get in Touch with Bader Idris - Full-Stack Developer & Tech Innovator',
       description:
-        "Reach out to Bader Idris for collaboration, queries, or opportunities. Available via email, LinkedIn, GitHub, and more. Let's build something amazing together!"
+        'Connect with Bader Idris for collaborations or tech innovations. Reach out via email, LinkedIn, or GitHub to bring your ideas to life with a full-stack expert.'
     },
     children: [
       {
@@ -117,7 +119,8 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/components/VerifyEmail.vue'),
     meta: {
       title: 'verify email Bader Idris - Full-Stack Developer Portfolio',
-      description: 'verify email sent by Bader Idris'
+      description:
+        'Verify your email with Bader Idris to activate your account and start exploring innovative full-stack development projects and multi-platform solutions.'
     },
     // Map route query parameters to props with TypeScript typing
     props: (route) => ({
@@ -131,7 +134,8 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/components/resetPassword.vue'),
     meta: {
       title: 'reset your password after requesting it using email',
-      description: 'reset email sent by Bader Idris'
+      description:
+        "Reset your password securely via Bader Idris's platform. A safe and reliable process for accessing your account in a tech-driven ecosystem."
     },
     props: (route) => ({
       token: route.query.token as string,
@@ -144,7 +148,8 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/components/forgotPassword.vue'),
     meta: {
       title: 'forgot password page',
-      description: 'add your email to reset your password'
+      description:
+        "Forgot your password? Enter your email to reset it securely and regain access to Bader Idris's portfolio and exclusive development resources."
     }
   },
   {
@@ -153,7 +158,8 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/ProtectedView.vue'),
     meta: {
       title: 'protected page',
-      description: 'exclusive for logged in users'
+      description:
+        "Access exclusive content designed for logged-in users. Bader Idris's platform offers a secure, personalized experience for tech enthusiasts."
     }
   },
   // @ts-ignore
@@ -163,7 +169,8 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/NotFoundView.vue'),
     meta: {
       title: '404 page Bader Idris - Full-Stack Developer Portfolio',
-      description: 'this page does not exist'
+      description:
+        "The page you’re looking for doesn’t exist. Navigate back to Bader Idris's portfolio for innovative web solutions and development expertise."
     },
     redirect: isElectron() ? '/' : undefined
   }

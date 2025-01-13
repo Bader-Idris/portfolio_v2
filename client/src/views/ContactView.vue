@@ -21,6 +21,14 @@
       <div class="personal-socials" :class="{ hidden: isSocialsHidden }">
         <ul>
           <li>
+            <AppLink
+              aria-label="go to my css battle page"
+              to="https://cssbattle.dev/player/bader_idris"
+              class="external-link"
+              >Css Battle
+            </AppLink>
+          </li>
+          <li>
             <AppLink aria-label="go to my youtube channel" to="/not-created-yet"
               >YouTube Channel
             </AppLink>

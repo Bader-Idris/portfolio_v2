@@ -40,6 +40,22 @@
     "tags": ["html", "css", "Vue", "typescript", "js"]
   },
   {
+    "title": "Countries API",
+    "url": "https://countries-apis-bader.netlify.app/",
+    "img": "https://raw.githubusercontent.com/Bader-Idris/countries-api/refs/heads/bader/design-assets/design/desktop-preview.jpg",
+    "imgAlt": "countries api with dark/light mode",
+    "desc": "Explore global data with this sleek, responsive app. Fetch country details, toggle dark/light mode, and search or filter by region effortlessly.",
+    "tags": ["html", "css", "Vue", "typescript", "js"]
+  },
+  {
+    "title": "Random Quotes Generator",
+    "url": "https://bader-idris.github.io/random-quote/",
+    "img": "https://raw.githubusercontent.com/Bader-Idris/random-quote/refs/heads/main/Screenshot%20from%202025-01-12%2021-39-33.png",
+    "imgAlt": "generating random quotes web application",
+    "desc": "Get inspired with random quotes! This clean, responsive app features a stylish dice button to generate fresh quotes instantly.",
+    "tags": ["html", "css", "js"]
+  },
+  {
     "title": "building 50 projects with Elzero",
     "url": "https://elzero.org",
     "img": "",
