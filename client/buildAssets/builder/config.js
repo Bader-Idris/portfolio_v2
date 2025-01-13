@@ -85,7 +85,7 @@ const baseConfig = {
       }
     ],
     // forceCodeSigning: true, // to fill the build if code signing failed or is invalid
-    // forceCodeSigning: false,
+    forceCodeSigning: false,
     // "rfc3161TimeStampServer": "http://timestamp.comodoca.com/rfc3161",
     // timeStampServer: 'http://timestamp.comodoca.com',
 

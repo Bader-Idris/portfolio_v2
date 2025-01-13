@@ -102,7 +102,9 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       title: 'Get in Touch with Bader Idris - Full-Stack Developer & Tech Innovator',
       description:
-        'Connect with Bader Idris for collaborations or tech innovations. Reach out via email, LinkedIn, or GitHub to bring your ideas to life with a full-stack expert.'
+        'Connect with Bader Idris for collaborations or tech innovations. Reach out via email, LinkedIn, or GitHub to bring your ideas to life with a full-stack expert.',
+      contentSecurityPolicy:
+        "default-src 'self' https://baderidris.com; connect-src 'self' https://baderidris.com; img-src 'self' data:; script-src 'self'; style-src 'self' 'unsafe-inline';"
     },
     children: [
       {
