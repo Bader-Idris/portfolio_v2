@@ -94,7 +94,7 @@ const baseConfig = {
       // sign: './signatures/winSign.js',
       //   certificateFile: process.env.WIN_CSC_LINK,
       certificateFile: path.join(__dirname, 'envs', 'Cert.pfx'),
-      certificatePassword: process.env.WIN_CSC_KEY_PASSWORD,
+      certificatePassword: process.env.WIN_CSC_KEY_PASSWORD
       // signingHashAlgorithms: ['sha256'],
       //   publisherName: 'Bader-Idris'
     },

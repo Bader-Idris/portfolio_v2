@@ -1,6 +1,6 @@
 {
   "name": "portfolio",
-  "version": "0.8.6",
+  "version": "0.9.3",
   "description": "My Portfolio As A Full-stack Developer",
   "main": "app.js",
   "scripts": {
@@ -54,7 +54,7 @@
     "http-status-codes": "^2.3.0",
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^7.8.3",
+    "mongoose": "^7.8.4",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.16",
