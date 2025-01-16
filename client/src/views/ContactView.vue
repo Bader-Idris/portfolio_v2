@@ -4,7 +4,11 @@
       <FoldableTab @toggle="toggleContact">
         <p>contacts</p>
       </FoldableTab>
-      <div class="personal-contact" :class="{ hidden: isContactHidden }">
+      <div
+        :style="{ display: contactDisplay }"
+        class="personal-contact"
+        :class="{ hidden: isContactHidden }"
+      >
         <p @click="copyToClipboard(0)">
           {{ contInfo[0] }}
           <i v-if="showIcon[0]" class="fa-solid fa-copy"></i>
@@ -18,7 +22,11 @@
       <FoldableTab @toggle="toggleSocials">
         <p>find-me-also-in</p>
       </FoldableTab>
-      <div class="personal-socials" :class="{ hidden: isSocialsHidden }">
+      <div
+        :style="{ display: socialsDisplay }"
+        class="personal-socials"
+        :class="{ hidden: isSocialsHidden }"
+      >
         <ul>
           <li>
             <AppLink
@@ -130,6 +138,7 @@
       </div>
       <CustomButtons v-if="authStore.user?.role === 'admin'" button-type="ghost">
         <AppLink to="/contact/admin"> fetch-messages</AppLink>
+        <router-view :key="$route.path" />
       </CustomButtons>
     </main>
   </div>
@@ -143,8 +152,9 @@ import { toast } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
 import { useUserStore } from '@/stores/UserNameStore'
 
+const contactDisplay = ref('block')
+const socialsDisplay = ref('block')
 const DOMAIN_NAME = 'https://baderidris.com' // ! global variables are franking ugly in vue, to hell with 'em
-
 const authStore = useUserStore()
 
 // State variables for toggling contact and socials
@@ -153,13 +163,27 @@ const isSocialsHidden = ref<boolean>(false)
 const isLoading = ref<boolean>(false) // State for button loading
 let debounceTimeout: ReturnType<typeof setTimeout> | null = null // Debounce timer
 
-// Toggle functions with proper types
-const toggleContact = (): void => {
-  isContactHidden.value = !isContactHidden.value
+const toggleContact = () => {
+  if (isContactHidden.value) {
+    isContactHidden.value = false
+    contactDisplay.value = 'block'
+  } else {
+    isContactHidden.value = true
+    setTimeout(() => {
+      contactDisplay.value = 'none'
+    }, 300)
+  }
 }
-
-const toggleSocials = (): void => {
-  isSocialsHidden.value = !isSocialsHidden.value
+const toggleSocials = () => {
+  if (isSocialsHidden.value) {
+    isSocialsHidden.value = false
+    socialsDisplay.value = 'block'
+  } else {
+    isSocialsHidden.value = true
+    setTimeout(() => {
+      socialsDisplay.value = 'none'
+    }, 300)
+  }
 }
 
 // Contact info and icon state
@@ -341,7 +365,11 @@ onBeforeUnmount(() => {
       margin-left: 15px;
 
       &.hidden {
-        display: none;
+        opacity: 0;
+        visibility: hidden;
+        transition:
+          opacity 0.5s ease,
+          visibility 0.5s ease;
       }
 
       p {
@@ -375,7 +403,11 @@ onBeforeUnmount(() => {
       margin-left: 15px;
 
       &.hidden {
-        display: none;
+        opacity: 0;
+        visibility: hidden;
+        transition:
+          opacity 0.5s ease,
+          visibility 0.5s ease;
       }
 
       ul > li {

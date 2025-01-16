@@ -63,9 +63,16 @@ const componentMap = {
 @use '~'as *;
 .projects-sidebar {
   width: 301px;
-  transition: transform 0.3s ease;
+  transition:
+    opacity 0.5s ease,
+    visibility 0.5s ease;
+  opacity: 1;
   &.hidden {
-    display: none;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.5s ease,
+      visibility 0.5s ease;
   }
   > div {
     label {

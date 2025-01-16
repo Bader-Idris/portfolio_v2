@@ -9,21 +9,29 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+const props = defineProps<{
+  initiallyFolded?: boolean // Optional prop to set initial folded state
+}>()
 const emit = defineEmits(['toggle'])
-
-const isToggled = ref(false)
+const isToggled = ref(props.initiallyFolded || false) // Initialize based on prop
 const toggleFolding = () => {
   isToggled.value = !isToggled.value
   emit('toggle')
 }
+// Watch for changes in the initiallyFolded prop to update the toggled state
+watch(
+  () => props.initiallyFolded,
+  (newVal) => {
+    isToggled.value = newVal || false
+  }
+)
 </script>
 
 <style lang="scss" scoped>
 @use '~'as *;
 .nav-titled {
   width: 301px;
-  // border-right: 1px solid $lines;
   color: $secondary4;
   position: relative;
 
@@ -32,20 +40,7 @@ const toggleFolding = () => {
     user-select: none;
     font-family: $main-font;
     font-weight: bold;
-    /* font-size: 20px; */
     letter-spacing: 0.7px;
-  }
-
-  @media (min-width: 769px) {
-    // &::after {
-    //   content: "";
-    //   position: absolute;
-    //   width: 1px;
-    //   right: 0;
-    //   top: 0;
-    //   height: calc(100vh - 180px);
-    //   border-right: 1px solid $lines;
-    // }
   }
 }
 
@@ -71,7 +66,7 @@ const toggleFolding = () => {
     background-color: $lines;
     height: 30px;
     align-items: center;
-    width: 100vw;
+    width: calc(100vw - 30px);
   }
 
   > span {

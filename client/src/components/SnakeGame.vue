@@ -29,6 +29,7 @@ import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import { Haptics, ImpactStyle } from '@capacitor/haptics'
 import { LocalNotifications } from '@capacitor/local-notifications'
 import { Capacitor } from '@capacitor/core'
+import { Howl } from 'howler' // best audio tensive handling package, ai says
 import confetti from 'canvas-confetti'
 import eatingSound from '@/assets/sounds/swallow.wav'
 import victorySound from '@/assets/sounds/victory.wav'
@@ -36,15 +37,27 @@ import wallHitSound from '@/assets/sounds/wall-hit.wav'
 import snakeHissing from '@/assets/sounds/snake-hissing.wav'
 import ouch from '@/assets/sounds/ouch.wav'
 
+// Initialize Howler.js sound objects
+const sounds = {
+  eating: new Howl({ src: [eatingSound], html5: true }),
+  victory: new Howl({ src: [victorySound], html5: true }),
+  wallHit: new Howl({ src: [wallHitSound], html5: true }),
+  snakeHissing: new Howl({ src: [snakeHissing], html5: true }),
+  ouch: new Howl({ src: [ouch], html5: true })
+}
+
+// Function to play a sound by key
+const playSound = (key) => {
+  if (sounds[key]) {
+    sounds[key].stop() // Stop any existing playback to avoid overlapping issues
+    sounds[key].play() // Play the sound
+  } else {
+    console.error(`Sound key "${key}" not found`)
+  }
+}
+
 // Electron's Notification API
 const isElectron = Capacitor.getPlatform() === 'electron'
-
-// Create audio objects
-const eatingAudio = new Audio(eatingSound)
-const victoryAudio = new Audio(victorySound)
-const wallHitAudio = new Audio(wallHitSound)
-const snakeHissingAudio = new Audio(snakeHissing)
-const ouchAudio = new Audio(ouch)
 
 // Define props with proper types
 defineProps<{
@@ -153,7 +166,7 @@ async function showNotification(message: string) {
 function checkWinCondition() {
   // Check if the player has won
   if (score.value >= winningScore.value) {
-    victoryAudio.play() // Play victory sound
+    playSound('victory')
     launchConfetti()
     launchConfettiInMiddle()
     stopGame('Play-again')
@@ -232,7 +245,7 @@ function move(): void {
     increaseSpeed()
     score.value++
     foodEatenRecently.value = true
-    eatingAudio.play()
+    playSound('eating')
     Haptics.vibrate({ duration: 50 }) // Vibration feedback on food eat
     clearInterval(gameInterval)
     gameInterval = window.setInterval(() => {
@@ -248,7 +261,7 @@ function move(): void {
 
 function startGame(): void {
   resetGame()
-  snakeHissingAudio.play()
+  playSound('snakeHissing')
   gameInterval = window.setInterval(() => {
     move()
     checkCollision()
@@ -358,14 +371,14 @@ function increaseSpeed(): void {
 function checkCollision(): void {
   const head = snake.value[0]
   if (head.x < 1 || head.x > gridSize.value || head.y < 1 || head.y > gridSize.value + 14) {
-    wallHitAudio.play()
+    playSound('wallHit')
     Haptics.vibrate({ duration: 100 }) // Vibration feedback on collision
     stopGame('Start-again')
     return
   }
   for (let i = 1; i < snake.value.length; i++) {
     if (head.x === snake.value[i].x && head.y === snake.value[i].y) {
-      ouchAudio.play()
+      playSound('ouch')
       Haptics.vibrate({ duration: 100 }) // Vibration feedback on collision with self
       stopGame('Start-again')
       return

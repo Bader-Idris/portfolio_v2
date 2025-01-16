@@ -91,7 +91,6 @@ const filteredProjects = computed(() => {
     flex-direction: column;
     left: 0;
     top: 0;
-    // padding: 0 20px;
     position: relative;
   }
 
@@ -157,14 +156,18 @@ const filteredProjects = computed(() => {
     }
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 768px) and (max-width: 1024px) {
     display: flex;
     align-content: center;
     justify-content: space-evenly;
-    width: calc(100vw - 430px);
+    width: calc(100vw - 30px);
     flex-direction: row;
     flex-wrap: wrap;
     align-items: stretch;
+  }
+
+  @media (min-width: 1024px) and (max-width: 1200px) {
+    width: calc(100vw - 430px);
   }
 
   @media (min-width: 1200px) {

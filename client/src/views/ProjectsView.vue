@@ -1,7 +1,7 @@
 <template>
   <div class="projects">
     <NavbarProjects @toggle-sidebar="toggleSidebar" />
-    <aside>
+    <aside :style="{ display: sidebarDisplay }">
       <ProjectsSidebar
         :is-sidebar-hidden="isSidebarHidden"
         :list="list"
@@ -20,7 +20,7 @@ import ProjectsSidebar from '@/components/ProjectsSidebar.vue'
 import SelectedTabs from '@/components/SelectedTabs.vue'
 import FilteredProjects from '@/components/FilteredProjects.vue'
 
-// const list = ref([
+const sidebarDisplay = ref('block')
 const list = ref<Array<{ title: string; imgAlt: string; isActive: boolean }>>([
   { title: 'HTML', imgAlt: 'html icon', isActive: true },
   { title: 'CSS', imgAlt: 'css icon', isActive: false },
@@ -69,7 +69,16 @@ const removeItem = (itemTitle) => {
 
 const isSidebarHidden = ref(false)
 const toggleSidebar = () => {
-  isSidebarHidden.value = !isSidebarHidden.value
+  if (isSidebarHidden.value) {
+    isSidebarHidden.value = false
+    sidebarDisplay.value = 'block' // Show sidebar immediately
+  } else {
+    isSidebarHidden.value = true
+    // Fade out and then set display to none
+    setTimeout(() => {
+      sidebarDisplay.value = 'none' // Set display to none after fade-out
+    }, 300) // Match this timing with your CSS transition duration
+  }
 }
 
 onMounted(() => {

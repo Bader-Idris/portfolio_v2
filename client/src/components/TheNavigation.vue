@@ -4,9 +4,12 @@
       <div class="name">{{ name }}</div>
       <nav class="nav">
         <AppLink to="/" class="sub-navs" :class="{ active: $route.path === '/' }">_hello</AppLink>
-        <AppLink to="/about" class="sub-navs" :class="{ active: $route.path === '/about' }"
-          >_about-me</AppLink
-        >
+        <AppLink
+          to="/about"
+          class="sub-navs"
+          :class="{ active: /^\/about(\/.*)?$/.test($route.path) }"
+          >_about-me
+        </AppLink>
         <AppLink to="/projects" class="sub-navs" :class="{ active: $route.path === '/projects' }"
           >_projects</AppLink
         >
@@ -28,22 +31,33 @@
       <div class="phone-body">
         <div class="name">{{ name }}</div>
         <ul>
-          <AppLink to="/" class="phone-sub-navs" :class="{ active: $route.path === '/' }"
-            >_hello</AppLink
+          <AppLink
+            to="/"
+            class="phone-sub-navs"
+            :class="{ active: $route.path === '/' }"
+            @click="togglePhoneMenu"
           >
-          <AppLink to="/about" class="phone-sub-navs" :class="{ active: $route.path === '/about' }"
+            _hello</AppLink
+          >
+          <AppLink
+            to="/about"
+            class="phone-sub-navs"
+            :class="{ active: /^\/about(\/.*)?$/.test($route.path) }"
+            @click="togglePhoneMenu"
             >_about-me</AppLink
           >
           <AppLink
             to="/projects"
             class="phone-sub-navs"
             :class="{ active: $route.path === '/projects' }"
+            @click="togglePhoneMenu"
             >_projects</AppLink
           >
           <AppLink
             to="/contact"
             class="contact-phone phone-sub-navs"
             :class="{ active: $route.path === '/contact' }"
+            @click="togglePhoneMenu"
             >_contact-me
           </AppLink>
         </ul>
@@ -74,12 +88,15 @@ const route = useRoute()
 
 // Update current path whenever the phone menu is toggled
 const togglePhoneMenu = () => {
+  const menu = document.querySelector('.phone-menu') // Select the menu
   if (showPhoneMenu.value) {
     // If menu is currently open, close it
+    menu?.classList.remove('open')
     showPhoneMenu.value = false
   } else {
     // If menu is closed, store the current path and open it
-    currentPath.value = route.fullPath // Store the current path
+    menu?.classList.add('open')
+    currentPath.value = route.fullPath
     showPhoneMenu.value = true
   }
 }
@@ -240,7 +257,6 @@ header {
     }
     .phone-menu {
       font-family: $main-font;
-      // width: calc(100vw - 30px);
       width: 100%;
       height: calc(100vh - 30px);
       background-color: $primary2;
@@ -248,6 +264,22 @@ header {
       position: relative;
       top: -58px;
       border-radius: 5px;
+      transition:
+        transform 0.3s ease-in-out,
+        opacity 0.3s ease-in-out;
+      /* Add transitions */
+      transform: translateY(-100%);
+      /* Default hidden state */
+      opacity: 0;
+      /* Default hidden state */
+
+      &.open {
+        transform: translateY(0);
+        /* Fully visible */
+        opacity: 1;
+        /* Fully visible */
+      }
+
       &::before {
         content: '';
         position: absolute;
@@ -258,6 +290,7 @@ header {
         top: -15px;
         z-index: -1;
       }
+
       .remove-phone-menu {
         z-index: 2;
         top: 15px;
@@ -274,24 +307,29 @@ header {
           background-color: $secondary1;
           border-radius: 1px;
           margin-bottom: 4px;
+
           &:first-of-type {
             transform: rotate(45deg) translateX(20%);
           }
+
           &:last-of-type {
             transform: rotate(-45deg) translateX(20%);
           }
         }
       }
+
       @media (max-width: 768px) {
         .phone-body {
           border-radius: 5px 5px 0 0;
           height: calc(100vh - 88px);
           align-content: flex-start;
           @include mainMiddleSettings;
+
           .name {
             padding: 20px;
             border-bottom: 1px solid $lines;
           }
+
           .phone-sub-navs {
             padding: 15px 20px;
             cursor: pointer;
@@ -309,16 +347,19 @@ header {
                 background-color: $primary1-hovered;
               }
             }
+
             .contact {
               left: 0;
               position: relative;
             }
           }
+
           > ul {
             display: flex;
             flex-direction: column;
             align-items: flex-start;
             position: relative;
+
             & > a {
               &::before {
                 content: '';

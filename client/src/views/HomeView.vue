@@ -19,7 +19,7 @@
             to="https://github.com/bader-idris"
             class="external-link"
           >
-            https://github.com/bader-idris</AppLink
+            github.com/bader-idris</AppLink
           >
         </div>
       </section>
@@ -71,14 +71,51 @@ import GameContainer from '@/components/GameContainer.vue'
       @media screen and (max-height: 668px) {
         font-size: calc($headline-size - 5px);
       }
+
+      @media screen and (max-width: 425px) {
+        font-size: $headline-size * 1.2 !important;
+      }
+      @media screen and (max-width: 768px) {
+        font-size: $headline-size !important;
+        line-height: 1.2;
+        font-weight: normal;
+        margin: 20px 0;
+
+        &::before {
+          content: '';
+          position: absolute;
+          box-shadow: 0 0 120px 100px rgba(67, 217, 173, 0.4);
+          top: 10%;
+          left: 30%;
+          width: 0;
+          height: 100px;
+          transform: rotate(135deg);
+          z-index: 1;
+        }
+
+        &::after {
+          content: '';
+          width: 0;
+          height: 100px;
+          position: absolute;
+          top: 50%;
+          left: 75%;
+          box-shadow: 0 0 220px 120px rgba(77, 91, 206, 0.4); //40% of $gradients1
+          transform: rotate(45deg);
+          z-index: 1;
+        }
+      }
       @media screen and (max-width: 1024px) {
-        font-size: calc($headline-size * 0.7);
+        font-size: calc($headline-size * 0.6);
       }
     }
-    section > p {
-      color: $secondary1;
-    }
     section {
+      @media screen and (max-width: 320px) {
+        margin-left: 25%;
+      }
+      > p {
+        color: $secondary1;
+      }
       @media screen and (max-height: 668px) {
         position: relative;
         transform: scale(0.9);
@@ -125,9 +162,6 @@ import GameContainer from '@/components/GameContainer.vue'
             letter-spacing: -1px;
             margin-left: 7px;
           }
-          h1 {
-            font-size: $headline-size * 1.2;
-          }
         }
         @media screen and (max-width: 1024px) {
           span:first-of-type {
@@ -170,12 +204,12 @@ import GameContainer from '@/components/GameContainer.vue'
           left: 10px;
           position: relative;
           color: $accent1;
-          display: block;
           width: calc(100% - 20px);
           @media (max-width: 330px) {
             font-size: 14px;
           }
           @media screen and (max-width: 768px) {
+            display: block;
             margin-top: 5px;
           }
           @media screen and (min-width: 768px) {
@@ -240,31 +274,6 @@ import GameContainer from '@/components/GameContainer.vue'
         display: none;
       }
       & h1 {
-        line-height: 1.2;
-        font-weight: normal;
-        margin: 20px 0;
-        &::before {
-          content: '';
-          position: absolute;
-          box-shadow: 0 0 120px 100px rgba(67, 217, 173, 0.4);
-          top: 10%;
-          left: 30%;
-          width: 0;
-          height: 100px;
-          transform: rotate(135deg);
-          z-index: 1;
-        }
-        &::after {
-          content: '';
-          width: 0;
-          height: 100px;
-          position: absolute;
-          top: 50%;
-          left: 75%;
-          box-shadow: 0 0 220px 120px rgba(77, 91, 206, 0.4); //40% of $gradients1
-          transform: rotate(45deg);
-          z-index: 1;
-        }
       }
     }
     @media (min-width: 769px) {

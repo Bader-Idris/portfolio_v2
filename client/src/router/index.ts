@@ -62,7 +62,8 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       title: 'Register Bader Idris - Full-Stack Developer Portfolio',
       description:
-        "Sign up on Bader Idris's platform to access exclusive content, resources, and services. Join a tech-savvy community led by a skilled full-stack developer."
+        "Sign up on Bader Idris's platform to access exclusive content, resources, and services. Join a tech-savvy community led by a skilled full-stack developer.",
+      hideLayout: true
     }
   },
   {
@@ -83,7 +84,37 @@ const routes: Array<RouteRecordRaw> = [
       title: 'Bader Idris - Full-Stack Developer & Innovative Tech Creator',
       description:
         'Meet Bader Idris, a skilled full-stack developer excelling in web and app development with Vue.js, Node.js, and more. Turning ideas into innovative digital solutions.'
-    }
+    },
+    children: [
+      {
+        path: 'professional',
+        name: 'professionalInfo',
+        component: () => import('@/components/about/ProfessionalInfo.vue'),
+        meta: {
+          title: 'professional page, certifications and careers',
+          description: 'under development'
+        }
+      },
+      {
+        path: 'personal',
+        name: 'personalInfo',
+        component: () => import('@/components/about/PersonalInfo.vue'),
+        meta: {
+          title: 'Bader Idris - Full-Stack Developer & Innovative Tech Creator',
+          description:
+            'Meet Bader Idris, a skilled full-stack developer excelling in web and app development with Vue.js, Node.js, and more. Turning ideas into innovative digital solutions.'
+        }
+      },
+      {
+        path: 'hobbies',
+        name: 'hobbiesInfo',
+        component: () => import('@/components/about/HobbiesInfo.vue'),
+        meta: {
+          title: 'hobbies',
+          description: 'under development'
+        }
+      }
+    ]
   },
   {
     path: '/projects',
