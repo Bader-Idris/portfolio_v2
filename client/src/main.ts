@@ -4,14 +4,17 @@ import { createHead } from '@vueuse/head'
 
 import App from '@/App.vue'
 import router, { isElectron } from '@/router'
-import AppLink from '@/components/AppLink.vue'
-import CustomButtons from '@/components/CustomButtons.vue'
+import AppLink from '@/components/global/AppLink.vue'
+import CustomButtons from '@/components/global/CustomButtons.vue'
 import TheNavigation from '@/components/TheNavigation.vue'
 import { App as CapacitorApp } from '@capacitor/app'
 import { Toast } from '@capacitor/toast'
 import { StatusBar, Style } from '@capacitor/status-bar'
 import { Device } from '@capacitor/device'
 import { Network } from '@capacitor/network'
+
+import i18n from '@/i18n'
+// import { createI18n } from 'vue-i18n'
 
 // Import notification service
 import {
@@ -50,11 +53,17 @@ async function notifyOffline() {
   }
 }
 
+// const i18n = createI18n({
+// something vue-i18n options here ...
+// "@/locales/ar/about.json",
+// "@/locales/es/about.json",
+// "@/locales/en/about.json",
+// })
+
 async function initializeApp() {
   try {
     const deviceInfo = await Device.getInfo()
     const isPC = deviceInfo.platform === 'web' && !deviceInfo.isVirtual
-
     const app = createApp(App)
     app.component('AppLink', AppLink)
     app.component('CustomButtons', CustomButtons) // set as a global component
@@ -63,6 +72,7 @@ async function initializeApp() {
     const head = createHead()
     app.use(head)
     app.use(router).use(createPinia())
+    app.use(i18n)
 
     app.mount('#app').$nextTick(() => {
       // for preload loading scripts, TODO: place lottie styles instead!!

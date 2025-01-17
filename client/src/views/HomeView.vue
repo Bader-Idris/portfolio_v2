@@ -3,23 +3,23 @@
     <div class="container">
       <section>
         <div class="info">
-          <span>Hi all. I am</span>
-          <h1>Bader Idris</h1>
-          <p>&gt; Full-stack developer</p>
+          <span>{{ t('home.greeting') }}</span>
+          <h1>{{ t('home.name') }}</h1>
+          <p>{{ t('home.role') }}</p>
         </div>
         <div class="task">
-          <p>// complete the game to continue</p>
-          <p>// you can also see it on my Github page</p>
+          <p>{{ t('home.task') }}</p>
+          <p>{{ t('home.github') }}</p>
         </div>
         <div class="github-repo">
-          <p>// Find my profile on github</p>
+          <p>{{ t('home.pageMobile') }}</p>
           <span>const</span> <span>githubLink</span> =
           <AppLink
             aria-label="go to my github page"
             to="https://github.com/bader-idris"
             class="external-link"
           >
-            github.com/bader-idris</AppLink
+            {{ t('home.profile') }}</AppLink
           >
         </div>
       </section>
@@ -32,6 +32,8 @@
 
 <script setup lang="ts">
 import GameContainer from '@/components/GameContainer.vue'
+import { useI18n } from 'vue-i18n' // TODO: use as global variables in main.ts
+const { t } = useI18n({ useScope: 'global' })
 </script>
 
 <style lang="scss" scoped>

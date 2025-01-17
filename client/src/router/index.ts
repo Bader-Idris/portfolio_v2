@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import { useHead } from '@vueuse/head'
+import i18n, { loadLocaleMessages } from '@/i18n'
 import HomeView from '@/views/HomeView.vue'
 import { App, URLOpenListenerEvent } from '@capacitor/app'
 // https://capacitorjs.com/docs/guides/deep-links#vue
@@ -40,9 +41,15 @@ export function isElectron(): boolean {
   return false
 }
 
+const getDefaultLanguage = (): string => {
+  const browserLang = navigator.language.split('-')[0]
+  return ['en', 'ar', 'es'].includes(browserLang) ? browserLang : 'en'
+}
+
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
+    // path: '/:lang(en|ar|es)?', // Optional language prefix
     component: HomeView,
     meta: {
       title: 'Bader Idris - Full-Stack Developer Portfolio', // how to get the one in the index.html file for this and its description and what's title.main
@@ -52,7 +59,8 @@ const routes: Array<RouteRecordRaw> = [
         default-src 'self' https: ws: wss: blob: data: 'unsafe-inline';
         img-src 'self' https://raw.githubusercontent.com data:;
         connect-src 'self' https://baderidris.com ws: wss:;
-      `
+      `,
+      pathKey: 'home' // Corresponds to the JSON file name
     }
   },
   {
@@ -78,12 +86,14 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/about',
+    // path: '/:lang(en|ar|es)/about', and so on
     name: 'about',
     component: () => import('@/views/AboutView.vue'),
     meta: {
       title: 'Bader Idris - Full-Stack Developer & Innovative Tech Creator',
       description:
-        'Meet Bader Idris, a skilled full-stack developer excelling in web and app development with Vue.js, Node.js, and more. Turning ideas into innovative digital solutions.'
+        'Meet Bader Idris, a skilled full-stack developer excelling in web and app development with Vue.js, Node.js, and more. Turning ideas into innovative digital solutions.',
+      pathKey: 'about'
     },
     children: [
       {
@@ -135,7 +145,8 @@ const routes: Array<RouteRecordRaw> = [
       description:
         'Connect with Bader Idris for collaborations or tech innovations. Reach out via email, LinkedIn, or GitHub to bring your ideas to life with a full-stack expert.',
       contentSecurityPolicy:
-        "default-src 'self' https://baderidris.com; connect-src 'self' https://baderidris.com; img-src 'self' data:; script-src 'self'; style-src 'self' 'unsafe-inline';"
+        "default-src 'self' https://baderidris.com; connect-src 'self' https://baderidris.com; img-src 'self' data:; script-src 'self'; style-src 'self' 'unsafe-inline';",
+      pathKey: 'contact'
     },
     children: [
       {
@@ -215,7 +226,19 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
+  // const lang = (to.params.lang as string) || getDefaultLanguage()
+  const lang = getDefaultLanguage() // Use default language without URL param
+  const pathKey = to.meta.pathKey as string
+
+  if (!['en', 'ar', 'es'].includes(lang)) {
+    return next(`/${getDefaultLanguage()}`)
+  }
+
+  if (lang !== i18n.global.locale || !i18n.global.getLocaleMessage(lang)[pathKey]) {
+    await loadLocaleMessages(lang, pathKey)
+  }
+
   const { title, description } = to.meta
 
   useHead({
@@ -226,10 +249,6 @@ router.beforeEach((to, from, next) => {
         content: description as string
       }
     ]
-    // put this underneath imports // const language = ref('en'); // Default language (can be replaced with Pinia)
-    // ,htmlAttrs: {
-    //   lang: language.value
-    // }
   })
 
   const authStore = useUserStore()
@@ -237,7 +256,6 @@ router.beforeEach((to, from, next) => {
   if (to.meta.requiresAdmin && authStore.user?.role !== 'admin') {
     return next('/login') // Redirect non-admin users to login
   }
-  // redirect them after they log in to the link they were trying to go to
 
   next()
 })

@@ -37,6 +37,8 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 
 import hljs from 'highlight.js' // Import highlight.js
 import 'highlight.js/styles/github-dark.css' // You can change the theme here
+// import { useI18n } from 'vue-i18n';
+// const { t } = useI18n({ useScope: 'global' });
 
 const codeBlock = ref<HTMLElement | null>(null)
 const bioContainer = ref<HTMLElement | null>(null)
@@ -55,7 +57,7 @@ interface Segment {
   isBold: boolean
 }
 
-// The bio string with newlines for formatting
+// const bio = ref(t('about.bio'))
 const bio = ref<string>(`
 I started my programming journey on June 15, 2022, which means I've been honing my skills for ${diffInYears} years and ${diffInMonths} months.
 

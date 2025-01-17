@@ -136,10 +136,12 @@
           </div>
         </div>
       </div>
-      <CustomButtons v-if="authStore.user?.role === 'admin'" button-type="ghost">
-        <AppLink to="/contact/admin"> fetch-messages</AppLink>
+      <section v-if="authStore.user?.role === 'admin'" class="received-to-admin">
+        <CustomButtons button-type="ghost">
+          <AppLink to="/contact/admin"> fetch-messages</AppLink>
+        </CustomButtons>
         <router-view :key="$route.path" />
-      </CustomButtons>
+      </section>
     </main>
   </div>
 </template>
@@ -764,6 +766,12 @@ onBeforeUnmount(() => {
             color: $accent5;
           }
         }
+      }
+    }
+    .received-to-admin {
+      margin-top: 50px;
+      > button {
+        margin-bottom: 20px;
       }
     }
   }

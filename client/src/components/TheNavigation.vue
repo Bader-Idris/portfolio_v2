@@ -14,6 +14,7 @@
           >_projects</AppLink
         >
       </nav>
+      <LanguageSwitcher />
       <AppLink
         to="/contact"
         class="contact sub-navs"
@@ -73,6 +74,7 @@ import { debounce } from 'lodash-es'
 import FooterComp from '@/components/FooterComp.vue'
 import { App as CapacitorApp } from '@capacitor/app'
 import { useRouter, useRoute } from 'vue-router'
+import LanguageSwitcher from '@/components/global/LanguageSwitcher.vue'
 
 const showBurgerNav = ref(window.outerWidth <= 768)
 const showPhoneMenu = ref(false)
