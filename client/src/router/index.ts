@@ -133,7 +133,8 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       title: 'Bader Idris Projects - Innovative Full-Stack Developer Portfolio',
       description:
-        'Explore projects by Bader Idris, showcasing expertise in responsive web design, e-commerce, multi-step forms, todo apps, and stunning agency web apps. Powered by Vue.js, TypeScript, Node.js, and more.'
+        'Explore projects by Bader Idris, showcasing expertise in responsive web design, e-commerce, multi-step forms, todo apps, and stunning agency web apps. Powered by Vue.js, TypeScript, Node.js, and more.',
+      pathKey: 'projects'
     }
   },
   {
@@ -153,7 +154,10 @@ const routes: Array<RouteRecordRaw> = [
         path: 'admin',
         name: 'contact-admin',
         component: () => import('@/components/ContactAdmin.vue'),
-        meta: { requiresAdmin: true }
+        meta: {
+          requiresAdmin: true,
+          pathKey: 'admin'
+        }
       }
     ]
   },
@@ -203,7 +207,8 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       title: 'protected page',
       description:
-        "Access exclusive content designed for logged-in users. Bader Idris's platform offers a secure, personalized experience for tech enthusiasts."
+        "Access exclusive content designed for logged-in users. Bader Idris's platform offers a secure, personalized experience for tech enthusiasts.",
+      pathKey: 'protected'
     }
   },
   // @ts-ignore

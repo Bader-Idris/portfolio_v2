@@ -14,7 +14,6 @@ import { Device } from '@capacitor/device'
 import { Network } from '@capacitor/network'
 
 import i18n from '@/i18n'
-// import { createI18n } from 'vue-i18n'
 
 // Import notification service
 import {
@@ -26,7 +25,6 @@ import '@/assets/css/normalize.css'
 import '@/assets/css/fontawesome.min.css'
 
 //! remove these
-
 // Add API key defined in contextBridge to window object type
 declare global {
   // eslint-disable-next-line no-unused-vars
@@ -52,13 +50,6 @@ async function notifyOffline() {
     })
   }
 }
-
-// const i18n = createI18n({
-// something vue-i18n options here ...
-// "@/locales/ar/about.json",
-// "@/locales/es/about.json",
-// "@/locales/en/about.json",
-// })
 
 async function initializeApp() {
   try {

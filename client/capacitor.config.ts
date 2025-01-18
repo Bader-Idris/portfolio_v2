@@ -13,6 +13,26 @@ const config: CapacitorConfig = {
   //   cleartext: true // Allows HTTP (non-secure) communication in dev mode. Disable in production!
   // },
   plugins: {
+    // docs: https://github.com/capacitor-community/sqlite
+    CapacitorSQLite: {
+      iosDatabaseLocation: 'Library/CapacitorDatabase',
+      iosIsEncryption: true,
+      iosKeychainPrefix: 'vue-sqlite-portfolio',
+      iosBiometric: {
+        biometricAuth: false,
+        biometricTitle: 'Biometric login for capacitor sqlite',
+        androidIsEncryption: true,
+        androidBiometric: {
+          biometricAuth: false,
+          biometricTitle: 'Biometric login for capacitor sqlite',
+          biometricSubTitle: 'Log in using your biometric'
+        },
+        electronIsEncryption: true,
+        electronWindowsLocation: 'C:\\ProgramData\\CapacitorDatabases',
+        electronMacLocation: '/Volumes/Development_Lacie/Development/Databases',
+        electronLinuxLocation: 'Databases'
+      }
+    },
     LocalNotifications: {
       // https://capacitorjs.com/docs/apis/local-notifications
       smallIcon: 'icon.png', // Reference to Android's `android/app/src/main/res/drawable/` folder (Required) and simple monochrome icon

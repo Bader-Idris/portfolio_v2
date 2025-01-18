@@ -16,6 +16,7 @@ import postcssNesting from 'postcss-nesting' // Enables nesting of CSS rules sim
 import postcssCustomMedia from 'postcss-custom-media' //  Allows the use of custom media queries
 import postcssCustomProperties from 'postcss-custom-properties' // Polyfills CSS custom properties (variables) for better browser compatibility.
 import postcssPxToRem from 'postcss-pxtorem' // Converts px units to rem, making your CSS responsive.
+import { VitePWA } from 'vite-plugin-pwa'
 
 import VueRouter from 'unplugin-vue-router/vite' // vue-router types, must be prior to vue plugin
 
@@ -76,6 +77,60 @@ export default defineConfig(({ mode }) => {
     EslintPlugin({
       // eslintPath: './eslint.config.js',
       // eslint 9.14.0 is a real headache
+    }),
+    // Docs: https://vite-pwa-org.netlify.app/guide/#vite-pwa
+    VitePWA({
+      registerType: 'autoUpdate',
+      devOptions: {
+        enabled: true // if you wanna check it in dev
+      },
+      includeAssets: ['**/*.{png,svg,css,js,woff2,woff,ttf,eot}'],
+      // includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
+      manifest: {
+        // or manifest: false to use your manual file
+        // the plugin uses: [workbox-build node](https://developer.chrome.com/docs/workbox/modules/workbox-build)
+        name: 'My Portfolio',
+        short_name: 'Portfolio',
+        description: 'Bader Idris Portfolio, full stack developer',
+        theme_color: '#CCCCCC',
+        background_color: '#CCCCCC',
+        // check these two recommended websites for generating favicon
+        // https://vite-pwa-org.netlify.app/assets-generator/
+        // https://favicon.inbrowser.app/tools/favicon-generator
+        icons: [
+          {
+            src: '/pwa-192x192.png',
+            sizes: '192x192',
+            type: 'image/png',
+            purpose: 'any'
+          },
+          {
+            src: '/pwa-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'any'
+          },
+          {
+            src: '/pwa-maskable-192x192.png',
+            sizes: '192x192',
+            type: 'image/png',
+            purpose: 'maskable'
+          },
+          {
+            src: '/pwa-maskable-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'maskable'
+          }
+        ],
+        display: 'standalone'
+      },
+      injectRegister: 'script-defer', // if null, you must do the manual service worker
+      workbox: {
+        // https://vite-pwa-org.netlify.app/guide/service-worker-precache.html#precache-manifest
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2,woff,ttf,eot}']
+      }
+      // strategies: 'generateSW' (default), or use 'injectManifest' for manual service worker
     })
   ]
 

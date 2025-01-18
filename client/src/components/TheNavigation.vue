@@ -72,8 +72,9 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import { debounce } from 'lodash-es'
 import FooterComp from '@/components/FooterComp.vue'
-import { App as CapacitorApp } from '@capacitor/app'
-import { useRouter, useRoute } from 'vue-router'
+// import { App as CapacitorApp } from '@capacitor/app' // stopped because we removed it
+// import { useRouter, useRoute } from 'vue-router'
+import { useRoute } from 'vue-router'
 import LanguageSwitcher from '@/components/global/LanguageSwitcher.vue'
 
 const showBurgerNav = ref(window.outerWidth <= 768)
@@ -85,7 +86,7 @@ const handleResize = debounce(() => {
   showBurgerNav.value = window.outerWidth <= 768
 }, 300) // Debounce with 300ms delay
 
-const router = useRouter()
+// const router = useRouter()
 const route = useRoute()
 
 // Update current path whenever the phone menu is toggled
@@ -108,17 +109,17 @@ onMounted(() => {
   window.addEventListener('resize', handleResize)
 
   // Intercept back button on Android devices
-  CapacitorApp.addListener('backButton', (event) => {
-    // Check if the phone menu is open
-    if (showPhoneMenu.value) {
-      event.canGoBack = false // Prevent default back navigation
-      togglePhoneMenu() // Close the menu
-      router.push(currentPath.value) // Navigate to the stored path (if needed)
-    } else {
-      // Allow default behavior if the menu is not open
-      event.canGoBack = true // This allows normal back navigation
-    }
-  })
+  // CapacitorApp.addListener('backButton', (event) => {
+  //   // Check if the phone menu is open
+  //   if (showPhoneMenu.value) {
+  //     event.canGoBack = false // Prevent default back navigation
+  //     togglePhoneMenu() // Close the menu
+  //     router.push(currentPath.value) // Navigate to the stored path (if needed)
+  //   } else {
+  //     // Allow default behavior if the menu is not open
+  //     event.canGoBack = true // This allows normal back navigation
+  //   }
+  // })
 })
 
 onUnmounted(() => {

@@ -105,6 +105,14 @@ const switchLanguage = async () => {
 
 <style lang="scss" scoped>
 .language-switcher {
+  z-index: 999;
+  @media screen and (max-width: 991px) {
+    display: none;
+  }
+  @media screen and (min-width: 992px) {
+    right: 180px;
+    position: absolute;
+  }
   input {
     width: 200px;
     padding: 8px;

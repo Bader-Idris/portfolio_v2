@@ -145,7 +145,7 @@ function handleGameOver(): void {
 
   & > *:not(.screws) {
     width: 50%;
-    height: calc(100% - 60px);
+    height: calc(100% - 65px);
     border-radius: 10px;
   }
   .game-controller {

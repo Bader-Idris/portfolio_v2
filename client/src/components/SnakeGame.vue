@@ -29,30 +29,56 @@ import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import { Haptics, ImpactStyle } from '@capacitor/haptics'
 import { LocalNotifications } from '@capacitor/local-notifications'
 import { Capacitor } from '@capacitor/core'
-import { Howl } from 'howler' // best audio tensive handling package, ai says
+import { Howl, Howler } from 'howler'
 import confetti from 'canvas-confetti'
+
 import eatingSound from '@/assets/sounds/swallow.wav'
 import victorySound from '@/assets/sounds/victory.wav'
 import wallHitSound from '@/assets/sounds/wall-hit.wav'
 import snakeHissing from '@/assets/sounds/snake-hissing.wav'
 import ouch from '@/assets/sounds/ouch.wav'
 
-// Initialize Howler.js sound objects
-const sounds = {
-  eating: new Howl({ src: [eatingSound], html5: true }),
-  victory: new Howl({ src: [victorySound], html5: true }),
-  wallHit: new Howl({ src: [wallHitSound], html5: true }),
-  snakeHissing: new Howl({ src: [snakeHissing], html5: true }),
-  ouch: new Howl({ src: [ouch], html5: true })
+// HTML5 Audio pool size
+Howler.html5PoolSize = 10 // same as default!
+
+// Define the shape of the `sounds` object
+type SoundKeys = 'snakeHissing' | 'eating' | 'wallHit' | 'ouch' | 'victory'
+type SoundsMap = Record<SoundKeys, Howl | null>
+
+// Initialize `sounds` as a reactive object
+let sounds: SoundsMap | null = null
+
+// Function to initialize sounds (called on user interaction)
+const initializeSounds = () => {
+  if (!sounds) {
+    sounds = {
+      snakeHissing: new Howl({ src: [snakeHissing], html5: true }),
+      ouch: new Howl({ src: [ouch], html5: true }),
+      eating: new Howl({ src: [eatingSound], html5: true }),
+      wallHit: new Howl({ src: [wallHitSound], html5: true }),
+      victory: new Howl({ src: [victorySound], html5: true })
+    }
+    console.log('Sounds initialized.')
+  }
 }
 
 // Function to play a sound by key
-const playSound = (key) => {
-  if (sounds[key]) {
-    sounds[key].stop() // Stop any existing playback to avoid overlapping issues
-    sounds[key].play() // Play the sound
+const playSound = (key: SoundKeys) => {
+  if (!sounds) {
+    console.error('Sounds not initialized yet.')
+    return
+  }
+
+  const sound = sounds[key]
+  if (sound) {
+    try {
+      sound.stop() // Stop any existing playback to avoid overlapping
+      sound.play() // Play the sound
+    } catch (error) {
+      console.error(`Error playing sound "${key}":`, error)
+    }
   } else {
-    console.error(`Sound key "${key}" not found`)
+    console.error(`Sound key "${key}" not found.`)
   }
 }
 
@@ -260,6 +286,7 @@ function move(): void {
 }
 
 function startGame(): void {
+  initializeSounds()
   resetGame()
   playSound('snakeHissing')
   gameInterval = window.setInterval(() => {

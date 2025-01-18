@@ -28,7 +28,8 @@
     },
     "types": [
       "unplugin-vue-router/client",
-      "node"
+      "node",
+      "vite-plugin-pwa/vue"
       /*
       "vite/client", // TODO: if there's an issue with eslint
       "vitest/globals",
