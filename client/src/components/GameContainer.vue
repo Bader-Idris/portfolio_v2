@@ -10,29 +10,29 @@
       @game-over="handleGameOver"
     />
     <div class="game-controller">
-      <span>// use keyboard</span>
-      <span>// arrows to play</span>
+      <span>{{ t('home.gameTips_0') }}</span>
+      <span>{{ t('home.gameTips_1') }}</span>
       <div class="board-arrows">
         <span @click="triggerKeyPress('ArrowDown')"><i class="fas fa-triangle"></i></span>
         <span @click="triggerKeyPress('ArrowRight')"><i class="fas fa-triangle left"></i></span>
         <span @click="triggerKeyPress('ArrowUp')"><i class="fas fa-triangle down"></i></span>
         <span @click="triggerKeyPress('ArrowLeft')"><i class="fas fa-triangle right"></i></span>
       </div>
-      <span>// food left</span>
+      <span>{{ t('home.foodLeft') }}</span>
       <FoodComp :food-left="foodLeft" />
       <AppLink aria-label="about page" to="/about" class="internal-link">
-        <CustomButtons button-type="ghost" class="skip">Skip</CustomButtons>
+        <CustomButtons button-type="ghost" class="skip">{{ t('home.skip') }}</CustomButtons>
       </AppLink>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-// import { ref, PropType } from 'vue'
 import { ref } from 'vue'
 import SnakeGame from '@/components/SnakeGame.vue'
 import FoodComp from './FoodComp.vue'
-
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n({ useScope: 'global' })
 // Reactive state for food, typed as an array of FoodItem
 const foodLeft = ref<{ eaten: boolean }[]>(Array.from({ length: 10 }, () => ({ eaten: false })))
 

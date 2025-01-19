@@ -6,7 +6,7 @@
     </div>
     <div v-if="!gameStarted || gameOver" class="outcome-display">
       <CustomButtons v-if="!gameStarted && !gameOver" button-type="ghost" @click="startGame">
-        Start Game
+        {{ t('home.gameCommand') }}
       </CustomButtons>
 
       <p v-if="gameOver && congratsMessage" class="outcome">{{ isWon }}</p>
@@ -31,7 +31,7 @@ import { LocalNotifications } from '@capacitor/local-notifications'
 import { Capacitor } from '@capacitor/core'
 import { Howl, Howler } from 'howler'
 import confetti from 'canvas-confetti'
-
+import { useI18n } from 'vue-i18n'
 import eatingSound from '@/assets/sounds/swallow.wav'
 import victorySound from '@/assets/sounds/victory.wav'
 import wallHitSound from '@/assets/sounds/wall-hit.wav'
@@ -84,6 +84,7 @@ const playSound = (key: SoundKeys) => {
 
 // Electron's Notification API
 const isElectron = Capacitor.getPlatform() === 'electron'
+const { t } = useI18n({ useScope: 'global' })
 
 // Define props with proper types
 defineProps<{
@@ -116,7 +117,7 @@ const foodEatenRecently = ref<boolean>(false)
 
 // Formatted score for singular/plural
 const formattedScore = computed(() =>
-  score.value === 1 ? `Score: ${score.value}` : `Scores: ${score.value}`
+  score.value === 1 ? `${t('home.score')}: ${score.value}` : `${t('home.scores')}: ${score.value}`
 )
 
 // Key event listener lifecycle hooks
@@ -168,12 +169,13 @@ async function showNotification(message: string) {
       await LocalNotifications.schedule({
         notifications: [
           {
-            title: 'Victory!',
+            title: t('home.gameCongratsTitle'),
             body: message,
-            id: 1,
+            id: 1, // Can we set it to TimeStamp
             schedule: { at: new Date(Date.now() + 3000) }, // 3 seconds delay
             sound: '',
-            smallIcon: '../../assets/icon-only.png', // should be in res/drawable, so this wouldn't work
+            largeIcon: '/pwa-192x192.png',
+            smallIcon: '/favicon-16x16.png', // should be in res/drawable, so this wouldn't work
             // attachments: null,
             silent: false,
             actionTypeId: '',
@@ -198,7 +200,7 @@ function checkWinCondition() {
     stopGame('Play-again')
 
     // Trigger local notification on win
-    showNotification("Congratulations! You've won the game!")
+    showNotification(t('home.gameCongrats'))
   }
 }
 
@@ -306,7 +308,9 @@ function resetGame(): void {
   emit('gameOver')
 }
 
-const isWon = computed(() => (score.value >= winningScore.value ? 'Well Done!' : 'Game over!'))
+const isWon = computed(() =>
+  score.value >= winningScore.value ? t('home.hasWon') : t('home.hasNotWon')
+)
 
 function handleKeyPress(event: KeyboardEvent): void {
   // Allow starting/restarting the game with the space bar whether game is over or not
@@ -400,14 +404,14 @@ function checkCollision(): void {
   if (head.x < 1 || head.x > gridSize.value || head.y < 1 || head.y > gridSize.value + 14) {
     playSound('wallHit')
     Haptics.vibrate({ duration: 100 }) // Vibration feedback on collision
-    stopGame('Start-again')
+    stopGame(t('home.again'))
     return
   }
   for (let i = 1; i < snake.value.length; i++) {
     if (head.x === snake.value[i].x && head.y === snake.value[i].y) {
       playSound('ouch')
       Haptics.vibrate({ duration: 100 }) // Vibration feedback on collision with self
-      stopGame('Start-again')
+      stopGame(t('home.again'))
       return
     }
   }

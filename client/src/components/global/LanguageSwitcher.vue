@@ -106,12 +106,31 @@ const switchLanguage = async () => {
 <style lang="scss" scoped>
 .language-switcher {
   z-index: 999;
-  @media screen and (max-width: 991px) {
-    display: none;
+  @media screen and (max-width: 768px) {
+    right: 60px;
+    position: absolute;
   }
-  @media screen and (min-width: 992px) {
+  @media screen and (min-width: 769px) {
     right: 180px;
     position: absolute;
+  }
+  > select {
+    width: 100px;
+    background-color: #333;
+    color: #fff;
+    width: 30px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    padding: 8px;
+    font-size: 14px;
+    appearance: none;
+    background-image: linear-gradient(to right, #ff7e5f, #fea55f);
+    cursor: pointer;
+    option {
+      background-color: #333;
+      color: #fff;
+    }
   }
   input {
     width: 200px;

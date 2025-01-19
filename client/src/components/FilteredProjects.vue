@@ -119,65 +119,65 @@ const filteredProjects = computed(() => {
       flex-basis: calc(33% - 10px);
     }
   }
-    .project-card {
-      padding: 20px;
-      border-radius: 8px;
-      width: calc(33% - 40px);
-      width: 100%;
+  .project-card {
+    padding: 20px;
+    border-radius: 8px;
+    width: calc(33% - 40px);
+    width: 100%;
 
-      .card-title {
-        font-size: $body-text-size;
+    .card-title {
+      font-size: $body-text-size;
+    }
+
+    .card-content {
+      background-color: $code-snippets-bg;
+      border-radius: 25px;
+      border: 1px solid $lines;
+
+      p {
+        text-align: left;
+        padding: 20px 20px 0 20px;
+        margin-bottom: 40px;
       }
 
-      .card-content {
-        background-color: $code-snippets-bg;
-        border-radius: 25px;
-        border: 1px solid $lines;
+      img {
+        // put a better broken images message
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin-bottom: 10px;
+        border-radius: 10px 10px 0 0;
 
-        p {
-          text-align: left;
-          padding: 20px 20px 0 20px;
-          margin-bottom: 40px;
+        min-width: 200px;
+        min-height: 200px;
+        background: $primary3;
+        position: relative;
+
+        &::before {
+          content: 'broken image';
+          background-color: $secondary2;
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          font-size: 32px;
+          color: $secondary4;
+          font-weight: bold;
+          text-transform: uppercase;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          text-align: center;
+          line-height: 6;
         }
+      }
 
-        img {
-          // put a better broken images message
-          max-width: 100%;
-          height: auto;
-          display: block;
-          margin-bottom: 10px;
-          border-radius: 10px 10px 0 0;
-
-          min-width: 200px;
-          min-height: 200px;
-          background: $primary3;
-          position: relative;
-
-          &::before {
-            content: 'broken image';
-            background-color: $secondary2;
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            font-size: 32px;
-            color: $secondary4;
-            font-weight: bold;
-            text-transform: uppercase;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            line-height: 6;
-          }
-        }
-
-        .project-link {
-          bottom: 0;
-          left: 20px;
-          position: relative;
-          margin: 20px 0;
-        }
+      .project-link {
+        bottom: 0;
+        left: 20px;
+        position: relative;
+        margin: 20px 0;
       }
     }
+  }
 }
 </style>

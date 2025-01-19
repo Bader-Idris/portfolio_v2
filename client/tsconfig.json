@@ -47,6 +47,6 @@
     "./typed-router.d.ts", // This comes after installing the pkg then run dev command!
     "**/*.wav"
   ],
-  "exclude": ["node_modules", "android", "ios", "release", "src/electron", "dist"],
+  "exclude": ["node_modules", "android", "ios", "release", "src/electron", "dist", "src/dev-dist"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

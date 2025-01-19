@@ -24,7 +24,8 @@ node_modules/
 /platforms/
 /plugins
 /www
-
+# to remove cached committed use git rm -r --cached <path/to/file>
+src/dev-dist/
 # my temporary dir
 inspireFrom/
 
