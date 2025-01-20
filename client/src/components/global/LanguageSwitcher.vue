@@ -1,63 +1,110 @@
-<!-- <template>
+<!--
+<template>
   <div class="language-switcher">
     <input
-      list="languageList"
-      placeholder="Search languages... (e.g., español, اسبانية, Spanish)"
       v-model="searchTerm"
-      @input="filterLanguages"
-      @change="switchLanguage"
+      type="text"
+      list="language-list"
+      autocomplete="off"
+      :placeholder="currentLanguageName"
+      @input="updateLanguage"
     />
-    <datalist id="languageList">
-      <option v-for="lang in filteredLanguages" :key="lang.code" :value="lang.display" />
+    <datalist id="language-list">
+      <option
+        v-for="(term, key) in searchTerms"
+        :key="key"
+        :value="term"
+      />
     </datalist>
   </div>
-</template> -->
+</template>
 
-<!-- <script setup lang="ts">
-import { computed, ref } from 'vue'
+<script setup lang="ts">
+import { ref, computed, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
+import { loadLocaleMessages } from '@/i18n'
 
-// Initialize i18n
 const { locale } = useI18n()
+const router = useRouter()
+const currentRoute = router.currentRoute.value
+const pathKey = (currentRoute.meta.pathKey as string) || 'home'
 
-// Search term for filtering languages
-const searchTerm = ref('')
-
-// Available languages with multiple keywords for search
 const languages = [
-  {
-    code: 'en',
-    display: 'English 🇬🇧',
-    keywords: ['English', 'انجليزي', 'Anglais']
-  },
-  {
-    code: 'ar',
-    display: 'العربية 🇸🇦',
-    keywords: ['العربية', 'Arabic', 'Arabisch', 'árabe']
-  },
-  {
-    code: 'es',
-    display: 'Español 🇪🇸',
-    keywords: ['Español', 'Spanish', 'اسبانية', 'اسبانيا']
-  }
+  { code: 'US', name: 'English' },
+  { code: 'PS', name: 'العربية' },
+  { code: 'ES', name: 'Español' }
 ]
 
-// Filtered languages based on search term
-const filteredLanguages = computed(() => {
-  return languages.filter((lang) =>
-    lang.keywords.some((keyword) => keyword.toLowerCase().includes(searchTerm.value.toLowerCase()))
-  )
+const selectedLang = ref(locale.value)
+
+const getFlagEmoji = (countryCode: string): string => {
+  const codePoints = countryCode
+    .toUpperCase()
+    .split('')
+    .map((char) => 127397 + char.charCodeAt(0))
+  return String.fromCodePoint(...codePoints)
+}
+
+const searchTerms = computed(() => {
+  const terms = []
+  for (const lang of languages) {
+    // Add variations for each language
+    switch (lang.code) {
+      case 'US':
+        terms.push('English', 'US')
+        break
+      case 'PS':
+        terms.push('عربي', 'العربية', 'Arabic', 'PS')
+        break
+      case 'ES':
+        terms.push('Español', 'árabe', 'el árabe', 'ES')
+        break
+    }
+  }
+  return terms
 })
 
-// Method to switch language based on input value
-const switchLanguage = () => {
-  const selectedLang = languages.find((lang) => lang.display === searchTerm.value)
-  if (selectedLang) {
-    locale.value = selectedLang.code
-    document.documentElement.lang = selectedLang.code // Update for SEO
+const languageMapping: { [key: string]: string } = {}
+for (const lang of languages) {
+  const terms = searchTerms.value.filter(term =>
+    lang.code === 'US' ? term === 'English' || term === 'US' :
+    lang.code === 'PS' ? term === 'عربي' || term === 'العربية' || term === 'Arabic' || term === 'PS' :
+    lang.code === 'ES' ? term === 'Español' || term === 'árabe' || term === 'el árabe' || term === 'ES' :
+    ''
+  )
+  terms.forEach(term => {
+    languageMapping[term] = lang.code
+  })
+}
+
+const searchTerm = ref('')
+
+watch(locale, (newLocale) => {
+  selectedLang.value = newLocale
+  searchTerm.value = getLanguageName(newLocale)
+})
+
+const getLanguageName = (code: string): string => {
+  const lang = languages.find(l => l.code === code)
+  return lang ? `${getFlagEmoji(lang.code)} ${lang.name}` : ''
+}
+
+const currentLanguageName = computed(() => getLanguageName(selectedLang.value))
+
+const updateLanguage = async () => {
+  const selectedTerm = searchTerm.value
+  const langCode = languageMapping[selectedTerm] || selectedLang.value
+  if (langCode !== selectedLang.value) {
+    selectedLang.value = langCode
+    locale.value = selectedLang.value
+    await loadLocaleMessages(selectedLang.value, pathKey)
+    console.log('Current lang:', document.documentElement.lang)
+    searchTerm.value = getLanguageName(selectedLang.value)
   }
 }
-</script> -->
+</script>
+-->
 
 <template>
   <div class="language-switcher">

@@ -61,6 +61,14 @@ dig +short TXT mail._domainkey.baderidris.com
 v=DMARC1; p=none; sp=none; fo=0; adkim=r; aspf=r; pct=100; rf=afrf; ri=86400; rua=mailto:dmarc.report@baderidris.com; ruf=mailto:dmarc.report@baderidris.com
 # check them out here: https://github.com/internetstandards/toolbox-wiki/blob/main/DMARC-how-to.md#overview-of-dmarc-configuration-tags
 
+# to add MTA-STS layer, I have enabled the option in mailserver.env
+# then added the required two DNS records: {A,TXT} for it:
+# TXT: HOST: _mta-sts.baderidris.com VALUE: v=STSv1; id=173737507624Z; TTL: 86400
+# A: HOST: mta-sts.baderidris.com VALUE: <MAIL-SERVER-IP> TTL auto
+# then added the required file and bound it in the copmose file
+# and required the certs from certbot for the new subdomain, mta-sts
+# then added the file to be sent out in both 443 and 80 ports, check the nginx conf file for prod!
+
 # optionals
 # it defaults to be enabled in mailserver.env
 docker exec -it mail setup quota set contact@baderidris.com 15G  # limiting the space to 10GB for this user

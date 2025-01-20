@@ -12,7 +12,7 @@ services:
   app:
     build:
       context: ./server
-      dockerfile: Dockerfile
+      dockerfile: bun.Dockerfile
     image: baderidris/portfolio
     restart: always
     environment:
