@@ -58,7 +58,6 @@ const initializeSounds = () => {
       wallHit: new Howl({ src: [wallHitSound], html5: true }),
       victory: new Howl({ src: [victorySound], html5: true })
     }
-    console.log('Sounds initialized.')
   }
 }
 
