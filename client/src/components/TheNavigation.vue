@@ -10,17 +10,20 @@
           :class="{ active: /^\/about(\/.*)?$/.test($route.path) }"
           >_about-me
         </AppLink>
-        <AppLink to="/projects" class="sub-navs" :class="{ active: $route.path === '/projects' }"
-          >_projects</AppLink
-        >
+        <AppLink
+          to="/projects"
+          class="sub-navs"
+          :class="{ active: /^\/projects(\/.*)?$/.test($route.path) }"
+          >_projects
+        </AppLink>
       </nav>
       <LanguageSwitcher />
       <AppLink
         to="/contact"
         class="contact sub-navs"
-        :class="{ active: $route.path === '/contact' }"
-        >_contact-me</AppLink
-      >
+        :class="{ active: /^\/contact(\/.*)?$/.test($route.path) }"
+        >_contact-me
+      </AppLink>
     </div>
     <div v-if="showBurgerNav" class="burger-nav" @click="togglePhoneMenu">
       <span v-for="i in 3" :key="i"></span>
@@ -50,14 +53,14 @@
           <AppLink
             to="/projects"
             class="phone-sub-navs"
-            :class="{ active: $route.path === '/projects' }"
+            :class="{ active: /^\/projects(\/.*)?$/.test($route.path) }"
             @click="togglePhoneMenu"
             >_projects</AppLink
           >
           <AppLink
             to="/contact"
             class="contact-phone phone-sub-navs"
-            :class="{ active: $route.path === '/contact' }"
+            :class="{ active: /^\/contact(\/.*)?$/.test($route.path) }"
             @click="togglePhoneMenu"
             >_contact-me
           </AppLink>
