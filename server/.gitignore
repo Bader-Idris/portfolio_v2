@@ -5,3 +5,4 @@ config/certbot/
 
 package-lock.json
 bun.lockb
+/config/nginx/ssl_renew_prod.sh

@@ -50,6 +50,7 @@ docker exec -it mail setup alias add admin@baderidris.com contact@baderidris.com
 docker exec -it mail setup config dkim domain 'baderidris.com'
 # when key is generated, reboot is required, with opendkim, not rspamd, (default)
 # now, the key is saved to mail.txt file (default)
+# will be added templorarily to /tmp/docker-mailserver/opendkim/ in the container
 # for DNS TXT record read this doc: https://docker-mailserver.github.io/docker-mailserver/latest/config/best-practices/dkim_dmarc_spf/#dkim-dns
 # take (...) and make it as a TXT record with this name: mail._domainkey.baderidris.com, value=generatedHash
 # then remove "" and () and combine both values inside "" as this: v=DKIM1; h=sha256; k=rsa; p=MIIBIjANBgkqhkiG9t0BAQEFXAVCAQ8AMIIBCgKCAQEAw4RSuTrExK4ra5XhTZR3+pfHsra0aEBVeMhxXk0YmS/yUC3LFdfxN3hum43YDWVrLO8V57fktW2JOEhsEc3dys3wYrA0ofZgHqsPx+MvkxqxnA0S49VAWiCZ3Gft8hGtcYV5/08sSjHMywvaLwgn9/PfqErx0ZVllZAL8nx2tCEsFgBjpr25GZX89R6O0WS8IkAN/zyN13bzQvvss+eMgOdKvh3KYqY4fcr4rmvcYKwQSsnW03Em17xQ0Nq5cZy/Xd5y1VbArDhzWeZM/6tQUHHUdGQwU5KsdfsdDfm/slfLgpsWdYevqHSUYplfEQjMdvddnYrSzMvWS15CZio1LlDllwIDAQAB
