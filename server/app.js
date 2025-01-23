@@ -24,6 +24,13 @@ const mongoSanitize = require("express-mongo-sanitize");
 // const timeout = require("connect-timeout");// can be used specifically when not dealt by nginx
 // const compression = require("compression");//use with statics
 
+// TODO: check them out
+// const hpp = require('hpp');
+const slowDown = require("express-slow-down");
+
+// Add DDoS protection middleware
+// const ddos = require('ddos-protection');
+
 const { connectDB } = require("./db/connect");
 
 // routers
@@ -52,8 +59,6 @@ const {
   JWT_SECRET,
 } = require("./config/config");
 
-app.enable("trust proxy");//derived from proxy-addr package
-
 // Static files rate limiter
 const staticFileLimiter = rateLimiter({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -68,16 +73,43 @@ const apiLimiter = rateLimiter({
   message: "Too many requests to the API. Please slow down.",
 });
 
+app.enable("trust proxy");//derived from proxy-addr package
 app.disable("x-powered-by");
 
+// Slow down repeated requests
+const speedLimiter = slowDown({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  delayAfter: 50, // Allow 50 requests per windowMs
+  delayMs: () => 500, // Begin adding 500ms of delay per request above 50
+});
+
+// Enhanced Security Headers
 app.use(
-  helmet.contentSecurityPolicy({
-    //this helmet stops any new api, keep an eye on it when adding new ones
-    directives: {
-      defaultSrc: ["'self'"],
-      imgSrc: ["'self'", "https://raw.githubusercontent.com", "data:"],
-      scriptSrc: ["'self'", "'unsafe-inline'"],
-      workerSrc: ["'self'", "blob:"],
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        imgSrc: [
+          "'self'",
+          "https://www.google.com",
+          "https://www.gstatic.com",
+          "https://raw.githubusercontent.com",
+          "data:",
+        ],
+        scriptSrc: ["'self'", "'unsafe-inline'"],
+        workerSrc: ["'self'", "blob:"],
+        connectSrc: ["'self'"], // TODO: check these three, if they're affect the mobile app
+        frameSrc: ["'self'"],
+        objectSrc: ["'none'"],
+      },
+    },
+    crossOriginResourcePolicy: { policy: "same-site" },
+    permissionsPolicy: {
+      features: {
+        geolocation: ["'self'"],
+        camera: ["'none'"],
+        microphone: ["'none'"],
+      },
     },
   })
 );
@@ -86,9 +118,11 @@ app.use(
   cors({
     // you can add custom naming of cap app in its config, as origin
     origin: ["https://baderidris.com"], //  "http://localhost" for dev
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"], // Include common headers
     credentials: true, // Allow cookies and credentials
+    maxAge: 86400, // 24 hours - The maximum amount of time the results of a preflight request can be cached.
+    preflightContinue: false,
   })
 );
 
@@ -97,13 +131,21 @@ app.use(mongoSanitize());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser(JWT_SECRET));
+app.use(
+  cookieParser(JWT_SECRET, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict", // TODO: will it work with mobile built apps!
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+  })
+);
 // if (process.env.NODE_ENV === "production") {
 //   app.use("/statics", staticFileLimiter, express.static("./statics"));
 // } else {
 //   app.use("/statics", express.static("./statics"));
 // }
 app.use(express.static("./statics"));
+app.use(speedLimiter);
 app.use(fileUpload());
 
 // Apply API rate limiter to API routes
@@ -139,6 +181,7 @@ app.get("*", (req, res) => {//! check using compression package
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
+app.use(morgan("combined"));
 
 // docker exec -it my-blog-mongo mongo -u Bader -p myPassword --authenticationDatabase admin
 // show dbs
@@ -161,6 +204,22 @@ const connectWithRetry = async () => {
 connectWithRetry();
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => 
-  console.log( `Listening on port ${port}...` )
-);
+const server = app.listen(port, () => {
+  console.log(`Server running on port ${server.address().port}`);
+});
+
+// Server Hardening
+server.setTimeout(10000); // 10 seconds timeout
+server.headersTimeout = 15000; // 15 seconds headers timeout
+server.keepAliveTimeout = 5000; // 5 seconds keep-alive timeout
+
+// Handle uncaught exceptions
+process.on('uncaughtException', (err) => {
+  console.error(`[${new Date().toISOString()}] Uncaught Exception: ${err.message}`);
+  process.exit(1);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error(`[${new Date().toISOString()}] Unhandled Rejection at: ${promise}, reason: ${reason}`);
+  process.exit(1);
+});

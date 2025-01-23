@@ -135,12 +135,25 @@ const languages = [
 
 const selectedLang = ref(locale.value)
 
+// const getFlagEmoji = (countryCode: string): string => {
+//   const codePoints = countryCode
+//     .toUpperCase()
+//     .split('')
+//     .map((char) => 127397 + char.charCodeAt(0))
+//   return String.fromCodePoint(...codePoints)
+// }
+
 const getFlagEmoji = (countryCode: string): string => {
-  const codePoints = countryCode
-    .toUpperCase()
-    .split('')
-    .map((char) => 127397 + char.charCodeAt(0))
-  return String.fromCodePoint(...codePoints)
+  switch (countryCode) {
+    case 'en':
+      return '🇺🇸' // United States flag
+    case 'ar':
+      return '🇵🇸' // Palestinian flag
+    case 'es':
+      return '🇪🇸' // Spanish flag
+    default:
+      return '🇺🇸' // No flag for unrecognized languages
+  }
 }
 
 const switchLanguage = async () => {

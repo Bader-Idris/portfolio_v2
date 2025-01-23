@@ -66,9 +66,11 @@ v=DMARC1; p=none; sp=none; fo=0; adkim=r; aspf=r; pct=100; rf=afrf; ri=86400; ru
 # then added the required two DNS records: {A,TXT} for it:
 # TXT: HOST: _mta-sts.baderidris.com VALUE: v=STSv1; id=173737507624Z; TTL: 86400
 # A: HOST: mta-sts.baderidris.com VALUE: <MAIL-SERVER-IP> TTL auto
-# then added the required file and bound it in the copmose file
+# then added the required txt file and bound it in the compose file
 # and required the certs from certbot for the new subdomain, mta-sts
 # then added the file to be sent out in both 443 and 80 ports, check the nginx conf file for prod!
+
+# TODO: check how to add a BIMI key and server the blue verification badge
 
 # optionals
 # it defaults to be enabled in mailserver.env
