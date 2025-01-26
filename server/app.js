@@ -22,7 +22,7 @@ const mongoSanitize = require("express-mongo-sanitize");
 // const history = require("connect-history-api-fallback");//! looks useless
 // const responseTime = require('response-time');//to monitor each endpoint
 // const timeout = require("connect-timeout");// can be used specifically when not dealt by nginx
-// const compression = require("compression");//use with statics
+// const compression = require("compression");// nginx is better, if both are used, it'll reduce data transferred, so Use NGINX gzip alone
 
 // TODO: check them out
 // const hpp = require('hpp');
@@ -175,7 +175,7 @@ app.get("/robots.txt", (req, res) => {
 //   })
 // );
 
-app.get("*", (req, res) => {//! check using compression package
+app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "./statics", "index.html"));
 });
 

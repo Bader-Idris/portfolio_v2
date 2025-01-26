@@ -1,10 +1,12 @@
 node_modules
 Dockerfile
+bun.Dockerfile
 .dockerignore
 .gitignore
 a.yml
 a.*
 b.*
 bun.lockb
+/.vscode
 
 docker-compose*

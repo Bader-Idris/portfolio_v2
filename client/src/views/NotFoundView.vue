@@ -10,6 +10,11 @@
   </div>
 </template>
 
+<script setup lang="ts">
+// add 404 status code in this 404 page
+// it's a server side, so do it in ExpressJs
+</script>
+
 <style lang="scss" scoped>
 @use '~'as *;
 .not-found {

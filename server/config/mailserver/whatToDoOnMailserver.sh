@@ -59,7 +59,7 @@ docker exec -it mail setup config dkim domain 'baderidris.com'
 dig +short TXT mail._domainkey.baderidris.com
 
 # add this common DMARC record type=TXT, hostname=_dmarc.baderidris.com, value= underneath
-v=DMARC1; p=none; sp=none; fo=0; adkim=r; aspf=r; pct=100; rf=afrf; ri=86400; rua=mailto:dmarc.report@baderidris.com; ruf=mailto:dmarc.report@baderidris.com
+v=DMARC1; p=quarantine; sp=quarantine; fo=0; adkim=r; aspf=r; pct=100; rf=afrf; ri=86400; rua=mailto:dmarc.report@baderidris.com; ruf=mailto:dmarc.report@baderidris.com
 # check them out here: https://github.com/internetstandards/toolbox-wiki/blob/main/DMARC-how-to.md#overview-of-dmarc-configuration-tags
 
 # to add MTA-STS layer, I have enabled the option in mailserver.env

@@ -1,0 +1,22 @@
+FROM nginx:stable-alpine
+
+# Enable community repo and install Fail2Ban
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/v$(cut -d'.' -f1,2 /etc/alpine-release)/community/" >> /etc/apk/repositories && \
+  apk add --no-cache --update fail2ban && \
+  mkdir -p /var/run/fail2ban
+
+# Copy configurations and scripts from the SAME DIRECTORY as the Dockerfile
+COPY entrypoint.sh /entrypoint.sh
+COPY nginx-jail.local /etc/fail2ban/jail.d/
+COPY nginx-filter.conf /etc/fail2ban/filter.d/
+
+# Configure NGINX logs
+RUN sed -i 's|access_log /dev/stdout main;|access_log /var/log/nginx/access.log main;|g' /etc/nginx/nginx.conf && \
+  sed -i 's|error_log /dev/stderr warn;|error_log /var/log/nginx/error.log warn;|g' /etc/nginx/nginx.conf && \
+  mkdir -p /var/log/nginx && \
+  touch /var/log/nginx/access.log /var/log/nginx/error.log && \
+  chown -R nginx:nginx /var/log/nginx && \
+  chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["nginx", "-g", "daemon off;"]
