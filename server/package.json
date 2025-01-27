@@ -1,6 +1,6 @@
 {
   "name": "portfolio",
-  "version": "0.9.3",
+  "version": "1.0.1",
   "description": "My Portfolio As A Full-stack Developer",
   "main": "app.js",
   "scripts": {

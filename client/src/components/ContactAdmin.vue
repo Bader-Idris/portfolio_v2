@@ -96,6 +96,17 @@ onMounted(async () => {
 <style lang="scss">
 @use '~'as *;
 .received-set {
+  height: 580px;
+  overflow: auto scroll;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  @media (max-width: 768px) {
+    width: calc(100% - 30px);
+  }
+  @media (min-width: 769px) {
+    width: 600px;
+  }
   h1 {
     text-align: center;
   }

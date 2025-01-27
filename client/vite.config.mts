@@ -1,5 +1,5 @@
 import { fileURLToPath } from 'url'
-import { defineConfig, loadEnv } from 'vite'
+import { defineConfig } from 'vite'
 import EslintPlugin from 'vite-plugin-eslint'
 // import VuetifyPlugin from 'vite-plugin-vuetify'
 import legacy from '@vitejs/plugin-legacy' // it uses babel!
@@ -80,11 +80,11 @@ export default defineConfig(({ mode }) => {
     }),
     // Docs: https://vite-pwa-org.netlify.app/guide/#vite-pwa
     VitePWA({
-      registerType: 'autoUpdate',
+      registerType: 'autoUpdate', // the default 'prompt' will appear a dir asking for updating the cache by our client
       devOptions: {
         enabled: true // if you wanna check it in dev
       },
-      includeAssets: ['**/*.{png,svg,css,js,woff2,woff,ttf,eot}'],
+      includeAssets: ['**/*.{png,svg,jpg,jpeg,webp,css,js,woff2,woff,ttf,eot}'],
       // includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
       manifest: {
         // or manifest: false to use your manual file
@@ -99,15 +99,45 @@ export default defineConfig(({ mode }) => {
         // https://favicon.inbrowser.app/tools/favicon-generator
         icons: [
           {
-            src: '/pwa-192x192.png',
-            sizes: '192x192',
-            type: 'image/png',
+            src: '/icon-48.webp',
+            sizes: '48x48',
+            type: 'image/webp',
             purpose: 'any'
           },
           {
-            src: '/pwa-512x512.png',
+            src: '/icon-72.webp',
+            sizes: '72x72',
+            type: 'image/webp',
+            purpose: 'any'
+          },
+          {
+            src: '/icon-96.webp',
+            sizes: '96x96',
+            type: 'image/webp',
+            purpose: 'any'
+          },
+          {
+            src: '/icon-128.webp',
+            sizes: '128x128',
+            type: 'image/webp',
+            purpose: 'any'
+          },
+          {
+            src: '/icon-192.webp',
+            sizes: '192x192',
+            type: 'image/webp',
+            purpose: 'any'
+          },
+          {
+            src: '/icon-256.webp',
+            sizes: '256x256',
+            type: 'image/webp',
+            purpose: 'any'
+          },
+          {
+            src: '/icon-512.webp',
             sizes: '512x512',
-            type: 'image/png',
+            type: 'image/webp',
             purpose: 'any'
           },
           {
@@ -128,7 +158,8 @@ export default defineConfig(({ mode }) => {
       injectRegister: 'script-defer', // if null, you must do the manual service worker
       workbox: {
         // https://vite-pwa-org.netlify.app/guide/service-worker-precache.html#precache-manifest
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2,woff,ttf,eot}']
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg,jpeg,webp,woff2,woff,ttf,eot}'],
+        cleanupOutdatedCaches: true
       }
       // strategies: 'generateSW' (default), or use 'injectManifest' for manual service worker
     })

@@ -222,7 +222,7 @@ function useLoading() {
       align-items: center;
       justify-content: center;
       background: #001221;
-      z-index: 9;
+      z-index: 9999;
     }
   `
 

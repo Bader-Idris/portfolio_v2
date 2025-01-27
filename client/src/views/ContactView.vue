@@ -9,9 +9,9 @@
         class="personal-contact"
         :class="{ hidden: isContactHidden }"
       >
-        <p @click="copyToClipboard(0)">
+        <p @click="openMailTo(0)">
           {{ contInfo[0] }}
-          <i v-if="showIcon[0]" class="fa-solid fa-copy"></i>
+          <i v-if="showIcon[0]" class="fa-solid fa-envelope"></i>
         </p>
         <p @click="copyToClipboard(1)">
           {{ contInfo[1] }}
@@ -136,13 +136,13 @@
           </div>
         </div>
       </div>
-      <section v-if="authStore.user?.role === 'admin'" class="received-to-admin">
-        <CustomButtons button-type="ghost">
-          <AppLink to="/contact/admin"> fetch-messages</AppLink>
-        </CustomButtons>
-        <router-view :key="$route.path" />
-      </section>
     </main>
+    <section v-if="authStore.user?.role === 'admin'" class="received-to-admin">
+      <CustomButtons button-type="ghost">
+        <AppLink to="/contact/admin"> fetch-messages</AppLink>
+      </CustomButtons>
+      <router-view :key="$route.path" />
+    </section>
   </div>
 </template>
 
@@ -191,6 +191,16 @@ const toggleSocials = () => {
 // Contact info and icon state
 const contInfo: string[] = ['contact@baderidris.com', '+970595744368']
 const showIcon = ref<boolean[]>([false, false])
+
+// Function to open mail client with email address
+const openMailTo = (index: number): void => {
+  const email = contInfo[index]
+  if (email) {
+    window.location.href = `mailto:${email}`
+  } else {
+    console.error('Email not found at the specified index')
+  }
+}
 
 // Form and messaging state
 const name = ref<string>('')

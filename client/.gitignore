@@ -30,7 +30,7 @@ src/dev-dist/
 inspireFrom/
 
 ios/
-andriod/
+android/
 package-lock.json
 
 # Logs

@@ -74,10 +74,12 @@ async function initializeApp() {
       // Change the status bar style
       StatusBar.setStyle({ style: Style.Dark })
       StatusBar.setBackgroundColor({ color: '#01080E' })
+      StatusBar.hide()
+      StatusBar.setOverlaysWebView({ overlay: true })
 
-      if (deviceInfo.platform === 'android') {
-        document.body.requestFullscreen()
-      }
+      // if (deviceInfo.platform === 'android') {
+      //   document.body.requestFullscreen() // 🔴 in v7, this has become very bad!
+      // }
 
       // Register notifications
       await registerNotifications()

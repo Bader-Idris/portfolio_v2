@@ -38,9 +38,9 @@
           :class="{ hidden: isContactHidden }"
           :style="{ display: contactDisplay }"
         >
-          <p @click="copyToClipboard(0)">
+          <p @click="openMailTo(0)">
             {{ displayContactInfo[0] }}
-            <i v-if="showIcon[0]" class="fa-solid fa-copy"></i>
+            <i v-if="showIcon[0]" class="fa-solid fa-envelope"></i>
           </p>
           <p @click="copyToClipboard(1)">
             {{ contInfo[1] }}
@@ -70,6 +70,16 @@ const hasInitialized = ref(false)
 const activeHobbyIndex = ref<number>(0) // defaulting to "bio"
 const hobbiesDisplay = ref('block')
 const contactDisplay = ref('none')
+
+// Function to open mail client with email address
+const openMailTo = (index: number): void => {
+  const email = contInfo[index]
+  if (email) {
+    window.location.href = `mailto:${email}`
+  } else {
+    console.error('Email not found at the specified index')
+  }
+}
 
 // @ts-ignore  Update your asset handling using import.meta.glob for dynamic imports
 const svgIcons = import.meta.glob('../assets/imgs/svgs/*.svg', { eager: true, as: 'url' })
