@@ -167,6 +167,9 @@ app.use('/api/v1/received_emails', receivedEmailsRouter)
 app.get("/robots.txt", (req, res) => {
   res.sendFile(path.resolve(__dirname, "/statics", "robots.txt"));
 });
+app.get("/favicon.ico", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "/statics", "favicon.ico"));
+});
 
 // app.use(
 //   history({

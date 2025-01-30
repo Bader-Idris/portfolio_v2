@@ -34,7 +34,7 @@
     "test:unit": "vitest"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "dependencies": {
     "@capacitor-community/sqlite": "^6.0.2",
