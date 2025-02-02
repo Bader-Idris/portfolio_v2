@@ -23,6 +23,7 @@ const mongoSanitize = require("express-mongo-sanitize");
 // const responseTime = require('response-time');//to monitor each endpoint
 // const timeout = require("connect-timeout");// can be used specifically when not dealt by nginx
 // const compression = require("compression");// nginx is better, if both are used, it'll reduce data transferred, so Use NGINX gzip alone
+const passport = require("passport");
 
 // TODO: check them out
 // const hpp = require('hpp');
@@ -30,7 +31,6 @@ const slowDown = require("express-slow-down");
 
 // Add DDoS protection middleware
 // const ddos = require('ddos-protection');
-
 const { connectDB } = require("./db/connect");
 
 // routers
@@ -44,6 +44,7 @@ const receivedEmailsRouter = require("./routes/receivedEmailsRoutes");
 // middleware
 const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
+require("./utils/passport")();
 
 const {
   MONGO_USER,
@@ -62,7 +63,7 @@ const {
 // Static files rate limiter
 const staticFileLimiter = rateLimiter({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 1000, // Allow 1000 requests per 15 minutes for static files
+  max: 500, // Allow 1000 requests per 15 minutes for static files
   message: "Too many requests for static files. Please try again later.",
 });
 
@@ -147,6 +148,7 @@ app.use(
 app.use(express.static("./statics"));
 app.use(speedLimiter);
 app.use(fileUpload());
+app.use(passport.initialize());
 
 // Apply API rate limiter to API routes
 // if (process.env.NODE_ENV === "production") {

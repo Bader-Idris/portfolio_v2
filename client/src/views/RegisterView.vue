@@ -16,6 +16,18 @@
         <span v-else> Register </span>
       </button>
     </form>
+
+    <div class="social-auth">
+      <button class="btn social google" @click="socialLogin('google')">
+        <img src="/google-icon.svg" alt="Google" />
+        Continue with Google
+      </button>
+      <button class="btn social facebook" @click="socialLogin('facebook')">
+        <Fb class="svg" />
+        Continue with Facebook
+      </button>
+    </div>
+
     <div v-if="showPrompt" class="prompt">
       <AppLink aria-label="login page" to="/login" class="internal-link">login page</AppLink>
     </div>
@@ -30,6 +42,8 @@ import { toast } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
 import { useRouter, useRoute } from 'vue-router'
 import type { RequestOptions } from '@/types/fetch'
+import Fb from '@/components/svg/socials/FbSvg.vue'
+
 const user = ref<string>('')
 const email = ref<string>('')
 const password = ref<string>('')
@@ -132,6 +146,9 @@ const register = async function (): Promise<void> {
     loading.value = false
   }
 }
+const socialLogin = (provider: string) => {
+  window.location.href = `${DOMAIN_NAME}/api/v1/auth/${provider}`
+}
 </script>
 
 <style lang="scss">
@@ -163,5 +180,30 @@ const register = async function (): Promise<void> {
       cursor: pointer;
     }
   }
+}
+/* TODO: check them out! */
+.social-auth {
+  margin: 2rem auto;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  @media (max-width: 768px) {
+    width: calc(100% - 30px);
+  }
+}
+
+.btn.social {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+  padding: 10px 20px;
+  height: 50px;
+}
+
+.btn.social img {
+  width: 20px;
+  height: 20px;
 }
 </style>

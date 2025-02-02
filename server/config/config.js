@@ -21,4 +21,8 @@ module.exports = {
   MAIL_PASS: process.env.MAIL_PASS,
   ORIGIN_URL: process.env.ORIGIN_URL || "localhost:3000",
   CYPRESS_RECORD_KEY: process.env.CYPRESS_RECORD_KEY,
+  GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+  GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+  FACEBOOK_APP_ID: process.env.FACEBOOK_APP_ID,
+  FACEBOOK_APP_SECRET: process.env.FACEBOOK_APP_SECRET,
 };

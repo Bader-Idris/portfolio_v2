@@ -6,7 +6,7 @@
         <p><strong>From:</strong> {{ email.name }} ({{ email.email }})</p>
         <p><strong>IP:</strong> {{ email.ip }}</p>
         <p><strong>Created At:</strong> {{ new Date(email.createdAt).toLocaleString() }}</p>
-        <p>{{ email.message }}</p>
+        <p class="message">{{ email.message }}</p>
       </li>
     </ul>
     <p v-else>No emails to display.</p>
@@ -98,14 +98,24 @@ onMounted(async () => {
 .received-set {
   height: 580px;
   overflow: auto scroll;
+  position: absolute;
+  height: 100%;
+  top: 0;
+  color: #4d5bce;
+  font-weight: bold;
+  background: #fea55f;
+  padding: 20px 40px;
   text-align: center;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
   @media (max-width: 768px) {
-    width: calc(100% - 30px);
+    width: calc(100% - 10px);
+    margin-left: 20px;
   }
   @media (min-width: 769px) {
-    width: 600px;
+    width: 50%;
   }
   h1 {
     text-align: center;
@@ -116,7 +126,16 @@ onMounted(async () => {
     gap: 10px;
     li {
       display: flex;
+      padding: 20px 0;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+      border: 2px solid;
     }
+  }
+  .message {
+    border: 5px dotted #43d9ad;
+    padding: 15px;
   }
 }
 </style>

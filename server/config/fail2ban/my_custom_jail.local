@@ -382,7 +382,8 @@ enabled = true
 filter  = nginx-http-auth
 # mode = normal
 port    = http,https
-logpath = %(nginx_error_log)s
+logpath = /var/log/nginx/error.log
+# logpath = %(nginx_error_log)s # it's weird that I can't use the variable, ever after checking its path in paths-common.conf
 
 # To use 'nginx-limit-req' jail you should have `ngx_http_limit_req_module`
 # and define `limit_req` and `limit_req_zone` as described in nginx documentation
@@ -391,21 +392,49 @@ logpath = %(nginx_error_log)s
 [nginx-limit-req]
 enabled = true
 port    = http,https
-logpath = %(nginx_error_log)s
+logpath = /var/log/nginx/access.log
+# logpath = %(nginx_error_log)s
 
 [nginx-botsearch]
 enabled  = true
 port     = http,https
-logpath  = %(nginx_error_log)s
+logpath = /var/log/nginx/error.log
+# logpath = %(nginx_error_log)s
 
 [nginx-bad-request]
 enabled = true
 port    = http,https
-logpath = %(nginx_access_log)s
+logpath = /var/log/nginx/access.log
+# logpath = %(nginx_access_log)s
 
 # Ban attackers that try to use PHP's URL-fopen() functionality
 # through GET/POST variables. - Experimental, with more than a year
 # of usage in production environments.
+
+[nginx-ddos]
+enabled = true
+filter  = nginx-ddos
+logpath = /var/log/nginx/access.log
+maxretry = 10
+findtime = 60
+bantime  = 300
+
+[nginx-forbidden]
+enabled = true
+port    = http,https
+filter  = nginx-forbidden
+# logpath = %(nginx_error_log)s
+logpath = /var/log/nginx/error.log
+
+[nginx-sslerror]
+enabled = true
+port    = http,https
+filter  = nginx-sslerror
+# logpath = %(nginx_error_log)s
+logpath = /var/log/nginx/error.log
+maxretry = 5
+findtime = 600
+bantime = 3600
 
 [php-url-fopen]
 

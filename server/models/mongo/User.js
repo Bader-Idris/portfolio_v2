@@ -33,6 +33,16 @@ const UserSchema = new mongoose.Schema({
     ],
     minlength: 6,
   },
+  googleId: {
+    type: String,
+    unique: true,
+    sparse: true,
+  },
+  facebookId: {
+    type: String,
+    unique: true,
+    sparse: true,
+  },
   role: {
     type: String,
     enum: ["admin", "user"],

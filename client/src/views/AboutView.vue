@@ -38,7 +38,7 @@
           :class="{ hidden: isContactHidden }"
           :style="{ display: contactDisplay }"
         >
-          <p @click="openMailTo(0)">
+          <p @click="(openMailTo(0), copyToClipboard(0))">
             {{ displayContactInfo[0] }}
             <i v-if="showIcon[0]" class="fa-solid fa-envelope"></i>
           </p>

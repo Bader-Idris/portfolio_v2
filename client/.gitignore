@@ -40,7 +40,7 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-
+vite.config.*.timestamp*
 
 dist-ssr
 *.local
