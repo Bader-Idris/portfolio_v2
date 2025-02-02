@@ -20,7 +20,7 @@ const initializeSocialStrategies = () => {
         clientSecret: GOOGLE_CLIENT_SECRET,
         callbackURL: "/api/v1/auth/google/callback",
         scope: ["profile", "email"],
-        state: true,
+        state: false,
       },
       socialCallback
     )
@@ -35,7 +35,7 @@ const initializeSocialStrategies = () => {
         clientSecret: FACEBOOK_APP_SECRET,
         callbackURL: "/api/v1/auth/facebook/callback",
         profileFields: ["id", "emails", "name", "displayName"],
-        state: true,
+        state: false,
       },
       socialCallback
     )
@@ -45,41 +45,24 @@ const initializeSocialStrategies = () => {
 const socialCallback = async (accessToken, refreshToken, profile, done) => {
   try {
     const email = profile.emails?.[0]?.value;
-    const { provider } = profile;
+    const provider = profile.provider;
 
     if (!email)
       throw new CustomError.BadRequestError(
         "Email not found in social profile"
       );
 
-    // Find or create user
-    const user = await User.findOneAndUpdate(
-      { email },
-      {
-        $setOnInsert: {
-          name: profile.displayName,
-          email,
-          role: await determineRole(),
-          isVerified: true,
-          [`${provider}Id`]: profile.id,
-        },
-      },
-      {
-        upsert: true,
-        new: true,
-        setDefaultsOnInsert: true,
-      }
-    );
+    const user = await User.findOrCreate({
+      email,
+      provider,
+      providerId: profile.id,
+      name: profile.displayName,
+    });
 
     done(null, user);
   } catch (error) {
     done(error, null);
   }
-};
-
-const determineRole = async () => {
-  const count = await User.countDocuments();
-  return count === 0 ? "admin" : "user";
 };
 
 module.exports = initializeSocialStrategies;

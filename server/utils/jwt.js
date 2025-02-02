@@ -19,6 +19,17 @@ const createJWT = ({ payload }) => {
 
 const isTokenValid = (token) => jwt.verify(token, JWT_SECRET);
 
+const createStateToken = (state) => {
+  return jwt.sign({ state }, JWT_SECRET, { expiresIn: '5m' });
+};
+const verifyStateToken = (token) => {
+  try {
+    return jwt.verify(token, JWT_SECRET);
+  } catch (err) {
+    return null;
+  }
+};
+
 const attachCookiesToResponse = ({ res, user, refreshToken }) => {
   const accessTokenJWT = createJWT({ payload: { user } });
   const refreshTokenJWT = createJWT({ payload: { user, refreshToken } });
@@ -45,4 +56,6 @@ module.exports = {
   createJWT,
   isTokenValid,
   attachCookiesToResponse,
+  createStateToken,
+  verifyStateToken,
 };

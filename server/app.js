@@ -40,11 +40,11 @@ const productRouter = require("./routes/productRoutes");
 const reviewRouter = require("./routes/reviewRoutes");
 const orderRouter = require("./routes/orderRoutes");
 const receivedEmailsRouter = require("./routes/receivedEmailsRoutes");
+const { initializeSocialStrategies } = require("./utils");
 
 // middleware
 const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
-require("./utils/passport")();
 
 const {
   MONGO_USER,
@@ -126,6 +126,8 @@ app.use(
     preflightContinue: false,
   })
 );
+
+initializeSocialStrategies();
 
 app.use(xss());
 app.use(mongoSanitize());

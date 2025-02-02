@@ -119,52 +119,21 @@ const login = async (req, res) => {
   attachCookiesToResponse({ res, user: tokenUser, refreshToken });
   res.status(StatusCodes.OK).json({ user: tokenUser });
 };
-// const oauthCallback = async (req, res) => {
-//   const user = req.user;
-
-//   // Check if user exists and is verified
-//   if (!user || !user.isVerified) {
-//     throw new CustomError.UnauthenticatedError("Authentication failed");
-//   }
-
-//   const tokenUser = createTokenUser(user);
-
-//   // Token handling (same as login controller)
-//   let refreshToken = "";
-//   const existingToken = await Token.findOne({ user: user._id });
-
-//   if (existingToken) {
-//     if (!existingToken.isValid) {
-//       throw new CustomError.UnauthenticatedError("Invalid Credentials");
-//     }
-//     refreshToken = existingToken.refreshToken;
-//     attachCookiesToResponse({ res, user: tokenUser, refreshToken });
-//     return res.status(StatusCodes.OK).json({ user: tokenUser });
-//   }
-
-//   refreshToken = crypto.randomBytes(40).toString("hex");
-//   const userToken = {
-//     refreshToken,
-//     ip: req.ip,
-//     userAgent: req.headers["user-agent"],
-//     user: user._id,
-//   };
-
-//   await Token.create(userToken);
-//   attachCookiesToResponse({ res, user: tokenUser, refreshToken });
-//   res.status(StatusCodes.OK).json({ user: tokenUser });
-// };
 
 const handleSocialAuthSuccess = async (req, res) => {
   if (!req.user)
     throw new CustomError.UnauthenticatedError("Authentication failed");
 
-  const tokenUser = createTokenUser(req.user);
+  const user = req.user;
+  const tokenUser = {
+    userId: user.userId, // Using virtual field
+    name: user.name,
+    role: user.role,
+  };
   const refreshToken = crypto.randomBytes(40).toString("hex");
 
-  // Handle token creation/update (similar to your login flow)
   await Token.findOneAndUpdate(
-    { user: req.user._id },
+    { user: user._id },
     {
       refreshToken,
       ip: req.ip,
@@ -176,11 +145,9 @@ const handleSocialAuthSuccess = async (req, res) => {
 
   attachCookiesToResponse({ res, user: tokenUser, refreshToken });
 
-  // Redirect to frontend with user data
+  // Redirect with JWT in query param for frontend handling
   res.redirect(
-    `${ORIGIN_URL}/auth/success?user=${encodeURIComponent(
-      JSON.stringify(tokenUser)
-    )}`
+    `${ORIGIN_URL}/auth/success?token=${encodeURIComponent(refreshToken)}`
   );
 };
 
@@ -259,7 +226,6 @@ const resetPassword = async (req, res) => {
 module.exports = {
   register,
   login,
-  // oauthCallback,
   handleSocialAuthSuccess,
   handleSocialAuthFailure,
   logout,
