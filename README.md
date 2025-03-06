@@ -1,27 +1,25 @@
 # Introduction
 
-This is a portfolio that I got its design from a figma file created by *Yanka Darelova*.
+This is a portfolio that I got its design from a Figma file created by *Yanka Darelova*.
 
 ## How to preview it locally
 
-To preview this web application, you should have npm && node installed on your machine!
+To preview this web application, you should have bun installed on your machine!
 
 You can check if they exist or not, by opening a terminal then typing these commands:
 
 ```sh
-npm -v
-# it should show the currently installed version as 10.7.0
-node -v
-# as v20.15.0
+bun -v
+# it should show the currently installed version as 1.2.4
 ```
 
-then you should go to the subdirectory `client` and run `npm install` then `npm start`
+Then go to the subdirectory `client` and run `bun install` then `bun start`
 
 ```sh
 cd client
-npm install
-npm run dev
-# it'll appear the running url as http://localhost:5173 or +1
+bun install
+bun run dev
+# it'll appear the running url as http://localhost:5173 in the terminal
 # click on that url or open it in your browser
 ```
 
@@ -30,14 +28,14 @@ With these steps you will be able to preview my portfolio application!
 Or you can build the version then run it locally. to get faster results by typing:
 
 ```sh
-npm run build
-npm run preview
-# the terminal will show the url: http://localhost:4173 than you can open to get the preview app
+bun run build
+bun run preview
+# the terminal will show the url: http://localhost:4173 then you can open to get the preview app
 ```
 
 ### Built with tools
 
-This project was build using these tools:
+This project was built using these tools:
 
 ### Built up with tools
 
